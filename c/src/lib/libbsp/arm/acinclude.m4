@@ -20,6 +20,8 @@ AC_DEFUN([RTEMS_CHECK_BSPDIR],
     AC_CONFIG_SUBDIRS([gumstix]);;
   lm3s69xx )
     AC_CONFIG_SUBDIRS([lm3s69xx]);;
+  tms570 )
+    AC_CONFIG_SUBDIRS([tms570]);;
   lpc24xx )
     AC_CONFIG_SUBDIRS([lpc24xx]);;
   lpc32xx )
