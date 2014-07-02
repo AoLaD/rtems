@@ -1,8 +1,9 @@
-/* TMS570LS3137 OEM Board from Embedded Artists */
+
 
 MEMORY {
-	ROM_INT (RX)  : ORIGIN = 0x00000000, LENGTH = 512k
-	RAM_INT (AIW) : ORIGIN = 0x10000000, LENGTH = 32k
+	ROM_INT (RX)  : ORIGIN = 0x00000000, LENGTH = 3M
+	RAM_INT (AIW) : ORIGIN = 0x08000000, LENGTH = 256k
+	RAM_EXT (AIWX) : ORIGIN = 0x80000000, LENGTH = 8M
 }
 
 REGION_ALIAS ("REGION_START", ROM_INT);
@@ -24,4 +25,4 @@ REGION_ALIAS ("REGION_STACK", RAM_INT);
 bsp_stack_main_size = DEFINED (bsp_stack_main_size) ? bsp_stack_main_size : 1024;
 bsp_stack_main_size = ALIGN (bsp_stack_main_size, bsp_stack_align);
 
-INCLUDE linkcmds.armv7m
+INCLUDE linkcmds.base

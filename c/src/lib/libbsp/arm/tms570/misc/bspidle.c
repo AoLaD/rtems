@@ -5,19 +5,20 @@
  *
  * @brief Idle task.
  */
-
 /*
- * Copyright (c) 2008-2011 embedded brains GmbH.  All rights reserved.
+ * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
- *  embedded brains GmbH
- *  Obere Lagerstr. 30
- *  82178 Puchheim
- *  Germany
- *  <rtems@embedded-brains.de>
+ * Google Summer of Code 2014 at
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
  *
+ * Based on LPC24xx and LPC1768 BSP
+ * 
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rtems.com/license/LICENSE.
+ * http://www.rtems.org/license/LICENSE.
  */
 
 #include <bsp.h>

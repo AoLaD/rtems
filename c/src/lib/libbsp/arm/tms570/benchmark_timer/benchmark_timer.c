@@ -5,37 +5,33 @@
  *
  * @brief Timer benchmark functions for the tms570 bsp.
  */
-
 /*
- * Copyright (c) 2014 Taller Technologies.
+ * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
- * @author  Boretto Martin    (martin.boretto@tallertechnologies.com)
- * @author  Diaz Marcos (marcos.diaz@tallertechnologies.com)
- * @author  Lenarduzzi Federico  (federico.lenarduzzi@tallertechnologies.com)
- * @author  Daniel Chicco  (daniel.chicco@tallertechnologies.com)
+ * Google Summer of Code 2014 at
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
  *
+ * Based on LPC24xx and LPC1768 BSP
+ * 
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rtems.com/license/LICENSE.
+ * http://www.rtems.org/license/LICENSE.
  */
 
 #include <rtems.h>
 #include <bsp.h>
-#include <rtems/btimer.h>
 
-#include <bsp/timer.h>
-
-static uint32_t benchmark_timer_base;
 
 void benchmark_timer_initialize( void )
 {
-  benchmark_timer_base = tms570_timer_get_timer_value( TMS570_TIMER_1 );
 }
 
 uint32_t benchmark_timer_read( void )
 {
-  uint32_t delta = tms570_timer_get_timer_value( TMS570_TIMER_1 ) -
-                   benchmark_timer_base;
+  uint32_t delta = 0;
 
   return delta;
 }

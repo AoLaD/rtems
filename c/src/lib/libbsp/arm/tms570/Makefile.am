@@ -33,10 +33,6 @@ include_bsp_HEADERS += ../../shared/include/stackalloc.h
 include_bsp_HEADERS += ../../shared/include/uart-output-char.h
 include_bsp_HEADERS += ../../shared/tod.h
 include_bsp_HEADERS += ../shared/include/start.h
-include_bsp_HEADERS += ../shared/lpc/include/lpc-timer.h
-include_bsp_HEADERS += ../shared/lpc/include/lpc-i2s.h
-include_bsp_HEADERS += ../shared/lpc/include/lpc-dma.h
-include_bsp_HEADERS += ../shared/armv7m/include/armv7m-irq.h
 include_bsp_HEADERS += include/dma.h
 include_bsp_HEADERS += include/io-defs.h
 include_bsp_HEADERS += include/io.h
@@ -105,8 +101,6 @@ libbsp_a_SOURCES += ../../shared/src/irq-info.c
 libbsp_a_SOURCES += ../../shared/src/irq-legacy.c
 libbsp_a_SOURCES += ../../shared/src/irq-server.c
 libbsp_a_SOURCES += ../../shared/src/irq-shell.c
-libbsp_a_SOURCES += ../shared/armv7m/irq/armv7m-irq.c
-libbsp_a_SOURCES += ../shared/armv7m/irq/armv7m-irq-dispatch.c
 libbsp_a_SOURCES += irq/irq.c
 
 # Console
@@ -119,8 +113,6 @@ libbsp_a_SOURCES += console/console-config.c
 
 # Clock
 libbsp_a_SOURCES += ../../shared/clockdrv_shell.h
-libbsp_a_SOURCES += ../shared/lpc/clock/lpc-clock-config.c
-libbsp_a_SOURCES += ../shared/armv7m/clock/armv7m-clock-config.c
 
 # RTC
 libbsp_a_SOURCES += ../../shared/tod.c \
@@ -145,11 +137,6 @@ libbsp_a_SOURCES += misc/restart.c
 
 # Watchdog
 libbsp_a_SOURCES += watchdog/watchdog.c
-
-# Cache
-libbsp_a_SOURCES += ../../../libcpu/shared/src/cache_manager.c
-libbsp_a_SOURCES += ../../../libcpu/arm/shared/include/cache_.h
-libbsp_a_CPPFLAGS += -I$(srcdir)/../../../libcpu/arm/shared/include
 
 # Start hooks
 libbsp_a_SOURCES += startup/bspstarthooks.c

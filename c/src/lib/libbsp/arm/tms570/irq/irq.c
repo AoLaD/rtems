@@ -5,29 +5,24 @@
  *
  * @brief TMS570 interrupt support.
  */
-
 /*
- * Copyright (c) 2008-2012 embedded brains GmbH.  All rights reserved.
+ * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
- *  embedded brains GmbH
- *  Obere Lagerstr. 30
- *  82178 Puchheim
- *  Germany
- *  <rtems@embedded-brains.de>
+ * Google Summer of Code 2014 at
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
  *
+ * Based on LPC24xx and LPC1768 BSP
+ * 
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rtems.com/license/LICENSE.
+ * http://www.rtems.org/license/LICENSE.
  */
 
-#include <rtems/score/armv4.h>
-#include <rtems/score/armv7m.h>
 
 #include <bsp.h>
-#include <bsp/irq.h>
-#include <bsp/irq-generic.h>
-#include <bsp/tms570.h>
-#include <bsp/linker-symbols.h>
 
 /**
  * @brief Checks if the current interrupt vector lenght is valid or not.
@@ -38,7 +33,7 @@
  */
 static inline bool tms570_irq_is_valid( const rtems_vector_number vector )
 {
-  return vector <= BSP_INTERRUPT_VECTOR_MAX;
+  return 0;
 }
 
 void tms570_irq_set_priority(
@@ -46,30 +41,12 @@ void tms570_irq_set_priority(
   unsigned                  priority
 )
 {
-  if ( tms570_irq_is_valid( vector ) ) {
-    if ( priority > TMS570_IRQ_PRIORITY_VALUE_MAX ) {
-      priority = TMS570_IRQ_PRIORITY_VALUE_MAX;
-    }
-
-    /* else implies that the priority is unlocked. Also,
-       there is nothing to do. */
-
-    _ARMV7M_NVIC_Set_priority( (int) vector, (int) ( priority << 3u ) );
-  }
-
-  /* else implies that the rtems vector number is invalid. Also,
-     there is nothing to do. */
+  
 }
 
 unsigned tms570_irq_get_priority( const rtems_vector_number vector )
 {
   unsigned priority;
-
-  if ( tms570_irq_is_valid( vector ) ) {
-    priority = (unsigned) ( _ARMV7M_NVIC_Get_priority( (int) vector ) >> 3u );
-  } else {
-    priority = TMS570_IRQ_PRIORITY_VALUE_MIN - 1u;
-  }
 
   return priority;
 }

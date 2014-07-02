@@ -5,24 +5,26 @@
  *
  * @brief RTC configuration.
  */
-
 /*
- * Copyright (c) 2008
- * Embedded Brains GmbH
- * Obere Lagerstr. 30
- * D-82178 Puchheim
- * Germany
- * rtems@embedded-brains.de
+ * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
+ * Google Summer of Code 2014 at
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * Based on LPC24xx and LPC1768 BSP
+ * 
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rtems.com/license/LICENSE.
+ * http://www.rtems.org/license/LICENSE.
  */
+
 
 #include <libchip/rtc.h>
 #include <bsp/io.h>
 
-#define TMS570_RTC_NUMBER 1U
 
 void bsp_rtc_initialize( void );
 int bsp_rtc_get_time( rtems_time_of_day *tod );
@@ -34,19 +36,6 @@ bool bsp_rtc_probe( void );
  */
 void bsp_rtc_initialize( void )
 {
-  /* Enable module power */
-  tms570_module_enable( TMS570_MODULE_RTC, TMS570_MODULE_PCLK_DEFAULT );
-
-  /* Enable the RTC and use external clock */
-  RTC_CCR = RTC_CCR_CLKEN | RTC_CCR_CLKSRC;
-
-  /* Disable interrupts */
-  RTC_CIIR = 0U;
-  RTC_CISS = 0U;
-  RTC_AMR = 0xFFU;
-
-  /* Clear interrupts */
-  RTC_ILR = RTC_ILR_RTCCIF | RTC_ILR_RTCALF | RTC_ILR_RTSSF;
 }
 
 /**
@@ -57,14 +46,6 @@ void bsp_rtc_initialize( void )
  */
 int bsp_rtc_get_time( rtems_time_of_day *tod )
 {
-  tod->ticks = 0;
-  tod->second = RTC_SEC;
-  tod->minute = RTC_MIN;
-  tod->hour = RTC_HOUR;
-  tod->day = RTC_DOM;
-  tod->month = RTC_MONTH;
-  tod->year = RTC_YEAR;
-
   return 0;
 }
 
@@ -76,13 +57,6 @@ int bsp_rtc_get_time( rtems_time_of_day *tod )
  */
 int bsp_rtc_set_time( const rtems_time_of_day *tod )
 {
-  RTC_SEC = tod->second;
-  RTC_MIN = tod->minute;
-  RTC_HOUR = tod->hour;
-  RTC_DOM = tod->day;
-  RTC_MONTH = tod->month;
-  RTC_YEAR = tod->year;
-
   return 0;
 }
 
@@ -105,23 +79,4 @@ const rtc_fns tms570_rtc_ops = {
   .deviceSetTime = (void *) bsp_rtc_set_time
 };
 
-size_t RTC_Count = TMS570_RTC_NUMBER;
 
-rtems_device_minor_number RTC_Minor = 0;
-
-/**
- * @brief Table to describes the rtc device.
- */
-rtc_tbl RTC_Table[ TMS570_RTC_NUMBER ] = {
-  {
-    .sDeviceName = "/dev/rtc",
-    .deviceType = RTC_CUSTOM,
-    .pDeviceFns = &tms570_rtc_ops,
-    .deviceProbe = (void *) bsp_rtc_probe,
-    .pDeviceParams = NULL,
-    .ulCtrlPort1 = 0,
-    .ulDataPort = 0,
-    .getRegister = NULL,
-    .setRegister = NULL
-  }
-};

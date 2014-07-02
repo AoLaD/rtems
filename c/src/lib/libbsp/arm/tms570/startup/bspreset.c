@@ -5,23 +5,24 @@
  *
  * @brief Reset code.
  */
-
 /*
- * Copyright (c) 2008-2013 embedded brains GmbH.  All rights reserved.
+ * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
- *  embedded brains GmbH
- *  Obere Lagerstr. 30
- *  82178 Puchheim
- *  Germany
- *  <rtems@embedded-brains.de>
+ * Google Summer of Code 2014 at
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
  *
+ * Based on LPC24xx and LPC1768 BSP
+ * 
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
- * http://www.rtems.com/license/LICENSE.
+ * http://www.rtems.org/license/LICENSE.
  */
 
+
 #include <rtems.h>
-#include <rtems/score/armv7m.h>
 
 #include <bsp/bootcard.h>
 #include <bsp/tms570.h>
@@ -33,8 +34,6 @@ BSP_START_TEXT_SECTION __attribute__( ( flatten ) ) void bsp_reset( void )
 
   rtems_interrupt_disable( level );
 
-  _ARMV7M_SCB->aircr = ARMV7M_SCB_AIRCR_VECTKEY |
-                       ARMV7M_SCB_AIRCR_SYSRESETREQ;
 
   while ( true ) {
     /* Do nothing */
