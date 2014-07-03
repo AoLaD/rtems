@@ -1,0 +1,133 @@
+##
+#
+# @file
+#
+# @brief Makefile of LibBSP for the TMS570 boards.
+#
+
+ACLOCAL_AMFLAGS = -I ../../../../aclocal
+
+include $(top_srcdir)/../../../../automake/compile.am
+
+include_bspdir = $(includedir)/bsp
+
+dist_project_lib_DATA = bsp_specs
+
+
+# ----------------------------
+# ------  Headers
+# ----------------------------
+
+include_HEADERS = include/bsp.h
+
+nodist_include_HEADERS = ../../shared/include/coverhd.h
+nodist_include_HEADERS += include/bspopts.h
+
+nodist_include_bsp_HEADERS = ../../shared/include/bootcard.h
+
+include_bsp_HEADERS =
+include_bsp_HEADERS += ../../shared/include/utility.h
+include_bsp_HEADERS += ../../shared/include/irq-generic.h
+include_bsp_HEADERS += ../../shared/include/irq-info.h
+include_bsp_HEADERS += ../../shared/include/stackalloc.h
+include_bsp_HEADERS += ../../shared/include/uart-output-char.h
+include_bsp_HEADERS += ../../shared/tod.h
+include_bsp_HEADERS += ../shared/include/start.h
+include_bsp_HEADERS += include/tms570.h
+include_bsp_HEADERS += include/tms570-sci.h
+include_bsp_HEADERS += include/irq.h
+
+
+include_HEADERS += ../../shared/include/tm27.h
+
+
+# ----------------------------
+# ------  Data
+# ----------------------------
+
+noinst_LIBRARIES = libbspstart.a
+
+libbspstart_a_SOURCES = ../shared/start/start.S
+
+project_lib_DATA = start.$(OBJEXT)
+project_lib_DATA += startup/linkcmds
+
+EXTRA_DIST =
+EXTRA_DIST += startup/linkcmds.tms570ls3137_hdk
+EXTRA_DIST += startup/linkcmds.tms570ls3137_hdk_sdram
+
+
+# ----------------------------
+# ------  LibBSP
+# ----------------------------
+
+noinst_LIBRARIES += libbsp.a
+
+libbsp_a_SOURCES =
+libbsp_a_CPPFLAGS =
+libbsp_a_LIBADD =
+
+# Shared
+libbsp_a_SOURCES += ../../shared/bootcard.c
+libbsp_a_SOURCES += ../../shared/bspclean.c
+libbsp_a_SOURCES += ../../shared/bspgetworkarea.c
+libbsp_a_SOURCES += ../../shared/bsplibc.c
+libbsp_a_SOURCES += ../../shared/bsppost.c
+libbsp_a_SOURCES += ../../shared/bsppredriverhook.c
+libbsp_a_SOURCES += ../../shared/gnatinstallhandler.c
+libbsp_a_SOURCES += ../../shared/sbrk.c
+libbsp_a_SOURCES += ../../shared/src/stackalloc.c
+libbsp_a_SOURCES += ../../shared/src/uart-output-char.c
+
+# Startup
+libbsp_a_SOURCES += ../shared/startup/bsp-start-memcpy.S
+libbsp_a_SOURCES += startup/bspreset.c
+libbsp_a_SOURCES += startup/bspstart.c
+
+# IRQ
+libbsp_a_SOURCES += ../../shared/src/irq-default-handler.c
+libbsp_a_SOURCES += ../../shared/src/irq-generic.c
+libbsp_a_SOURCES += ../../shared/src/irq-info.c
+libbsp_a_SOURCES += ../../shared/src/irq-legacy.c
+libbsp_a_SOURCES += ../../shared/src/irq-server.c
+libbsp_a_SOURCES += ../../shared/src/irq-shell.c
+libbsp_a_SOURCES += irq/irq.c
+
+# Console
+libbsp_a_SOURCES += ../../shared/console.c
+libbsp_a_SOURCES += ../../shared/console_control.c
+libbsp_a_SOURCES += ../../shared/console_read.c
+libbsp_a_SOURCES += ../../shared/console_select.c
+libbsp_a_SOURCES += ../../shared/console_write.c
+libbsp_a_SOURCES += console/console-config.c
+libbsp_a_SOURCES += console/printk-support.c
+libbsp_a_SOURCES += console/tms570-sci.c
+
+
+# Clock
+libbsp_a_SOURCES += ../../shared/clockdrv_shell.h
+
+# RTC
+
+# GPIO
+
+# Timer
+
+# Benchmark Timer
+
+# Misc
+
+# Watchdog
+
+# Start hooks
+libbsp_a_SOURCES += startup/bspstarthooks.c
+
+
+# ----------------------------
+# ------  Special Rules
+# ----------------------------
+
+DISTCLEANFILES = include/bspopts.h
+
+include $(srcdir)/preinstall.am
+include $(top_srcdir)/../../../../automake/local.am
