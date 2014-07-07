@@ -22,11 +22,7 @@
  */
 
 
-
-
 #include <bsp.h>
-
-
 
 
 void bsp_pretasking_hook( void )
@@ -34,8 +30,10 @@ void bsp_pretasking_hook( void )
 
 }
 
-
 void bsp_start( void )
 {
+
+    /* set the cpu mode to supervisor and big endian */
+    arm_cpu_mode = 0x213;
 
 }
