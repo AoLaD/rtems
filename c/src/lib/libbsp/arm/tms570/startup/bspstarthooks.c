@@ -30,17 +30,18 @@
 
 BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
 {
-  printk("StartHook0\n");
+  //printk("StartHook0\n");
   //tms570_init_main_oscillator();
   //tms570_init_pll();
 }
 
 BSP_START_TEXT_SECTION void bsp_start_hook_1( void )
 {
-  printk("StartHook1\n");
+  //printk("StartHook1\n");
   bsp_start_copy_sections();
   bsp_start_clear_bss();
-  while(1)
+
   printk("StartHook1-end\n");
+
   /* At this point we can use objects outside the .start section  */
 }
