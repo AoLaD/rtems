@@ -55,6 +55,7 @@ project_lib_DATA += startup/linkcmds
 EXTRA_DIST =
 EXTRA_DIST += startup/linkcmds.tms570ls3137_hdk
 EXTRA_DIST += startup/linkcmds.tms570ls3137_hdk_sdram
+EXTRA_DIST += startup/linkcmds.tms570ls3137_hdk_intram
 
 
 # ----------------------------
