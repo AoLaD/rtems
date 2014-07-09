@@ -25,4 +25,4 @@ REGION_ALIAS ("REGION_STACK", RAM_EXT);
 bsp_stack_main_size = DEFINED (bsp_stack_main_size) ? bsp_stack_main_size : 1024;
 bsp_stack_main_size = ALIGN (bsp_stack_main_size, bsp_stack_align);
 
-INCLUDE linkcmds.base
+INCLUDE linkcmds.armv4
