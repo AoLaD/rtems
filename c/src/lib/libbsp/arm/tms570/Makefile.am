@@ -36,6 +36,8 @@ include_bsp_HEADERS += ../shared/include/start.h
 include_bsp_HEADERS += include/tms570.h
 include_bsp_HEADERS += include/tms570-sci.h
 include_bsp_HEADERS += include/irq.h
+include_bsp_HEADERS += include/tms570-rti.h
+include_bsp_HEADERS += include/tms570-vim.h
 
 
 include_HEADERS += ../../shared/include/tm27.h
@@ -107,6 +109,7 @@ libbsp_a_SOURCES += console/tms570-sci.c
 
 # Clock
 libbsp_a_SOURCES += ../../shared/clockdrv_shell.h
+libbsp_a_SOURCES += clock/clock.c
 
 # RTC
 
