@@ -38,6 +38,7 @@ include_bsp_HEADERS += include/tms570-sci.h
 include_bsp_HEADERS += include/irq.h
 include_bsp_HEADERS += include/tms570-rti.h
 include_bsp_HEADERS += include/tms570-vim.h
+include_bsp_HEADERS += include/tms570-pom.h
 
 
 include_HEADERS += ../../shared/include/tm27.h
@@ -86,6 +87,9 @@ libbsp_a_SOURCES += ../../shared/src/uart-output-char.c
 libbsp_a_SOURCES += ../shared/startup/bsp-start-memcpy.S
 libbsp_a_SOURCES += startup/bspreset.c
 libbsp_a_SOURCES += startup/bspstart.c
+
+# POM
+libbsp_a_SOURCES += pom/tms570-pom.c
 
 # IRQ
 libbsp_a_SOURCES += ../../shared/src/irq-default-handler.c
