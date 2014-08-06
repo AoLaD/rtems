@@ -19,80 +19,207 @@
 
 #include <libchip/sersupp.h>
 #include <bsp/tms570-sci.h>
+#include <bsp/tms570-sci-driver.h>
+#include <rtems/console.h>
+#include <bsp.h>
+#include <bsp/fatal.h>
 
-#define UART_FLR (*(volatile uint32_t *)(0xFFF7E500U+0x1C))
-#define UART_TD (*(volatile uint32_t *)(0xFFF7E500U+0x38))
+#define TMS570_SCI_BUFFER_SIZE 10
+#define TMS570_CONTEXT_TABLE_SIZE 2
 
-
-static void tms570_uart_initialize(int minor)
-{
-
-}
-
-static int tms570_uart_first_open(int major, int minor, void *arg)
-{
-  rtems_libio_open_close_args_t *oc = (rtems_libio_open_close_args_t *) arg;
-  struct rtems_termios_tty *tty = (struct rtems_termios_tty *) oc->iop->data1;
-  console_data *cd = &Console_Port_Data[minor];
-  const console_tbl *ct = Console_Port_Tbl[minor];
-
-  cd->termios_data = tty;
-  rtems_termios_set_initial_baud(tty, (rtems_termios_baud_t) ct->pDeviceParams);
-
-  return 0;
-}
-
-static int tms570_uart_last_close(int major, int minor, void *arg)
-{
-  return 0;
-}
-
-static int tms570_uart_read_polled(int minor)
-{
-  if (1) {
-    return -1;
-  } else {
-    return 'A';
-  }
-}
-
-static void tms570_uart_write_polled(int minor, char c)
-{
-  while ((UART_FLR & 0x100) == 0) {
-	/* Wait */
-  }
-
-  UART_TD = c; 
-}
-
-static ssize_t tms570_uart_write_support_polled(
-  int minor,
-  const char *s,
-  size_t n
+tms570_sci_context driver_context_table[] = {{
+    .device_name = "/dev/console",
+    .regs = 0xFFF7E500U,//TMS570_SCI,
+    },
+    {
+    .device_name = "/dev/ttyS1",
+    .regs = 0xFFF7E500U,//TMS570_SCI,
+    }   
+    };
+    
+rtems_device_driver console_initialize(
+  rtems_device_major_number  major,
+  rtems_device_minor_number  minor,
+  void                      *arg
 )
 {
-  ssize_t i = 0;
+  rtems_status_code sc;
+  const rtems_termios_device_handler *handler = &tms570_sci_handler_polled;
 
-  for (i = 0; i < n; ++i) {
-    tms570_uart_write_polled(minor, s[i]);
+  /*
+   * Initialize the Termios infrastructure.  If Termios has already
+   * been initialized by another device driver, then this call will
+   * have no effect.
+   */
+  rtems_termios_initialize();
+
+  /* Initialize each device */
+  for (
+    minor = 0;
+    minor < RTEMS_ARRAY_SIZE(driver_context_table);
+    ++minor
+  ) {
+    tms570_sci_context *ctx = &driver_context_table[minor];
+
+    /*
+     * Install this device in the file system and Termios.  In order
+     * to use the console (i.e. being able to do printf, scanf etc.
+     * on stdin, stdout and stderr), one device must be registered as
+     * "/dev/console" (CONSOLE_DEVICE_NAME).
+     */
+    sc = rtems_termios_device_install(
+      ctx->device_name,
+      major,
+      minor,
+      handler,
+      ctx
+    );
+    if (sc != RTEMS_SUCCESSFUL) {
+      bsp_fatal(BSP_FATAL_CONSOLE_NO_DEV);
+    }
   }
-
-  return n;
+  return RTEMS_SUCCESSFUL;
 }
 
-static int tms570_uart_set_attribues(int minor, const struct termios *term)
+
+
+static int tms570_sci_read_received_chars(
+  tms570_sci_context * ctx,
+  char * buf,
+  int N)
 {
-  return -1;
+  if(N<1)return 0;
+  if(ctx->regs->SCIRD != 0){
+     buf[0] = ctx->regs->SCIRD;
+    return 1;
+  }
+  return 0;
 }
 
-const console_fns tms570_uart_fns = {
-  .deviceProbe = libchip_serial_default_probe,
-  .deviceFirstOpen = tms570_uart_first_open,
-  .deviceLastClose = tms570_uart_last_close,
-  .deviceRead = tms570_uart_read_polled,
-  .deviceWrite = tms570_uart_write_support_polled,
-  .deviceInitialize = tms570_uart_initialize,
-  .deviceWritePolled = tms570_uart_write_polled,
-  .deviceSetAttributes = tms570_uart_set_attribues,
-  .deviceOutputUsesInterrupts = false
+
+
+static bool tms570_sci_set_attributes(
+  rtems_termios_tty    *tty,
+  const struct termios *t
+)
+{
+  //tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  //rtems_interrupt_lock_context lock_context;
+  
+  //rtems_termios_interrupt_lock_acquire(tty, &lock_context);
+
+  //switch (t->c_cflag & (PARENB|PARODD)) {
+    //case (PARENB|PARODD):
+      ///* Odd parity */
+      //ctx->regs->SCIGCR1 &= !(1<<3); 
+      //ctx->regs->SCIGCR1 |= (1<<2);       
+      //break;
+      
+    //case PARENB:
+      ///* Even parity */
+      //ctx->regs->SCIGCR1 |= (1<<3);
+      //ctx->regs->SCIGCR1 |= (1<<2);
+      //break;
+
+    //default:
+    //case 0:
+    //case PARODD:
+      ///* No Parity */
+      //ctx->regs->SCIGCR1 &= !(1<<2);
+  //}
+  
+  ///* Baud rate */
+  //ctx->regs->BRS |= 0xFF00001A;
+    
+  //rtems_termios_interrupt_lock_release(tty, &lock_context);
+
+  return true;
+}
+
+static void tms570_sci_poll_write(
+  rtems_termios_tty *tty,
+  const char        *buf,
+  size_t             n
+)
+{
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  size_t i;
+  
+  /* Write */ 
+    
+  for (i = 0; i < n; ++i) {
+    while ((ctx->regs->SCIFLR & 0x100) == 0) {
+      ;
+    }
+    ctx->regs->SCITD = buf[i];
+  }
+}
+
+static int TMS570_sci_can_read_char(
+  tms570_sci_context * ctx
+)
+{
+  return ctx->regs->SCIFLR;
+}
+
+static char TMS570_sci_read_char(
+  tms570_sci_context * ctx
+)
+{
+  return ctx->regs->SCIRD;
+}
+
+static int tms570_sci_poll_read(rtems_termios_tty *tty)
+{
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+
+  /* Check if a character is available */
+  if (TMS570_sci_can_read_char(ctx)) {
+    /* Return the character */
+    return TMS570_sci_read_char(ctx);
+  } else {
+    /* Return an error status */
+    return -1;
+  }
+}
+
+static bool tms570_sci_poll_first_open(
+  rtems_termios_tty             *tty,
+  rtems_libio_open_close_args_t *args
+)
+{
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  bool ok;
+  /*
+  ctx->regs->SCIGCR1 |= (1<<25) | (1<<24) | (1<<4);
+  ctx->regs->SCIFORMAT |= 0x7;  
+  ctx->regs->SCIPIO0 |= (1<<1) | (1<<2);
+  */
+  ok = tms570_sci_set_attributes(tty, rtems_termios_get_termios(tty));
+  if (!ok) {    
+    return false;
+  }    
+  return true;
+}
+
+static void tms570_sci_poll_last_close(
+  rtems_termios_tty             *tty,
+  rtems_libio_open_close_args_t *args
+)
+{
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  
+  /* Here shall be peripheral HW reset, someday */   
+
+}
+
+const rtems_termios_device_handler tms570_sci_handler_polled = {
+  .first_open = tms570_sci_poll_first_open,
+  .last_close = tms570_sci_poll_last_close,
+  .poll_read = tms570_sci_poll_read,
+  .write = tms570_sci_poll_write,
+  .set_attributes = tms570_sci_set_attributes,
+  .stop_remote_tx = NULL,
+  .start_remote_tx = NULL,
+  .mode = TERMIOS_POLLED
 };

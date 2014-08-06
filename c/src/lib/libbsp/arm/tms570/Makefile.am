@@ -39,6 +39,7 @@ include_bsp_HEADERS += include/irq.h
 include_bsp_HEADERS += include/tms570-rti.h
 include_bsp_HEADERS += include/tms570-vim.h
 include_bsp_HEADERS += include/tms570-pom.h
+include_bsp_HEADERS += include/tms570-sci-driver.h
 
 
 include_HEADERS += ../../shared/include/tm27.h
@@ -101,11 +102,12 @@ libbsp_a_SOURCES += ../../shared/src/irq-shell.c
 libbsp_a_SOURCES += irq/irq.c
 
 # Console
-libbsp_a_SOURCES += ../../shared/console.c
-libbsp_a_SOURCES += ../../shared/console_control.c
-libbsp_a_SOURCES += ../../shared/console_read.c
-libbsp_a_SOURCES += ../../shared/console_select.c
-libbsp_a_SOURCES += ../../shared/console_write.c
+#libbsp_a_SOURCES += ../../shared/console.c
+#libbsp_a_SOURCES += ../../shared/console_control.c
+#libbsp_a_SOURCES += ../../shared/console_read.c
+#libbsp_a_SOURCES += ../../shared/console_select.c
+#libbsp_a_SOURCES += ../../shared/console_write.c
+libbsp_a_SOURCES += ../../shared/console-termios.c
 libbsp_a_SOURCES += console/console-config.c
 libbsp_a_SOURCES += console/printk-support.c
 libbsp_a_SOURCES += console/tms570-sci.c
