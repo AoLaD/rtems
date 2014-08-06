@@ -51,7 +51,7 @@ typedef struct {
   uint32_t IODFTCTRL; 	/*Input/OutputErrorEnableRegister*/
 }tms570_sci_t;
 
-#define TMS570_SCI (*(volatile tms570_sci_t*)0xFFF7E500U)
+#define TMS570_SCI (*(volatile tms570_sci_t*)0xFFF7E400U)
 #define TMS570_SCI2 (*(volatile tms570_sci_t*)0xFFF7E500U)
 
 #endif

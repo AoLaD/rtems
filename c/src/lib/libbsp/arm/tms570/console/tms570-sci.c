@@ -148,7 +148,7 @@ static void tms570_sci_poll_write(
   /* Write */ 
     
   for (i = 0; i < n; ++i) {
-    while ((ctx->regs->SCIFLR & 0x100) == 0) {
+    while ((ctx->regs->SCIFLR & (1<<11)) == 0) {
       ;
     }
     ctx->regs->SCITD = buf[i];
