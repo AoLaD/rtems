@@ -62,7 +62,7 @@ void bsp_interrupt_dispatch(void)
 rtems_status_code bsp_interrupt_vector_enable(rtems_vector_number vector)
 {
   if(!tms570_irq_is_valid(vector))
-	 return RTEMS_INVALID_ID;
+    return RTEMS_INVALID_ID;
 
   TMS570_VIM.REQENASET[vector >> 5] = 1 << (vector & 0x1f);
 
@@ -90,10 +90,10 @@ rtems_status_code bsp_interrupt_facility_initialize(void)
 
   /* disable interrupts */
   for(i = 0; i < 3; i++)
-	TMS570_VIM.REQENACLR[i] = 0xffffffff;
+    TMS570_VIM.REQENACLR[i] = 0xffffffff;
   /* map default events on interrupt vectors */
   for(i=0;i<24;i+=1,value += 0x04040404)
-	TMS570_VIM.CHANCTRL[i] = value;
+    TMS570_VIM.CHANCTRL[i] = value;
   /* set all vectors as IRQ (not FIR) */
   TMS570_VIM.FIRQPR[0] = 3;
   TMS570_VIM.FIRQPR[1] = 0;
@@ -101,7 +101,7 @@ rtems_status_code bsp_interrupt_facility_initialize(void)
 
   /*_CPU_ISR_install_vector(ARM_EXCEPTION_IRQ, _ARMV4_Exception_interrupt, NULL);*/
   for(i = 0; i <= 94; i++)
-	vim_vec[i] = _ARMV4_Exception_interrupt;
+    vim_vec[i] = _ARMV4_Exception_interrupt;
 
   /* Clear bit VE in SCTLR register to not use VIM IRQ exception bypass*/
   asm volatile ("mrc p15, 0, %0, c1, c0, 0\n": "=r" (sctlr));

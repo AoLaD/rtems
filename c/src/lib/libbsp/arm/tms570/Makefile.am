@@ -102,13 +102,7 @@ libbsp_a_SOURCES += ../../shared/src/irq-shell.c
 libbsp_a_SOURCES += irq/irq.c
 
 # Console
-#libbsp_a_SOURCES += ../../shared/console.c
-#libbsp_a_SOURCES += ../../shared/console_control.c
-#libbsp_a_SOURCES += ../../shared/console_read.c
-#libbsp_a_SOURCES += ../../shared/console_select.c
-#libbsp_a_SOURCES += ../../shared/console_write.c
 libbsp_a_SOURCES += ../../shared/console-termios.c
-libbsp_a_SOURCES += console/console-config.c
 libbsp_a_SOURCES += console/printk-support.c
 libbsp_a_SOURCES += console/tms570-sci.c
 

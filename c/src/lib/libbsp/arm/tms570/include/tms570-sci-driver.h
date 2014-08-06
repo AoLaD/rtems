@@ -2,6 +2,7 @@
 #define TMS570_SCI_DRIVER
 
 #include <rtems/termiostypes.h>
+#include <rtems/irq.h>
 
 #include <bsp/tms570-sci.h>
 
@@ -10,6 +11,7 @@ typedef struct {
   const char *device_name;
   volatile tms570_sci_t *regs;
   int tx_chars_in_hw;
+  rtems_vector_number irq;
   /* More stuff */
 } tms570_sci_context;
 

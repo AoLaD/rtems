@@ -23,20 +23,24 @@
 #include <rtems/console.h>
 #include <bsp.h>
 #include <bsp/fatal.h>
+#include <bsp/irq.h>
 
 #define TMS570_SCI_BUFFER_SIZE 10
 #define TMS570_CONTEXT_TABLE_SIZE 2
 
 tms570_sci_context driver_context_table[] = {{
     .device_name = "/dev/console",
-    .regs = 0xFFF7E500U,//TMS570_SCI,
+    .regs = &TMS570_SCI,
+    .irq = TMS570_IRQ_SCI_LEVEL_0,
     },
     {
     .device_name = "/dev/ttyS1",
-    .regs = 0xFFF7E500U,//TMS570_SCI,
+    .regs = &TMS570_SCI2,
+    .irq = TMS570_IRQ_SCI2_LEVEL_0,
     }   
     };
-    
+
+#define TMS570_CONSOLE_USE_INTERRUPTS
 rtems_device_driver console_initialize(
   rtems_device_major_number  major,
   rtems_device_minor_number  minor,
@@ -44,7 +48,11 @@ rtems_device_driver console_initialize(
 )
 {
   rtems_status_code sc;
+#ifdef TMS570_CONSOLE_USE_INTERRUPTS
+  const rtems_termios_device_handler *handler = &tms570_sci_handler_interrupt;
+#else
   const rtems_termios_device_handler *handler = &tms570_sci_handler_polled;
+#endif
 
   /*
    * Initialize the Termios infrastructure.  If Termios has already
@@ -96,7 +104,24 @@ static int tms570_sci_read_received_chars(
   return 0;
 }
 
+static void tms570_sci_enable_interrupts(tms570_sci_context * ctx){
+  ctx->regs->SCISETINT = (1<<9);
+}
 
+static void tms570_sci_disable_interrupts(tms570_sci_context * ctx){
+  ctx->regs->SCICLEARINT = (1<<9);
+}
+
+static int tms570_sci_transmitted_chars(tms570_sci_context * ctx)
+{
+  int ret;
+  ret = ctx->tx_chars_in_hw;
+  if(ret == 1){
+    ctx->tx_chars_in_hw = 0;
+    return 1;
+  }
+  return ret;
+}
 
 static bool tms570_sci_set_attributes(
   rtems_termios_tty    *tty,
@@ -134,6 +159,64 @@ static bool tms570_sci_set_attributes(
   //rtems_termios_interrupt_lock_release(tty, &lock_context);
 
   return true;
+}
+static void tms570_sci_interrupt_handler(void * arg){
+  rtems_termios_tty *tty = arg;
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  char buf[TMS570_SCI_BUFFER_SIZE];
+  size_t n;
+
+  /*
+   * Check if we have received something.  The function reads the
+   * received characters from the device and stores them in the
+   * buffer.  It returns the number of read characters.
+   */
+   if((ctx->regs->SCIFLR & (1<<9)) == (1<<9)){
+      n = tms570_sci_read_received_chars(ctx, buf, TMS570_SCI_BUFFER_SIZE);
+      if (n > 0) {
+        /* Hand the data over to the Termios infrastructure */
+        rtems_termios_enqueue_raw_characters(tty, buf, n);
+      }
+    }
+  /*
+   * Check if we have something transmitted.  The functions returns
+   * the number of transmitted characters since the last write to the
+   * device.
+   */
+  if((ctx->regs->SCIFLR & (1<<8)) == (1<<8)){
+    n = tms570_sci_transmitted_chars(ctx);
+    if (n > 0) {
+      /*
+       * Notify Termios that we have transmitted some characters.  It
+       * will call now the interrupt write function if more characters
+       * are ready for transmission.
+       */
+      rtems_termios_dequeue_characters(tty, n);
+    }
+  }
+}
+
+static void tms570_sci_interrupt_write(
+  rtems_termios_tty *tty,
+  const char *buf,
+  size_t len
+)
+{
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+
+  if (len > 0) {
+    /* start UART TX, this will result in an interrupt when done */
+    ctx->regs->SCITD = *buf;
+    /* character written - raise count*/
+    ctx->tx_chars_in_hw = 1;
+    /* Enable TX interrupt (interrupt is edge-triggered) */
+    ctx->regs->SCISETINT = (1<<8);
+
+  } else {
+    /* No more to send, disable TX interrupts */
+    ctx->regs->SCICLEARINT = (1<<8);
+    /* Tell close that we sent everything */
+  }
 }
 
 static void tms570_sci_poll_write(
@@ -195,11 +278,33 @@ static bool tms570_sci_poll_first_open(
   ctx->regs->SCIFORMAT |= 0x7;  
   ctx->regs->SCIPIO0 |= (1<<1) | (1<<2);
   */
+  ctx->regs->SCISETINTLVL = 0;
   ok = tms570_sci_set_attributes(tty, rtems_termios_get_termios(tty));
   if (!ok) {    
     return false;
   }    
   return true;
+}
+
+static bool tms570_sci_interrupt_first_open(
+  rtems_termios_tty             *tty,
+  rtems_libio_open_close_args_t *args
+){
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  rtems_status_code sc;
+  bool ret;
+  /* Register Interrupt handler */
+  sc = rtems_interrupt_handler_install(ctx->irq,
+                                       ctx->device_name,
+                                       RTEMS_INTERRUPT_SHARED,
+                                       tms570_sci_interrupt_handler,
+                                       tty);
+  if (sc != RTEMS_SUCCESSFUL)
+    return false;
+
+  ret = tms570_sci_poll_first_open(tty,args);
+  tms570_sci_enable_interrupts(rtems_termios_get_device_context(tty));
+  return ret;
 }
 
 static void tms570_sci_poll_last_close(
@@ -208,9 +313,33 @@ static void tms570_sci_poll_last_close(
 )
 {
   tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
-  
+
   /* Here shall be peripheral HW reset, someday */   
 
+}
+
+static void tms570_sci_interrupt_last_close(
+  rtems_termios_tty             *tty,
+  rtems_libio_open_close_args_t *args
+)
+{
+  tms570_sci_context *ctx = rtems_termios_get_device_context(tty);
+  rtems_interrupt_lock_context lock_context;
+
+  /* Turn off RX interrupts */
+  rtems_termios_interrupt_lock_acquire(tty, &lock_context);
+  tms570_sci_disable_interrupts(ctx);
+  rtems_termios_interrupt_lock_release(tty, &lock_context);
+
+  /**** Flush device ****/
+  while ((ctx->regs->SCIFLR & (1<<11)) > 0) {
+    /* Wait until all data has been sent */
+  }
+
+  /* uninstall ISR */
+  rtems_interrupt_handler_remove(ctx->irq, tms570_sci_interrupt_handler, tty);
+
+  tms570_sci_poll_last_close(tty,args);
 }
 
 const rtems_termios_device_handler tms570_sci_handler_polled = {
@@ -222,4 +351,16 @@ const rtems_termios_device_handler tms570_sci_handler_polled = {
   .stop_remote_tx = NULL,
   .start_remote_tx = NULL,
   .mode = TERMIOS_POLLED
+};
+
+const rtems_termios_device_handler tms570_sci_handler_interrupt  = {
+  .first_open = tms570_sci_interrupt_first_open,
+  .last_close = tms570_sci_interrupt_last_close,
+  .poll_read = NULL,
+  .write = tms570_sci_interrupt_write,
+  .set_attributes = tms570_sci_set_attributes,
+  //.stopRemoteTx = NULL,
+  .stop_remote_tx = NULL,
+  .start_remote_tx = NULL,
+  .mode = TERMIOS_IRQ_DRIVEN
 };
