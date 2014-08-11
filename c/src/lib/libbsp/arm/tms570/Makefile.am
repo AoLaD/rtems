@@ -41,7 +41,6 @@ include_bsp_HEADERS += include/tms570-vim.h
 include_bsp_HEADERS += include/tms570-pom.h
 include_bsp_HEADERS += include/tms570-sci-driver.h
 
-
 include_HEADERS += ../../shared/include/tm27.h
 
 
