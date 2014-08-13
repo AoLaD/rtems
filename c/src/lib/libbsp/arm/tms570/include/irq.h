@@ -1,7 +1,7 @@
 /**
- * @file
+ * @file irq.h
  *
- * @ingroup bsp_interrupt
+ * @ingroup tms570
  *
  * @brief TMS570 interrupt definitions.
  */

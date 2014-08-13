@@ -1,13 +1,26 @@
-/*  ckinit.c
+/**
+ * @file tms570-rti.c
  *
- *  This file provides a template for the clock device driver initialization.
+ * @ingroup tms570
  *
- *  COPYRIGHT (c) 1989-1999.
- *  On-Line Applications Research Corporation (OAR).
+ * @brief clock functions definitions.
+ */
+
+/*
+ * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
- *  The license and distribution terms for this file may be
- *  found in the file LICENSE in this distribution or at
- *  http://www.rtems.org/license/LICENSE.
+ * Google Summer of Code 2014 at
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * Based on LPC24xx and LPC1768 BSP 
+ * by embedded brains GmbH and others
+ * 
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rtems.org/license/LICENSE.
  */
 
 #include <stdlib.h>
@@ -19,14 +32,7 @@
 
 void Clock_exit( void );
 rtems_isr Clock_isr( rtems_vector_number vector );
-
-
-/*
- *  The interrupt vector number associated with the clock tick device
- *  driver.
- */
-
-#define CLOCK_VECTOR    4 //not true
+void Install_clock( rtems_isr_entry );
 
 /*
  *  Clock_driver_ticks is a monotonically increasing counter of the
@@ -42,7 +48,7 @@ volatile uint32_t         Clock_driver_ticks;
  *  length of time between the user configured microseconds per tick
  *  has passed.
  */
-
+ 
 uint32_t         Clock_isrs;              /* ISRs until next tick */
 
 /*
@@ -58,28 +64,22 @@ rtems_device_minor_number rtems_clock_minor;
 
 rtems_isr_entry  Old_ticker;
 
-void Clock_exit( void );
-
-/* to avoid including the bsp */
-rtems_isr_entry set_vector( rtems_isr_entry, rtems_vector_number, int );
-
-
-/*
- *  Isr Handler
- */
-
-rtems_isr Clock_isr(
-  rtems_vector_number vector
-)
-{
-/*
+/**
+ * @brief Clock isr handler
+ *
  * bump the number of clock driver ticks since initialization
  *
  * determine if it is time to announce the passing of tick as configured
  * to RTEMS through the rtems_clock_tick directive
  *
- * perform any timer dependent tasks
+ * @param[in] vector interrupt vector
+ *
+ * @retval Void
  */
+rtems_isr Clock_isr(
+  rtems_vector_number vector
+)
+{
    TMS570_RTI.RTIINTFLAG = 0x00000001;
    ++Clock_driver_ticks;
    /* TMS570_RTI.RTICOMP0 += 1000; */
@@ -90,10 +90,17 @@ rtems_isr Clock_isr(
    }
    else
      Clock_isrs -= 1;
-
 }
 
-static void tms570_clock_handler_install(void)
+/**
+ * @brief Installs clock handler
+ *
+ * determine if it is time to announce the passing of tick as configured
+ * to RTEMS through the rtems_clock_tick directive *
+ *
+ * @retval Void
+ */
+static void tms570_clock_handler_install(rtems_isr_entry clock_isr)
 {
   rtems_status_code sc = RTEMS_SUCCESSFUL;
 
@@ -109,13 +116,14 @@ static void tms570_clock_handler_install(void)
   }
 }
 
-/*
- *  Install_clock
+/**
+ *  @brief Installs clock
  *
  *  Install a clock tick handler and reprograms the chip.  This
  *  is used to initially establish the clock tick.
+ * 
+ * @retval Void
  */
-
 void Install_clock(
   rtems_isr_entry clock_isr
 )
@@ -127,15 +135,11 @@ void Install_clock(
   Clock_driver_ticks = 0;
   Clock_isrs = rtems_configuration_get_microseconds_per_tick() / 1000;
 
-  tms570_clock_handler_install();
+  tms570_clock_handler_install(clock_isr);
 
-  //Old_ticker = (rtems_isr_entry) set_vector( clock_isr, TMS570_IRQ_TIMER_0, 1 );
-  /*
-   *  Hardware specific initialize goes here
-   */
-
+  /* Hardware specific initialize */
   TMS570_RTI.RTIGCTRL = 0;
-  TMS570_RTI.RTICPUC0 = 160 / 2; //prescaler
+  TMS570_RTI.RTICPUC0 = BSP_PLL_OUT_CLOCK /1000000 / 2; /* prescaler */
   TMS570_RTI.RTITBCTRL = 2;
   TMS570_RTI.RTICAPCTRL = 0;
   TMS570_RTI.RTICOMPCTRL = 0;
@@ -149,38 +153,39 @@ void Install_clock(
   TMS570_RTI.RTICOMP0 = TMS570_RTI.RTIFRC0 + 1000;
   TMS570_RTI.RTICOMP0CLR = TMS570_RTI.RTICOMP0 + 500;
   TMS570_RTI.RTIUDCP0 = 1000;
-  TMS570_RTI.RTISETINTENA = 0x1; //enable interupt
-
-  TMS570_RTI.RTIGCTRL = 1; //enable timer
+  /* enable interupt */
+  TMS570_RTI.RTISETINTENA = 0x1; 
+  /* enable timer */
+  TMS570_RTI.RTIGCTRL = 1; 
 
 
   /*
    *  Schedule the clock cleanup routine to execute if the application exits.
    */
-
   atexit( Clock_exit );
 }
 
-/*
- *  Clean up before the application exits
+/**
+ * @brief Clock exit
+ * Called by aplication exit
+ * Clean up before the application exits
+ * 
+ * @retval Void
  */
-
 void Clock_exit( void )
 {
-  /* XXX: turn off the timer interrupts */
-
-  TMS570_RTI.RTICLEARINTENA = 0x20000; //lets hope so. Need to verify
-
-  /* XXX: If necessary, restore the old vector */
-  //set_vector( Old_ticker, TMS570_IRQ_TIMER_0, 1 );
+  /* turn off the timer interrupts */
+  TMS570_RTI.RTICLEARINTENA = 0x20000;
 }
 
-/*
- *  Clock_initialize
+/**
+ *  @brief Initialize the clock driver
  *
  *  Device driver entry point for clock tick driver initialization.
+ *  Calls Install_clock
+ * 
+ * @retval RTEMS_SUCCESSFUL
  */
-
 rtems_device_driver Clock_initialize(
   rtems_device_major_number major,
   rtems_device_minor_number minor,

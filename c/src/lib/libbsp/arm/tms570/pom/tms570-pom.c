@@ -1,7 +1,36 @@
+/**
+ * @file tms570-pom.c
+ *
+ * @ingroup tms570
+ *
+ * @brief TMS570 Parameter Overlay Module functions definitions.
+ */
+
+ /*
+ * Copyright (c) 2014 Pavel Pisa <pisa@cmp.felk.cvut.cz>
+ *
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rtems.org/license/LICENSE.
+ */
+
 #include <stdint.h>
 #include <bsp/tms570-pom.h>
 #include <bsp/linker-symbols.h>
+#include <bsp.h>
 
+/**
+ * @brief Prints part of the memory
+ *
+ * debug function
+ *
+ * @retval 0
+ */
 int mem_dump(void *buf, unsigned long start, unsigned long len, int blen)
 {
   unsigned long addr=start;
@@ -32,12 +61,18 @@ int mem_dump(void *buf, unsigned long start, unsigned long len, int blen)
   return 0;
 }
 
+/**
+ * @brief remaps vector table
+ *
+ * transfer the rtems start vector table to address 0x0
+ *
+ * @retval Void
+ */
 void tms570_pom_remap(void)
 {
 
     int i;
     uint32_t vec_overlay_start = 0x08000000;
-    volatile uint32_t *p32 = (uint32_t *)vec_overlay_start;
 
     memcpy((void*)vec_overlay_start, bsp_start_vector_table_begin, 64);
 

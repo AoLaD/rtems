@@ -1,3 +1,10 @@
+/**
+ * @file tms570-sci.h
+ *
+ * @ingroup tms570
+ *
+ * @brief Serial Communication Interface (SCI) header file.
+ */
 /*
  * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
@@ -22,6 +29,11 @@
 
 #include <rtems.h>
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 typedef struct {
   uint32_t SCIGCR0; 	/*SCIGlobalControlRegister0*/
   uint32_t SCIGCR1; 	/*SCIGlobalControlRegister1*/
@@ -53,5 +65,11 @@ typedef struct {
 
 #define TMS570_SCI (*(volatile tms570_sci_t*)0xFFF7E400U)
 #define TMS570_SCI2 (*(volatile tms570_sci_t*)0xFFF7E500U)
+
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

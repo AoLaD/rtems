@@ -1,6 +1,6 @@
 ##
 #
-# @file
+# @file configure.ac
 #
 # @brief Configure script of LibBSP for the TMS570 board.
 #

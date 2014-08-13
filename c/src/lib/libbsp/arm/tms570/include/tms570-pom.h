@@ -1,7 +1,7 @@
 /**
- * @file
- * @ingroup tms570-pom
- * @brief Parameter Overlay Module (POM)
+ * @file tms570-pom.h
+ * @ingroup tms570
+ * @brief Parameter Overlay Module (POM) header file
  */
 
 /*
@@ -11,9 +11,6 @@
  * Zikova 1903/4
  * 166 36 Praha 6
  * Czech Republic
- *
- * Based on LPC24xx and LPC1768 BSP
- * by embedded brains GmbH and others
  *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
@@ -26,9 +23,12 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define TMS570_POM_REGIONS 32
 #define TMS570_POM_GLBCTRL_ENABLE 0x000000a0a
-
 
 #define TMS570_POM_REGSIZE_DISABLED 0
 #define TMS570_POM_REGSIZE_64B      1
@@ -92,4 +92,10 @@ typedef struct tms570_pom_t {
 int mem_dump(void *buf, unsigned long start, unsigned long len, int blen);
 void tms570_pom_remap(void);
 
-#endif
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* LIBBSP_ARM_TMS570_POM_H */

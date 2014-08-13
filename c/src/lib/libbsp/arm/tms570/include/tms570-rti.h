@@ -1,9 +1,9 @@
 /**
- * @file
+ * @file tms570-rti.h
  *
- * @ingroup bsp_interrupt
+ * @ingroup tms570
  *
- * @brief TMS570 interrupt definitions.
+ * @brief Real Time Interrupt module (RTI) header file.
  */
 
 /*
@@ -29,6 +29,10 @@
 #ifndef ASM
 
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
  typedef struct {
     uint32_t RTIGCTRL;   //RTIGlobalControlRegister
@@ -80,9 +84,12 @@
 
 #define TMS570_RTI (*(volatile tms570_rti_t*)0xFFFFFC00)
 
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ASM */
-
-/** @} */
 
 #endif /* LIBBSP_ARM_TMS570_IRQ_H */

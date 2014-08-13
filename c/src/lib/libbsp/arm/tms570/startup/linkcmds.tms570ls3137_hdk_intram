@@ -1,4 +1,3 @@
-/* TMS570LS3137 OEM Board from Embedded Artists */
 
 MEMORY {
 	ROM_INT (RX) :   ORIGIN = 0x00000000, LENGTH = 3M

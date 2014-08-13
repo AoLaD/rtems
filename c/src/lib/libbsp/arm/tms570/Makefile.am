@@ -1,6 +1,6 @@
 ##
 #
-# @file
+# @file makefile.am
 #
 # @brief Makefile of LibBSP for the TMS570 boards.
 #
@@ -108,7 +108,7 @@ libbsp_a_SOURCES += console/tms570-sci.c
 
 # Clock
 libbsp_a_SOURCES += ../../shared/clockdrv_shell.h
-libbsp_a_SOURCES += clock/clock.c
+libbsp_a_SOURCES += clock/tms570-rti.c
 
 # RTC
 
@@ -125,6 +125,18 @@ libbsp_a_SOURCES += clock/clock.c
 # Start hooks
 libbsp_a_SOURCES += startup/bspstarthooks.c
 
+# Network
+
+if HAS_NETWORKING
+
+noinst_PROGRAMS = network.rel
+
+network_rel_CPPFLAGS = $(AM_CPPFLAGS) -D__INSIDE_RTEMS_BSD_TCPIP_STACK__ -D__BSD_VISIBLE
+network_rel_LDFLAGS = $(RTEMS_RELLDFLAGS)
+
+libbsp_a_LIBADD += network.rel
+
+endif
 
 # ----------------------------
 # ------  Special Rules

@@ -1,11 +1,10 @@
 /**
- * @file
+ * @file bsp.h
  *
  * @ingroup tms570
  *
  * @brief Global BSP definitions.
  */
-
 /*
  * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
@@ -32,13 +31,15 @@
 
 #define BSP_FEATURE_IRQ_EXTENSION
 
-
 #ifndef ASM
 
 #include <rtems.h>
 #include <rtems/console.h>
 #include <rtems/clockdrv.h>
 #include <bsp/default-initial-extension.h>
+
+#define BSP_OSCILATOR_CLOCK 8000000
+#define BSP_PLL_OUT_CLOCK 160000000
 
 /** Define operation count for Tests */
 #define OPERATION_COUNT 4

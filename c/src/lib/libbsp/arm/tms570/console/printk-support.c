@@ -1,3 +1,11 @@
+/**
+ * @file printk-support.c
+ *
+ * @ingroup tms570
+ *
+ * @brief definitions of serial line for debugging.
+ */
+
 /*
  * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
@@ -17,16 +25,37 @@
 
 #include <rtems/bspIo.h>
 #include <stdint.h>
+#include <bsp/tms570-sci.h>
+#include <bsp/tms570-sci-driver.h>
 
-#define UART_FLR (*(volatile uint32_t *)(0xFFF7E500U+0x1C))
-#define UART_TD (*(volatile uint32_t *)(0xFFF7E500U+0x38))
+extern const tms570_sci_context driver_context_table[];
 
+/**
+ * @brief Puts chars into peripheral
+ *
+ * debug functions always use serial dev 0 peripheral
+ *
+ * @retval Void
+ */
 static void tms570_putc(char ch)
 {
-  while ((UART_FLR & 0x100) == 0); /* wait until busy */
-  UART_TD = ch;
+  rtems_interrupt_level level;
+
+  rtems_interrupt_disable(level);
+  while ((driver_context_table[0].regs->SCIFLR & 0x100) == 0) {
+    rtems_interrupt_flash(level);
+  }
+  driver_context_table[0].regs->SCITD = ch;
+  rtems_interrupt_enable(level);
 }
 
+/**
+ * @brief debug console output
+ *
+ * debug functions always use serial dev 0 peripheral
+ *
+ * @retval Void
+ */
 static void console_output(char c)
 {
   if (c == '\n') {

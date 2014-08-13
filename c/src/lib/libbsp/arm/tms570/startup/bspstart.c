@@ -1,5 +1,5 @@
 /**
- * @file
+ * @file bspstart.c
  *
  * @ingroup tms570
  *
@@ -21,13 +21,15 @@
  * http://www.rtems.org/license/LICENSE.
  */
 
-
 #include <bsp.h>
 #include <bsp/tms570-pom.h>
+#include <bsp/irq-generic.h>
+#include <bsp/start.h>
+#include <bsp/bootcard.h>
 
 void bsp_pretasking_hook( void )
 {
-	;
+
 }
 
 void bsp_start( void )

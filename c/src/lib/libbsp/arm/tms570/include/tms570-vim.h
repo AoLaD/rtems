@@ -1,11 +1,10 @@
 /**
- * @file
+ * @file tms570-vim.h
  *
- * @ingroup bsp_interrupt
+ * @ingroup tms570
  *
- * @brief TMS570 interrupt definitions.
+ * @brief Vectored Interrupt Module (VIM) header file.
  */
-
 /*
  * Copyright (c) 2014 Premysl Houdek <kom541000@gmail.com>
  *
@@ -29,6 +28,10 @@
 #ifndef ASM
 #include <rtems.h>
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 typedef struct{
     uint32_t PARFLG; 	/* InterruptVectorTableParityFlagRegister */
@@ -62,7 +65,10 @@ typedef struct{
 
 #endif
 
-
 /** @} */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* LIBBSP_ARM_TMS570_IRQ_H */
