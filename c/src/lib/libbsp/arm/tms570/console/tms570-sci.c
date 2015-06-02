@@ -44,13 +44,13 @@ tms570_sci_context driver_context_table[] = {
   {
     .base = RTEMS_TERMIOS_DEVICE_CONTEXT_INITIALIZER("TMS570 SCI1"),
     .device_name = "/dev/console",
-    .regs = &TMS570_SCI,
+    .regs = &TMS570_LIN,
     .irq = TMS570_IRQ_SCI_LEVEL_0,
   },
   {
     .base = RTEMS_TERMIOS_DEVICE_CONTEXT_INITIALIZER("TMS570 SCI2"),
     .device_name = "/dev/ttyS1",
-    .regs = &TMS570_SCI2,
+    .regs = &TMS570_SCI,
     .irq = TMS570_IRQ_SCI2_LEVEL_0,
   }
 };
