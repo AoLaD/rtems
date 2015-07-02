@@ -76,14 +76,14 @@ typedef struct{
   uint8_t reserved1 [4];
   uint32_t FEDACTRL1;         /*Flash Error Detection and Correction Control Register 1*/
   uint32_t FEDACTRL2;         /*Flash Error Detection and Correction Control Register 2*/
-  uint32_t FCOR_ERR_CNT;      /*Flash Correctable Error Count Register*/
-  uint32_t FCOR_ERR_ADD;      /*Flash Correctable Error Address Register*/
-  uint32_t FCOR_ERR_POS;      /*Flash Correctable Error Position Register*/
+  uint32_t FCORERRCNT;        /*Flash Correctable Error Count Register*/
+  uint32_t FCORERRADD;        /*Flash Correctable Error Address Register*/
+  uint32_t FCORERRPOS;        /*Flash Correctable Error Position Register*/
   uint32_t FEDACSTATUS;       /*Flash Error Detection and Correction Status Register*/
-  uint32_t FUNC_ERR_ADD;      /*Flash Un-Correctable Error Address Register*/
+  uint32_t FUNCERRADD;        /*Flash Un-Correctable Error Address Register*/
   uint32_t FEDACSDIS;         /*Flash Error Detection and Correction Sector Disable Register*/
-  uint32_t FPRIM_ADD_TAG;     /*Flash Primary Address Tag Register*/
-  uint32_t FDUP_ADD_TAG;      /*Flash Duplicate Address Tag Register*/
+  uint32_t FPRIMADDTAG;       /*Flash Primary Address Tag Register*/
+  uint32_t FDUPADDTAG;        /*Flash Duplicate Address Tag Register*/
   uint32_t FBPROT;            /*Flash Bank Protection Register*/
   uint32_t FBSE;              /*Flash Bank Sector Enable Register*/
   uint32_t FBBUSY;            /*Flash Bank Busy Register*/
@@ -94,34 +94,34 @@ typedef struct{
   uint32_t FPAC2;             /*Flash Pump Access Control Register 2*/
   uint32_t FMAC;              /*Flash Module Access Control Register*/
   uint32_t FMSTAT;            /*Flash Module Status Register*/
-  uint32_t FEMU_DMSW;         /*EEPROM Emulation Data MSW Register*/
-  uint32_t FEMU_DLSW;         /*EEPROM Emulation Data LSW Register*/
-  uint32_t FEMU_ECC;          /*EEPROM Emulation ECC Register*/
+  uint32_t FEMUDMSW;          /*EEPROM Emulation Data MSW Register*/
+  uint32_t FEMUDLSW;          /*EEPROM Emulation Data LSW Register*/
+  uint32_t FEMUECC;           /*EEPROM Emulation ECC Register*/
   uint8_t reserved2 [4];
-  uint32_t FEMU_ADDR;         /*EEPROM Emulation Address Register*/
+  uint32_t FEMUADDR;          /*EEPROM Emulation Address Register*/
   uint32_t FDIAGCTRL;         /*Diagnostic Control Register*/
-  uint32_t FRAW_DATAH;        /*Uncorrected Raw Data High Register*/
-  uint32_t FRAW_DATAL;        /*Uncorrected Raw Data Low Register*/
-  uint32_t FRAW_ECC;          /*Uncorrected Raw ECC Register*/
-  uint32_t FPAR_OVR;          /*Parity Override Register*/
+  uint32_t FRAWDATAH;         /*Uncorrected Raw Data High Register*/
+  uint32_t FRAWDATAL;         /*Uncorrected Raw Data Low Register*/
+  uint32_t FRAWECC;           /*Uncorrected Raw ECC Register*/
+  uint32_t FPAROVR;           /*Parity Override Register*/
   uint8_t reserved3 [64];
   uint32_t FEDACSDIS2;        /*Flash Error Detection and Correction Sector Disable Register 2*/
   uint8_t reserved4 [452];
-  uint32_t FSM_WR_ENA;        /*FSM Register Write Enable*/
+  uint32_t FSMWRENA;          /*FSM Register Write Enable*/
   uint8_t reserved5 [24];
-  uint32_t FSM_SECTOR;        /*FSM Sector Register*/
+  uint32_t FSMSECTOR;         /*FSM Sector Register*/
   uint8_t reserved6 [16];
-  uint32_t EEPROM_CONFIG;     /*EEPROM Emulation Configuration Register*/
+  uint32_t EEPROMCONFIG;      /*EEPROM Emulation Configuration Register*/
   uint8_t reserved7 [76];
-  uint32_t EE_CTRL1;          /*EEPROM Emulation Error Detection and Correction Control Register 1*/
-  uint32_t EE_CTRL2;          /*EEPROM Emulation Error Detection and Correction Control Register 2*/
-  uint32_t EE_COR_ERR_CNT;    /*EEPROM Emulation Correctable Error Count Register*/
-  uint32_t EE_COR_ERR_ADD;    /*EEPROM Emulation Correctable Error Address Register*/
-  uint32_t EE_COR_ERR_POS;    /*EEPROM Emulation Correctable Error Bit Position Register*/
-  uint32_t EE_STATUS;         /*EEPROM Emulation Error Status Register*/
-  uint32_t EE_UNC_ERR_ADD;    /*EEPROM Emulation Un-Correctable Error Address Register*/
+  uint32_t EECTRL1;           /*EEPROM Emulation Error Detection and Correction Control Register 1*/
+  uint32_t EECTRL2;           /*EEPROM Emulation Error Detection and Correction Control Register 2*/
+  uint32_t EECORERRCNT;       /*EEPROM Emulation Correctable Error Count Register*/
+  uint32_t EECORERRADD;       /*EEPROM Emulation Correctable Error Address Register*/
+  uint32_t EECORERRPOS;       /*EEPROM Emulation Correctable Error Bit Position Register*/
+  uint32_t EESTATUS;          /*EEPROM Emulation Error Status Register*/
+  uint32_t EEUNCERRADD;       /*EEPROM Emulation Un-Correctable Error Address Register*/
   uint8_t reserved8 [220];
-  uint32_t FCFG_BANK;         /*Flash Bank Configuration Register*/
+  uint32_t FCFGBANK;          /*Flash Bank Configuration Register*/
 } tms570_flash_t;
 
 
@@ -169,36 +169,36 @@ typedef struct{
 #define TMS570_FLASH_FEDACTRL2_SEC_THRESHOLD_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*------------------TMS570_FLASHFCOR_ERR_CNT------------------*/
+/*-------------------TMS570_FLASHFCORERRCNT-------------------*/
 /* field: FERRCNT - Single Error Correction Count */
-#define TMS570_FLASH_FCOR_ERR_CNT_FERRCNT(val) BSP_FLD32(val,0, 15)
-#define TMS570_FLASH_FCOR_ERR_CNT_FERRCNT_GET(reg) BSP_FLD32GET(reg,0, 15)
-#define TMS570_FLASH_FCOR_ERR_CNT_FERRCNT_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
+#define TMS570_FLASH_FCORERRCNT_FERRCNT(val) BSP_FLD32(val,0, 15)
+#define TMS570_FLASH_FCORERRCNT_FERRCNT_GET(reg) BSP_FLD32GET(reg,0, 15)
+#define TMS570_FLASH_FCORERRCNT_FERRCNT_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*------------------TMS570_FLASHFCOR_ERR_ADD------------------*/
+/*-------------------TMS570_FLASHFCORERRADD-------------------*/
 /* field: COR_ERR_ADD - Correctable Error Address */
-#define TMS570_FLASH_FCOR_ERR_ADD_COR_ERR_ADD(val) BSP_FLD32(val,3, 31)
-#define TMS570_FLASH_FCOR_ERR_ADD_COR_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
-#define TMS570_FLASH_FCOR_ERR_ADD_COR_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
+#define TMS570_FLASH_FCORERRADD_COR_ERR_ADD(val) BSP_FLD32(val,3, 31)
+#define TMS570_FLASH_FCORERRADD_COR_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
+#define TMS570_FLASH_FCORERRADD_COR_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
 
 /* field: B_OFF - Byte Offset */
-#define TMS570_FLASH_FCOR_ERR_ADD_B_OFF(val) BSP_FLD32(val,0, 2)
-#define TMS570_FLASH_FCOR_ERR_ADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
-#define TMS570_FLASH_FCOR_ERR_ADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
+#define TMS570_FLASH_FCORERRADD_B_OFF(val) BSP_FLD32(val,0, 2)
+#define TMS570_FLASH_FCORERRADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
+#define TMS570_FLASH_FCORERRADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
 
 
-/*------------------TMS570_FLASHFCOR_ERR_POS------------------*/
+/*-------------------TMS570_FLASHFCORERRPOS-------------------*/
 /* field: BUS2 - Bus 2 Error */
-#define TMS570_FLASH_FCOR_ERR_POS_BUS2 BSP_FLD32(9)
+#define TMS570_FLASH_FCORERRPOS_BUS2 BSP_FLD32(9)
 
 /* field: TYPE - ErrorType */
-#define TMS570_FLASH_FCOR_ERR_POS_TYPE BSP_FLD32(8)
+#define TMS570_FLASH_FCORERRPOS_TYPE BSP_FLD32(8)
 
 /* field: ERR_POS - The bit address of the single bit error */
-#define TMS570_FLASH_FCOR_ERR_POS_ERR_POS(val) BSP_FLD32(val,0, 7)
-#define TMS570_FLASH_FCOR_ERR_POS_ERR_POS_GET(reg) BSP_FLD32GET(reg,0, 7)
-#define TMS570_FLASH_FCOR_ERR_POS_ERR_POS_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
+#define TMS570_FLASH_FCORERRPOS_ERR_POS(val) BSP_FLD32(val,0, 7)
+#define TMS570_FLASH_FCORERRPOS_ERR_POS_GET(reg) BSP_FLD32GET(reg,0, 7)
+#define TMS570_FLASH_FCORERRPOS_ERR_POS_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
 
 
 /*------------------TMS570_FLASHFEDACSTATUS------------------*/
@@ -247,16 +247,16 @@ typedef struct{
 #define TMS570_FLASH_FEDACSTATUS_ERR_PRF_FLG BSP_FLD32(0)
 
 
-/*------------------TMS570_FLASHFUNC_ERR_ADD------------------*/
+/*-------------------TMS570_FLASHFUNCERRADD-------------------*/
 /* field: UNC_ERR_ADD - Un-correctable Error Address */
-#define TMS570_FLASH_FUNC_ERR_ADD_UNC_ERR_ADD(val) BSP_FLD32(val,3, 31)
-#define TMS570_FLASH_FUNC_ERR_ADD_UNC_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
-#define TMS570_FLASH_FUNC_ERR_ADD_UNC_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
+#define TMS570_FLASH_FUNCERRADD_UNC_ERR_ADD(val) BSP_FLD32(val,3, 31)
+#define TMS570_FLASH_FUNCERRADD_UNC_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
+#define TMS570_FLASH_FUNCERRADD_UNC_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
 
 /* field: B_OFF - Byte offset */
-#define TMS570_FLASH_FUNC_ERR_ADD_B_OFF(val) BSP_FLD32(val,0, 2)
-#define TMS570_FLASH_FUNC_ERR_ADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
-#define TMS570_FLASH_FUNC_ERR_ADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
+#define TMS570_FLASH_FUNCERRADD_B_OFF(val) BSP_FLD32(val,0, 2)
+#define TMS570_FLASH_FUNCERRADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
+#define TMS570_FLASH_FUNCERRADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
 
 
 /*-------------------TMS570_FLASHFEDACSDIS-------------------*/
@@ -301,23 +301,23 @@ typedef struct{
 #define TMS570_FLASH_FEDACSDIS_SectorID0_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
 
 
-/*-----------------TMS570_FLASHFPRIM_ADD_TAG-----------------*/
+/*------------------TMS570_FLASHFPRIMADDTAG------------------*/
 /* field: PRIM_ADD_TAG - Primary Address Tag Register */
-#define TMS570_FLASH_FPRIM_ADD_TAG_PRIM_ADD_TAG(val) BSP_FLD32(val,4, 31)
-#define TMS570_FLASH_FPRIM_ADD_TAG_PRIM_ADD_TAG_GET(reg) BSP_FLD32GET(reg,4, 31)
-#define TMS570_FLASH_FPRIM_ADD_TAG_PRIM_ADD_TAG_SET(reg,val) BSP_FLD32SET(reg, val,4, 31)
+#define TMS570_FLASH_FPRIMADDTAG_PRIM_ADD_TAG(val) BSP_FLD32(val,4, 31)
+#define TMS570_FLASH_FPRIMADDTAG_PRIM_ADD_TAG_GET(reg) BSP_FLD32GET(reg,4, 31)
+#define TMS570_FLASH_FPRIMADDTAG_PRIM_ADD_TAG_SET(reg,val) BSP_FLD32SET(reg, val,4, 31)
 
 /* field: 0 - Always 0000 */
-#define TMS570_FLASH_FPRIM_ADD_TAG_0(val) BSP_FLD32(val,0, 3)
-#define TMS570_FLASH_FPRIM_ADD_TAG_0_GET(reg) BSP_FLD32GET(reg,0, 3)
-#define TMS570_FLASH_FPRIM_ADD_TAG_0_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
+#define TMS570_FLASH_FPRIMADDTAG_0(val) BSP_FLD32(val,0, 3)
+#define TMS570_FLASH_FPRIMADDTAG_0_GET(reg) BSP_FLD32GET(reg,0, 3)
+#define TMS570_FLASH_FPRIMADDTAG_0_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
 
 
-/*------------------TMS570_FLASHFDUP_ADD_TAG------------------*/
+/*-------------------TMS570_FLASHFDUPADDTAG-------------------*/
 /* field: DUP_ADD_TAG - Primary Address Tag Register */
-#define TMS570_FLASH_FDUP_ADD_TAG_DUP_ADD_TAG(val) BSP_FLD32(val,4, 31)
-#define TMS570_FLASH_FDUP_ADD_TAG_DUP_ADD_TAG_GET(reg) BSP_FLD32GET(reg,4, 31)
-#define TMS570_FLASH_FDUP_ADD_TAG_DUP_ADD_TAG_SET(reg,val) BSP_FLD32SET(reg, val,4, 31)
+#define TMS570_FLASH_FDUPADDTAG_DUP_ADD_TAG(val) BSP_FLD32(val,4, 31)
+#define TMS570_FLASH_FDUPADDTAG_DUP_ADD_TAG_GET(reg) BSP_FLD32GET(reg,4, 31)
+#define TMS570_FLASH_FDUPADDTAG_DUP_ADD_TAG_SET(reg,val) BSP_FLD32SET(reg, val,4, 31)
 
 
 /*---------------------TMS570_FLASHFBPROT---------------------*/
@@ -450,32 +450,32 @@ typedef struct{
 #define TMS570_FLASH_FMSTAT_SLOCK BSP_FLD32(0)
 
 
-/*-------------------TMS570_FLASHFEMU_DMSW-------------------*/
+/*--------------------TMS570_FLASHFEMUDMSW--------------------*/
 /* field: EMU_DMSW - EEPROM Emulation Most Significant Data Word */
-#define TMS570_FLASH_FEMU_DMSW_EMU_DMSW(val) BSP_FLD32(val,0, 31)
-#define TMS570_FLASH_FEMU_DMSW_EMU_DMSW_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_FLASH_FEMU_DMSW_EMU_DMSW_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
+#define TMS570_FLASH_FEMUDMSW_EMU_DMSW(val) BSP_FLD32(val,0, 31)
+#define TMS570_FLASH_FEMUDMSW_EMU_DMSW_GET(reg) BSP_FLD32GET(reg,0, 31)
+#define TMS570_FLASH_FEMUDMSW_EMU_DMSW_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
 
 
-/*-------------------TMS570_FLASHFEMU_DLSW-------------------*/
+/*--------------------TMS570_FLASHFEMUDLSW--------------------*/
 /* field: EMU_DLSW - EEPROM Emulation Least Significant Data Word */
-#define TMS570_FLASH_FEMU_DLSW_EMU_DLSW(val) BSP_FLD32(val,0, 31)
-#define TMS570_FLASH_FEMU_DLSW_EMU_DLSW_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_FLASH_FEMU_DLSW_EMU_DLSW_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
+#define TMS570_FLASH_FEMUDLSW_EMU_DLSW(val) BSP_FLD32(val,0, 31)
+#define TMS570_FLASH_FEMUDLSW_EMU_DLSW_GET(reg) BSP_FLD32GET(reg,0, 31)
+#define TMS570_FLASH_FEMUDLSW_EMU_DLSW_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
 
 
-/*--------------------TMS570_FLASHFEMU_ECC--------------------*/
+/*--------------------TMS570_FLASHFEMUECC--------------------*/
 /* field: EMU_ECC - This register can be written by the CPU in any mode. */
-#define TMS570_FLASH_FEMU_ECC_EMU_ECC(val) BSP_FLD32(val,0, 7)
-#define TMS570_FLASH_FEMU_ECC_EMU_ECC_GET(reg) BSP_FLD32GET(reg,0, 7)
-#define TMS570_FLASH_FEMU_ECC_EMU_ECC_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
+#define TMS570_FLASH_FEMUECC_EMU_ECC(val) BSP_FLD32(val,0, 7)
+#define TMS570_FLASH_FEMUECC_EMU_ECC_GET(reg) BSP_FLD32GET(reg,0, 7)
+#define TMS570_FLASH_FEMUECC_EMU_ECC_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
 
 
-/*-------------------TMS570_FLASHFEMU_ADDR-------------------*/
+/*--------------------TMS570_FLASHFEMUADDR--------------------*/
 /* field: EMU_ADDR - EEPROM Emulation Address */
-#define TMS570_FLASH_FEMU_ADDR_EMU_ADDR(val) BSP_FLD32(val,3, 21)
-#define TMS570_FLASH_FEMU_ADDR_EMU_ADDR_GET(reg) BSP_FLD32GET(reg,3, 21)
-#define TMS570_FLASH_FEMU_ADDR_EMU_ADDR_SET(reg,val) BSP_FLD32SET(reg, val,3, 21)
+#define TMS570_FLASH_FEMUADDR_EMU_ADDR(val) BSP_FLD32(val,3, 21)
+#define TMS570_FLASH_FEMUADDR_EMU_ADDR_GET(reg) BSP_FLD32GET(reg,3, 21)
+#define TMS570_FLASH_FEMUADDR_EMU_ADDR_SET(reg,val) BSP_FLD32SET(reg, val,3, 21)
 
 
 /*-------------------TMS570_FLASHFDIAGCTRL-------------------*/
@@ -493,51 +493,51 @@ typedef struct{
 #define TMS570_FLASH_FDIAGCTRL_DIAG_ECC_SEL_SET(reg,val) BSP_FLD32SET(reg, val,12, 14)
 
 
-/*-------------------TMS570_FLASHFRAW_DATAH-------------------*/
+/*-------------------TMS570_FLASHFRAWDATAH-------------------*/
 /* field: RAW_DATA_ - Uncorrected Raw Data */
-#define TMS570_FLASH_FRAW_DATAH_RAW_DATA_(val) BSP_FLD32(val,0, 31)
-#define TMS570_FLASH_FRAW_DATAH_RAW_DATA__GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_FLASH_FRAW_DATAH_RAW_DATA__SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
+#define TMS570_FLASH_FRAWDATAH_RAW_DATA_(val) BSP_FLD32(val,0, 31)
+#define TMS570_FLASH_FRAWDATAH_RAW_DATA__GET(reg) BSP_FLD32GET(reg,0, 31)
+#define TMS570_FLASH_FRAWDATAH_RAW_DATA__SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
 
 
-/*-------------------TMS570_FLASHFRAW_DATAL-------------------*/
+/*-------------------TMS570_FLASHFRAWDATAL-------------------*/
 /* field: RAW_DATA_ - Uncorrected Raw Data. Same as FRAW_DATAH but stores lower 32 bits. */
-#define TMS570_FLASH_FRAW_DATAL_RAW_DATA_(val) BSP_FLD32(val,0, 31)
-#define TMS570_FLASH_FRAW_DATAL_RAW_DATA__GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_FLASH_FRAW_DATAL_RAW_DATA__SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
+#define TMS570_FLASH_FRAWDATAL_RAW_DATA_(val) BSP_FLD32(val,0, 31)
+#define TMS570_FLASH_FRAWDATAL_RAW_DATA__GET(reg) BSP_FLD32GET(reg,0, 31)
+#define TMS570_FLASH_FRAWDATAL_RAW_DATA__SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
 
 
-/*--------------------TMS570_FLASHFRAW_ECC--------------------*/
+/*--------------------TMS570_FLASHFRAWECC--------------------*/
 /* field: PIPE_BUF - Error came from pipeline buffer hit */
-#define TMS570_FLASH_FRAW_ECC_PIPE_BUF BSP_FLD32(8)
+#define TMS570_FLASH_FRAWECC_PIPE_BUF BSP_FLD32(8)
 
 /* field: RAW_ECC - Uncorrected Raw ECC */
-#define TMS570_FLASH_FRAW_ECC_RAW_ECC(val) BSP_FLD32(val,0, 7)
-#define TMS570_FLASH_FRAW_ECC_RAW_ECC_GET(reg) BSP_FLD32GET(reg,0, 7)
-#define TMS570_FLASH_FRAW_ECC_RAW_ECC_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
+#define TMS570_FLASH_FRAWECC_RAW_ECC(val) BSP_FLD32(val,0, 7)
+#define TMS570_FLASH_FRAWECC_RAW_ECC_GET(reg) BSP_FLD32GET(reg,0, 7)
+#define TMS570_FLASH_FRAWECC_RAW_ECC_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
 
 
-/*--------------------TMS570_FLASHFPAR_OVR--------------------*/
+/*--------------------TMS570_FLASHFPAROVR--------------------*/
 /* field: BNK_INV_PAR - Buffer Invert Parity */
-#define TMS570_FLASH_FPAR_OVR_BNK_INV_PAR BSP_FLD32(16)
+#define TMS570_FLASH_FPAROVR_BNK_INV_PAR BSP_FLD32(16)
 
 /* field: BUS_PAR_DIS - Disable Bus Parity */
-#define TMS570_FLASH_FPAR_OVR_BUS_PAR_DIS(val) BSP_FLD32(val,12, 15)
-#define TMS570_FLASH_FPAR_OVR_BUS_PAR_DIS_GET(reg) BSP_FLD32GET(reg,12, 15)
-#define TMS570_FLASH_FPAR_OVR_BUS_PAR_DIS_SET(reg,val) BSP_FLD32SET(reg, val,12, 15)
+#define TMS570_FLASH_FPAROVR_BUS_PAR_DIS(val) BSP_FLD32(val,12, 15)
+#define TMS570_FLASH_FPAROVR_BUS_PAR_DIS_GET(reg) BSP_FLD32GET(reg,12, 15)
+#define TMS570_FLASH_FPAROVR_BUS_PAR_DIS_SET(reg,val) BSP_FLD32SET(reg, val,12, 15)
 
 /* field: PAR_OVR_KEY - When this value is 101, the selected ADD_INV_PAR and DAT_INV_PAR fields will become active. */
-#define TMS570_FLASH_FPAR_OVR_PAR_OVR_KEY(val) BSP_FLD32(val,9, 11)
-#define TMS570_FLASH_FPAR_OVR_PAR_OVR_KEY_GET(reg) BSP_FLD32GET(reg,9, 11)
-#define TMS570_FLASH_FPAR_OVR_PAR_OVR_KEY_SET(reg,val) BSP_FLD32SET(reg, val,9, 11)
+#define TMS570_FLASH_FPAROVR_PAR_OVR_KEY(val) BSP_FLD32(val,9, 11)
+#define TMS570_FLASH_FPAROVR_PAR_OVR_KEY_GET(reg) BSP_FLD32GET(reg,9, 11)
+#define TMS570_FLASH_FPAROVR_PAR_OVR_KEY_SET(reg,val) BSP_FLD32SET(reg, val,9, 11)
 
 /* field: ADD_INV_PAR - Address Odd Parity */
-#define TMS570_FLASH_FPAR_OVR_ADD_INV_PAR BSP_FLD32(8)
+#define TMS570_FLASH_FPAROVR_ADD_INV_PAR BSP_FLD32(8)
 
 /* field: DAT_INV_PAR - Data Odd Parity */
-#define TMS570_FLASH_FPAR_OVR_DAT_INV_PAR(val) BSP_FLD32(val,0, 7)
-#define TMS570_FLASH_FPAR_OVR_DAT_INV_PAR_GET(reg) BSP_FLD32GET(reg,0, 7)
-#define TMS570_FLASH_FPAR_OVR_DAT_INV_PAR_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
+#define TMS570_FLASH_FPAROVR_DAT_INV_PAR(val) BSP_FLD32(val,0, 7)
+#define TMS570_FLASH_FPAROVR_DAT_INV_PAR_GET(reg) BSP_FLD32GET(reg,0, 7)
+#define TMS570_FLASH_FPAROVR_DAT_INV_PAR_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
 
 
 /*-------------------TMS570_FLASHFEDACSDIS2-------------------*/
@@ -582,135 +582,135 @@ typedef struct{
 #define TMS570_FLASH_FEDACSDIS2_SectorID2_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
 
 
-/*-------------------TMS570_FLASHFSM_WR_ENA-------------------*/
+/*--------------------TMS570_FLASHFSMWRENA--------------------*/
 /* field: WR_ENA - Flash State Machine Write Enable */
-#define TMS570_FLASH_FSM_WR_ENA_WR_ENA(val) BSP_FLD32(val,0, 2)
-#define TMS570_FLASH_FSM_WR_ENA_WR_ENA_GET(reg) BSP_FLD32GET(reg,0, 2)
-#define TMS570_FLASH_FSM_WR_ENA_WR_ENA_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
+#define TMS570_FLASH_FSMWRENA_WR_ENA(val) BSP_FLD32(val,0, 2)
+#define TMS570_FLASH_FSMWRENA_WR_ENA_GET(reg) BSP_FLD32GET(reg,0, 2)
+#define TMS570_FLASH_FSMWRENA_WR_ENA_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
 
 
-/*-------------------TMS570_FLASHFSM_SECTOR-------------------*/
+/*-------------------TMS570_FLASHFSMSECTOR-------------------*/
 /* field: SECT_ERASED - Sectors Erased */
-#define TMS570_FLASH_FSM_SECTOR_SECT_ERASED(val) BSP_FLD32(val,16, 31)
-#define TMS570_FLASH_FSM_SECTOR_SECT_ERASED_GET(reg) BSP_FLD32GET(reg,16, 31)
-#define TMS570_FLASH_FSM_SECTOR_SECT_ERASED_SET(reg,val) BSP_FLD32SET(reg, val,16, 31)
+#define TMS570_FLASH_FSMSECTOR_SECT_ERASED(val) BSP_FLD32(val,16, 31)
+#define TMS570_FLASH_FSMSECTOR_SECT_ERASED_GET(reg) BSP_FLD32GET(reg,16, 31)
+#define TMS570_FLASH_FSMSECTOR_SECT_ERASED_SET(reg,val) BSP_FLD32SET(reg, val,16, 31)
 
 
-/*-----------------TMS570_FLASHEEPROM_CONFIG-----------------*/
+/*------------------TMS570_FLASHEEPROMCONFIG------------------*/
 /* field: EWAIT - EEPROM Wait state Counter */
-#define TMS570_FLASH_EEPROM_CONFIG_EWAIT(val) BSP_FLD32(val,16, 19)
-#define TMS570_FLASH_EEPROM_CONFIG_EWAIT_GET(reg) BSP_FLD32GET(reg,16, 19)
-#define TMS570_FLASH_EEPROM_CONFIG_EWAIT_SET(reg,val) BSP_FLD32SET(reg, val,16, 19)
+#define TMS570_FLASH_EEPROMCONFIG_EWAIT(val) BSP_FLD32(val,16, 19)
+#define TMS570_FLASH_EEPROMCONFIG_EWAIT_GET(reg) BSP_FLD32GET(reg,16, 19)
+#define TMS570_FLASH_EEPROMCONFIG_EWAIT_SET(reg,val) BSP_FLD32SET(reg, val,16, 19)
 
 /* field: AUTOSUSP_EN - Auto Suspend Enable */
-#define TMS570_FLASH_EEPROM_CONFIG_AUTOSUSP_EN BSP_FLD32(8)
+#define TMS570_FLASH_EEPROMCONFIG_AUTOSUSP_EN BSP_FLD32(8)
 
 /* field: AUTOSTART_GRACE - Auto-suspend Startup Grace Period */
-#define TMS570_FLASH_EEPROM_CONFIG_AUTOSTART_GRACE(val) BSP_FLD32(val,0, 7)
-#define TMS570_FLASH_EEPROM_CONFIG_AUTOSTART_GRACE_GET(reg) BSP_FLD32GET(reg,0, 7)
-#define TMS570_FLASH_EEPROM_CONFIG_AUTOSTART_GRACE_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
+#define TMS570_FLASH_EEPROMCONFIG_AUTOSTART_GRACE(val) BSP_FLD32(val,0, 7)
+#define TMS570_FLASH_EEPROMCONFIG_AUTOSTART_GRACE_GET(reg) BSP_FLD32GET(reg,0, 7)
+#define TMS570_FLASH_EEPROMCONFIG_AUTOSTART_GRACE_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
 
 
-/*--------------------TMS570_FLASHEE_CTRL1--------------------*/
+/*--------------------TMS570_FLASHEECTRL1--------------------*/
 /* field: EDACMODE - Error Correction Mode. */
-#define TMS570_FLASH_EE_CTRL1_EDACMODE(val) BSP_FLD32(val,16, 19)
-#define TMS570_FLASH_EE_CTRL1_EDACMODE_GET(reg) BSP_FLD32GET(reg,16, 19)
-#define TMS570_FLASH_EE_CTRL1_EDACMODE_SET(reg,val) BSP_FLD32SET(reg, val,16, 19)
+#define TMS570_FLASH_EECTRL1_EDACMODE(val) BSP_FLD32(val,16, 19)
+#define TMS570_FLASH_EECTRL1_EDACMODE_GET(reg) BSP_FLD32GET(reg,16, 19)
+#define TMS570_FLASH_EECTRL1_EDACMODE_SET(reg,val) BSP_FLD32SET(reg, val,16, 19)
 
 /* field: EE_EOFEN - EEPROM Emulation Event on a correctable One's Fail Enable bit */
-#define TMS570_FLASH_EE_CTRL1_EE_EOFEN BSP_FLD32(10)
+#define TMS570_FLASH_EECTRL1_EE_EOFEN BSP_FLD32(10)
 
 /* field: EE_EZFEN - EEPROM Emulation Event on a correctable Zero's Fail Enable bit */
-#define TMS570_FLASH_EE_CTRL1_EE_EZFEN BSP_FLD32(9)
+#define TMS570_FLASH_EECTRL1_EE_EZFEN BSP_FLD32(9)
 
 /* field: EE_EPEN - EEPROM Emulation Error Profiling Enable. */
-#define TMS570_FLASH_EE_CTRL1_EE_EPEN BSP_FLD32(8)
+#define TMS570_FLASH_EECTRL1_EE_EPEN BSP_FLD32(8)
 
 
-/*--------------------TMS570_FLASHEE_CTRL2--------------------*/
+/*--------------------TMS570_FLASHEECTRL2--------------------*/
 /* field: EE_SEC_THRESHOLD - EEPROM Emulation Single Error Correction Threshold */
-#define TMS570_FLASH_EE_CTRL2_EE_SEC_THRESHOLD(val) BSP_FLD32(val,0, 15)
-#define TMS570_FLASH_EE_CTRL2_EE_SEC_THRESHOLD_GET(reg) BSP_FLD32GET(reg,0, 15)
-#define TMS570_FLASH_EE_CTRL2_EE_SEC_THRESHOLD_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
+#define TMS570_FLASH_EECTRL2_EE_SEC_THRESHOLD(val) BSP_FLD32(val,0, 15)
+#define TMS570_FLASH_EECTRL2_EE_SEC_THRESHOLD_GET(reg) BSP_FLD32GET(reg,0, 15)
+#define TMS570_FLASH_EECTRL2_EE_SEC_THRESHOLD_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*-----------------TMS570_FLASHEE_COR_ERR_CNT-----------------*/
+/*------------------TMS570_FLASHEECORERRCNT------------------*/
 /* field: EE_ERRCNT - Single Error Correction Count */
-#define TMS570_FLASH_EE_COR_ERR_CNT_EE_ERRCNT(val) BSP_FLD32(val,0, 15)
-#define TMS570_FLASH_EE_COR_ERR_CNT_EE_ERRCNT_GET(reg) BSP_FLD32GET(reg,0, 15)
-#define TMS570_FLASH_EE_COR_ERR_CNT_EE_ERRCNT_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
+#define TMS570_FLASH_EECORERRCNT_EE_ERRCNT(val) BSP_FLD32(val,0, 15)
+#define TMS570_FLASH_EECORERRCNT_EE_ERRCNT_GET(reg) BSP_FLD32GET(reg,0, 15)
+#define TMS570_FLASH_EECORERRCNT_EE_ERRCNT_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*-----------------TMS570_FLASHEE_COR_ERR_ADD-----------------*/
+/*------------------TMS570_FLASHEECORERRADD------------------*/
 /* field: COR_ERR_ADD - Correctable Error Address */
-#define TMS570_FLASH_EE_COR_ERR_ADD_COR_ERR_ADD(val) BSP_FLD32(val,3, 31)
-#define TMS570_FLASH_EE_COR_ERR_ADD_COR_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
-#define TMS570_FLASH_EE_COR_ERR_ADD_COR_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
+#define TMS570_FLASH_EECORERRADD_COR_ERR_ADD(val) BSP_FLD32(val,3, 31)
+#define TMS570_FLASH_EECORERRADD_COR_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
+#define TMS570_FLASH_EECORERRADD_COR_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
 
 /* field: B_OFF - Byte offset */
-#define TMS570_FLASH_EE_COR_ERR_ADD_B_OFF(val) BSP_FLD32(val,0, 2)
-#define TMS570_FLASH_EE_COR_ERR_ADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
-#define TMS570_FLASH_EE_COR_ERR_ADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
+#define TMS570_FLASH_EECORERRADD_B_OFF(val) BSP_FLD32(val,0, 2)
+#define TMS570_FLASH_EECORERRADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
+#define TMS570_FLASH_EECORERRADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
 
 
-/*-----------------TMS570_FLASHEE_COR_ERR_POS-----------------*/
+/*------------------TMS570_FLASHEECORERRPOS------------------*/
 /* field: TYPE - ErrorType */
-#define TMS570_FLASH_EE_COR_ERR_POS_TYPE BSP_FLD32(8)
+#define TMS570_FLASH_EECORERRPOS_TYPE BSP_FLD32(8)
 
 /* field: EE_ERR_POS - The bit address of the single bit error */
-#define TMS570_FLASH_EE_COR_ERR_POS_EE_ERR_POS(val) BSP_FLD32(val,0, 7)
-#define TMS570_FLASH_EE_COR_ERR_POS_EE_ERR_POS_GET(reg) BSP_FLD32GET(reg,0, 7)
-#define TMS570_FLASH_EE_COR_ERR_POS_EE_ERR_POS_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
+#define TMS570_FLASH_EECORERRPOS_EE_ERR_POS(val) BSP_FLD32(val,0, 7)
+#define TMS570_FLASH_EECORERRPOS_EE_ERR_POS_GET(reg) BSP_FLD32GET(reg,0, 7)
+#define TMS570_FLASH_EECORERRPOS_EE_ERR_POS_SET(reg,val) BSP_FLD32SET(reg, val,0, 7)
 
 
-/*-------------------TMS570_FLASHEE_STATUS-------------------*/
+/*--------------------TMS570_FLASHEESTATUS--------------------*/
 /* field: EE_D_UNC_ERR - Diagnostic Mode Uncorrectable Error Status Flag */
-#define TMS570_FLASH_EE_STATUS_EE_D_UNC_ERR BSP_FLD32(12)
+#define TMS570_FLASH_EESTATUS_EE_D_UNC_ERR BSP_FLD32(12)
 
 /* field: EE_UNC_ERR - EEPROM Emulation Uncorrectable Error Flag */
-#define TMS570_FLASH_EE_STATUS_EE_UNC_ERR BSP_FLD32(8)
+#define TMS570_FLASH_EESTATUS_EE_UNC_ERR BSP_FLD32(8)
 
 /* field: EE_CMG - EEPROM Emulation Compare Malfunction Good */
-#define TMS570_FLASH_EE_STATUS_EE_CMG BSP_FLD32(6)
+#define TMS570_FLASH_EESTATUS_EE_CMG BSP_FLD32(6)
 
 /* field: EE_CME - . */
-#define TMS570_FLASH_EE_STATUS_EE_CME BSP_FLD32(4)
+#define TMS570_FLASH_EESTATUS_EE_CME BSP_FLD32(4)
 
 /* field: EE_D_COR_ERR - Diagnostic Correctable Error Flag */
-#define TMS570_FLASH_EE_STATUS_EE_D_COR_ERR BSP_FLD32(3)
+#define TMS570_FLASH_EESTATUS_EE_D_COR_ERR BSP_FLD32(3)
 
 /* field: EE_ERR_ONE_FLG - Error on One Fail Error Flag */
-#define TMS570_FLASH_EE_STATUS_EE_ERR_ONE_FLG BSP_FLD32(2)
+#define TMS570_FLASH_EESTATUS_EE_ERR_ONE_FLG BSP_FLD32(2)
 
 /* field: EE_ERR_ZERO_FLG - Error on Zero Fail Error Flag */
-#define TMS570_FLASH_EE_STATUS_EE_ERR_ZERO_FLG BSP_FLD32(1)
+#define TMS570_FLASH_EESTATUS_EE_ERR_ZERO_FLG BSP_FLD32(1)
 
 /* field: EE_ERR_PRF_FLG - Error Profiling Error Flag */
-#define TMS570_FLASH_EE_STATUS_EE_ERR_PRF_FLG BSP_FLD32(0)
+#define TMS570_FLASH_EESTATUS_EE_ERR_PRF_FLG BSP_FLD32(0)
 
 
-/*-----------------TMS570_FLASHEE_UNC_ERR_ADD-----------------*/
+/*------------------TMS570_FLASHEEUNCERRADD------------------*/
 /* field: UNC_ERR_ADD - Un-correctable Error Address */
-#define TMS570_FLASH_EE_UNC_ERR_ADD_UNC_ERR_ADD(val) BSP_FLD32(val,3, 31)
-#define TMS570_FLASH_EE_UNC_ERR_ADD_UNC_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
-#define TMS570_FLASH_EE_UNC_ERR_ADD_UNC_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
+#define TMS570_FLASH_EEUNCERRADD_UNC_ERR_ADD(val) BSP_FLD32(val,3, 31)
+#define TMS570_FLASH_EEUNCERRADD_UNC_ERR_ADD_GET(reg) BSP_FLD32GET(reg,3, 31)
+#define TMS570_FLASH_EEUNCERRADD_UNC_ERR_ADD_SET(reg,val) BSP_FLD32SET(reg, val,3, 31)
 
 /* field: B_OFF - Byte offset */
-#define TMS570_FLASH_EE_UNC_ERR_ADD_B_OFF(val) BSP_FLD32(val,0, 2)
-#define TMS570_FLASH_EE_UNC_ERR_ADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
-#define TMS570_FLASH_EE_UNC_ERR_ADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
+#define TMS570_FLASH_EEUNCERRADD_B_OFF(val) BSP_FLD32(val,0, 2)
+#define TMS570_FLASH_EEUNCERRADD_B_OFF_GET(reg) BSP_FLD32GET(reg,0, 2)
+#define TMS570_FLASH_EEUNCERRADD_B_OFF_SET(reg,val) BSP_FLD32SET(reg, val,0, 2)
 
 
-/*-------------------TMS570_FLASHFCFG_BANK-------------------*/
+/*--------------------TMS570_FLASHFCFGBANK--------------------*/
 /* field: EE_BANK_WIDTH - Bank 7 width (144 bits wide) */
-#define TMS570_FLASH_FCFG_BANK_EE_BANK_WIDTH(val) BSP_FLD32(val,20, 31)
-#define TMS570_FLASH_FCFG_BANK_EE_BANK_WIDTH_GET(reg) BSP_FLD32GET(reg,20, 31)
-#define TMS570_FLASH_FCFG_BANK_EE_BANK_WIDTH_SET(reg,val) BSP_FLD32SET(reg, val,20, 31)
+#define TMS570_FLASH_FCFGBANK_EE_BANK_WIDTH(val) BSP_FLD32(val,20, 31)
+#define TMS570_FLASH_FCFGBANK_EE_BANK_WIDTH_GET(reg) BSP_FLD32GET(reg,20, 31)
+#define TMS570_FLASH_FCFGBANK_EE_BANK_WIDTH_SET(reg,val) BSP_FLD32SET(reg, val,20, 31)
 
 /* field: MAIN_BANK_WIDTH - Width of main flash banks (144 bits wide) */
-#define TMS570_FLASH_FCFG_BANK_MAIN_BANK_WIDTH(val) BSP_FLD32(val,4, 15)
-#define TMS570_FLASH_FCFG_BANK_MAIN_BANK_WIDTH_GET(reg) BSP_FLD32GET(reg,4, 15)
-#define TMS570_FLASH_FCFG_BANK_MAIN_BANK_WIDTH_SET(reg,val) BSP_FLD32SET(reg, val,4, 15)
+#define TMS570_FLASH_FCFGBANK_MAIN_BANK_WIDTH(val) BSP_FLD32(val,4, 15)
+#define TMS570_FLASH_FCFGBANK_MAIN_BANK_WIDTH_GET(reg) BSP_FLD32GET(reg,4, 15)
+#define TMS570_FLASH_FCFGBANK_MAIN_BANK_WIDTH_SET(reg,val) BSP_FLD32SET(reg, val,4, 15)
 
 
 

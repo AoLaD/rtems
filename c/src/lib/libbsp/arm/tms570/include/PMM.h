@@ -76,18 +76,13 @@ typedef struct{
   uint8_t reserved1 [12];
   uint32_t MEMPDPWRCTRL0;     /*Memory Power Domain Control Register 0*/
   uint8_t reserved2 [12];
-  uint32_t PDCLKDIS;          /*Power Domain Clock Disable Register*/
-  uint32_t PDCLKDISSET;       /*Power Domain Clock Disable Set Register*/
-  uint32_t PDCLKDISCLR;       /*Power Domain Clock Disable Clear Register*/
+  uint32_t PDCLKDISREG;       /*Power Domain Clock Disable Register*/
+  uint32_t PDCLKDISSETREG;    /*Power Domain Clock Disable Set Register*/
+  uint32_t PDCLKDISCLRREG;    /*Power Domain Clock Disable Clear Register*/
   uint8_t reserved3 [20];
-  uint32_t LOGICPDPWRSTAT0;   /*Logic Power Domain PD2 Power Status Register*/
-  uint32_t LOGICPDPWRSTAT1;   /*Logic Power Domain PD3 Power Status Register*/
-  uint32_t LOGICPDPWRSTAT2;   /*Logic Power Domain PD4 Power Status Register*/
-  uint32_t LOGICPDPWRSTAT3;   /*Logic Power Domain PD5 Power Status Register*/
+  uint32_t LOGICPDPWRSTAT[4]; /*Logic Power Domain PD2 Power Status Registers*/
   uint8_t reserved4 [48];
-  uint32_t MEMPDPWRSTAT0;     /*Memory Power Domain RAM_PD1 Power Status Register*/
-  uint32_t MEMPDPWRSTAT1;     /*Memory Power Domain RAM_PD2 Power Status Register*/
-  uint32_t MEMPDPWRSTAT2;     /*Memory Power Domain RAM_PD3 Power Status Register*/
+  uint32_t MEMPDPWRSTAT[3];   /*Memory Power Domain RAM_PD1 Power Status Registers*/
   uint8_t reserved5 [20];
   uint32_t GLOBALCTRL1;       /*Global Control Register 1*/
   uint8_t reserved6 [4];
@@ -140,158 +135,78 @@ typedef struct{
 #define TMS570_PMM_MEMPDPWRCTRL0_MEMPDON2_SET(reg,val) BSP_FLD32SET(reg, val,8, 11)
 
 
-/*---------------------TMS570_PMMPDCLKDIS---------------------*/
+/*-------------------TMS570_PMMPDCLKDISREG-------------------*/
 /* field: PDCLK_DIS_3 - Read in User and Privileged Mode returns the current value of PDCLK_DIS[3]. */
-#define TMS570_PMM_PDCLKDIS_PDCLK_DIS_3 BSP_FLD32(3)
+#define TMS570_PMM_PDCLKDISREG_PDCLK_DIS_3 BSP_FLD32(3)
 
 /* field: PDCLK_DIS_2 - Read in User and Privileged Mode returns the current value of PDCLK_DIS[2]. */
-#define TMS570_PMM_PDCLKDIS_PDCLK_DIS_2 BSP_FLD32(2)
+#define TMS570_PMM_PDCLKDISREG_PDCLK_DIS_2 BSP_FLD32(2)
 
 /* field: PDCLK_DIS_1 - ead in User and Privileged Mode returns the current value of PDCLK_DIS[1]. */
-#define TMS570_PMM_PDCLKDIS_PDCLK_DIS_1 BSP_FLD32(1)
+#define TMS570_PMM_PDCLKDISREG_PDCLK_DIS_1 BSP_FLD32(1)
 
 /* field: PDCLK_DIS_0 - Read in User and Privileged Mode returns the current value of PDCLK_DIS[0]. */
-#define TMS570_PMM_PDCLKDIS_PDCLK_DIS_0 BSP_FLD32(0)
+#define TMS570_PMM_PDCLKDISREG_PDCLK_DIS_0 BSP_FLD32(0)
 
 
-/*-------------------TMS570_PMMPDCLKDISSET-------------------*/
+/*------------------TMS570_PMMPDCLKDISSETREG------------------*/
 /* field: PDCLK_DISSET_3 - Read in User and Privileged Mode returns the current value of PDCLK_DISSET[3]. */
-#define TMS570_PMM_PDCLKDISSET_PDCLK_DISSET_3 BSP_FLD32(3)
+#define TMS570_PMM_PDCLKDISSETREG_PDCLK_DISSET_3 BSP_FLD32(3)
 
 /* field: PDCLK_DISSET_2 - Privileged Mode only. */
-#define TMS570_PMM_PDCLKDISSET_PDCLK_DISSET_2 BSP_FLD32(2)
+#define TMS570_PMM_PDCLKDISSETREG_PDCLK_DISSET_2 BSP_FLD32(2)
 
 /* field: PDCLK_DISSET_1 - Read in User and Privileged Mode returns the current value of PDCLK_DISSET[1]. */
-#define TMS570_PMM_PDCLKDISSET_PDCLK_DISSET_1 BSP_FLD32(1)
+#define TMS570_PMM_PDCLKDISSETREG_PDCLK_DISSET_1 BSP_FLD32(1)
 
 /* field: PDCLK_DISSET_0 - Read in User and Privileged Mode returns the current value of PDCLK_DISSET[0]. */
-#define TMS570_PMM_PDCLKDISSET_PDCLK_DISSET_0 BSP_FLD32(0)
+#define TMS570_PMM_PDCLKDISSETREG_PDCLK_DISSET_0 BSP_FLD32(0)
 
 
-/*-------------------TMS570_PMMPDCLKDISCLR-------------------*/
+/*------------------TMS570_PMMPDCLKDISCLRREG------------------*/
 /* field: PDCLK_DISCLR_3 - PDCLK_DISCLR[3] */
-#define TMS570_PMM_PDCLKDISCLR_PDCLK_DISCLR_3 BSP_FLD32(3)
+#define TMS570_PMM_PDCLKDISCLRREG_PDCLK_DISCLR_3 BSP_FLD32(3)
 
 /* field: PDCLK_DISCLR_2 - Read in User and Privileged Mode returns the current value of PDCLK_DIS[2]. */
-#define TMS570_PMM_PDCLKDISCLR_PDCLK_DISCLR_2 BSP_FLD32(2)
+#define TMS570_PMM_PDCLKDISCLRREG_PDCLK_DISCLR_2 BSP_FLD32(2)
 
 /* field: PDCLK_DISCLR_1 - Read in User and Privileged Mode returns the current value of PDCLK_DIS[1]. */
-#define TMS570_PMM_PDCLKDISCLR_PDCLK_DISCLR_1 BSP_FLD32(1)
+#define TMS570_PMM_PDCLKDISCLRREG_PDCLK_DISCLR_1 BSP_FLD32(1)
 
 /* field: PDCLK_DISCLR_0 - Read in User and Privileged Mode returns the current value of PDCLK_DIS[0]. */
-#define TMS570_PMM_PDCLKDISCLR_PDCLK_DISCLR_0 BSP_FLD32(0)
+#define TMS570_PMM_PDCLKDISCLRREG_PDCLK_DISCLR_0 BSP_FLD32(0)
 
 
-/*-----------------TMS570_PMMLOGICPDPWRSTAT0-----------------*/
+/*------------------TMS570_PMMLOGICPDPWRSTAT------------------*/
 /* field: LOGIC_IN_TRANS0 - Logic in transition status for power domain PD2. */
-#define TMS570_PMM_LOGICPDPWRSTAT0_LOGIC_IN_TRANS0 BSP_FLD32(24)
+#define TMS570_PMM_LOGICPDPWRSTAT_LOGIC_IN_TRANS0 BSP_FLD32(24)
 
 /* field: MEM_IN_TRANS0 - Memory in transition status for power domain PD2. */
-#define TMS570_PMM_LOGICPDPWRSTAT0_MEM_IN_TRANS0 BSP_FLD32(16)
+#define TMS570_PMM_LOGICPDPWRSTAT_MEM_IN_TRANS0 BSP_FLD32(16)
 
 /* field: DOMAIN_ON0 - Current state of power domain PD2. */
-#define TMS570_PMM_LOGICPDPWRSTAT0_DOMAIN_ON0 BSP_FLD32(8)
+#define TMS570_PMM_LOGICPDPWRSTAT_DOMAIN_ON0 BSP_FLD32(8)
 
 /* field: LOGICPDPWR_STAT0 - Logic power domain PD2 power state. */
-#define TMS570_PMM_LOGICPDPWRSTAT0_LOGICPDPWR_STAT0(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT0_LOGICPDPWR_STAT0_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT0_LOGICPDPWR_STAT0_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
+#define TMS570_PMM_LOGICPDPWRSTAT_LOGICPDPWR_STAT0(val) BSP_FLD32(val,0, 1)
+#define TMS570_PMM_LOGICPDPWRSTAT_LOGICPDPWR_STAT0_GET(reg) BSP_FLD32GET(reg,0, 1)
+#define TMS570_PMM_LOGICPDPWRSTAT_LOGICPDPWR_STAT0_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
 
 
-/*-----------------TMS570_PMMLOGICPDPWRSTAT1-----------------*/
-/* field: LOGIC_IN_TRANS1 - Logic in transition status for power domain PD3. */
-#define TMS570_PMM_LOGICPDPWRSTAT1_LOGIC_IN_TRANS1 BSP_FLD32(24)
-
-/* field: MEM_IN_TRANS1 - Memory in transition status for power domain PD3. */
-#define TMS570_PMM_LOGICPDPWRSTAT1_MEM_IN_TRANS1 BSP_FLD32(16)
-
-/* field: DOMAIN_ON1 - Current state of power domain PD3. */
-#define TMS570_PMM_LOGICPDPWRSTAT1_DOMAIN_ON1 BSP_FLD32(8)
-
-/* field: LOGICPDPWR_STAT1 - Logic power domain PD3 power state. */
-#define TMS570_PMM_LOGICPDPWRSTAT1_LOGICPDPWR_STAT1(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT1_LOGICPDPWR_STAT1_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT1_LOGICPDPWR_STAT1_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
-
-
-/*-----------------TMS570_PMMLOGICPDPWRSTAT2-----------------*/
-/* field: LOGIC_IN_TRANS2 - Logic in transition status for power domain PD4. */
-#define TMS570_PMM_LOGICPDPWRSTAT2_LOGIC_IN_TRANS2 BSP_FLD32(24)
-
-/* field: MEM_IN_TRANS2 - Memory in transition status for power domain PD4. */
-#define TMS570_PMM_LOGICPDPWRSTAT2_MEM_IN_TRANS2 BSP_FLD32(16)
-
-/* field: DOMAIN_ON2 - Current state of power domain PD4. */
-#define TMS570_PMM_LOGICPDPWRSTAT2_DOMAIN_ON2 BSP_FLD32(8)
-
-/* field: LOGICPDPWR_STAT2 - Logic power domain PD4 power state. */
-#define TMS570_PMM_LOGICPDPWRSTAT2_LOGICPDPWR_STAT2(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT2_LOGICPDPWR_STAT2_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT2_LOGICPDPWR_STAT2_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
-
-
-/*-----------------TMS570_PMMLOGICPDPWRSTAT3-----------------*/
-/* field: LOGIC_IN_TRANS3 - Logic in transition status for power domain PD5. */
-#define TMS570_PMM_LOGICPDPWRSTAT3_LOGIC_IN_TRANS3 BSP_FLD32(24)
-
-/* field: MEM_IN_TRANS3 - Memory in transition status for power domain PD5. */
-#define TMS570_PMM_LOGICPDPWRSTAT3_MEM_IN_TRANS3 BSP_FLD32(16)
-
-/* field: DOMAIN_ON3 - Current state of power domain PD5. */
-#define TMS570_PMM_LOGICPDPWRSTAT3_DOMAIN_ON3 BSP_FLD32(8)
-
-/* field: LOGICPDPWR_STAT3 - Logic power domain PD5 power state. */
-#define TMS570_PMM_LOGICPDPWRSTAT3_LOGICPDPWR_STAT3(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT3_LOGICPDPWR_STAT3_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_LOGICPDPWRSTAT3_LOGICPDPWR_STAT3_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
-
-
-/*------------------TMS570_PMMMEMPDPWRSTAT0------------------*/
+/*-------------------TMS570_PMMMEMPDPWRSTAT-------------------*/
 /* field: LOGIC_IN_TRANS0 - Logic in transition status for power domain RAM_PD1. */
-#define TMS570_PMM_MEMPDPWRSTAT0_LOGIC_IN_TRANS0 BSP_FLD32(24)
+#define TMS570_PMM_MEMPDPWRSTAT_LOGIC_IN_TRANS0 BSP_FLD32(24)
 
 /* field: MEM_IN_TRANS0 - Memory in transition status for power domain RAM_PD1. */
-#define TMS570_PMM_MEMPDPWRSTAT0_MEM_IN_TRANS0 BSP_FLD32(16)
+#define TMS570_PMM_MEMPDPWRSTAT_MEM_IN_TRANS0 BSP_FLD32(16)
 
 /* field: DOMAIN_ON0 - Current state of power domain RAM_PD1. */
-#define TMS570_PMM_MEMPDPWRSTAT0_DOMAIN_ON0 BSP_FLD32(8)
+#define TMS570_PMM_MEMPDPWRSTAT_DOMAIN_ON0 BSP_FLD32(8)
 
 /* field: MEMPDPWR_STAT0 - Memory power domain RAM_PD1 power state. */
-#define TMS570_PMM_MEMPDPWRSTAT0_MEMPDPWR_STAT0(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_MEMPDPWRSTAT0_MEMPDPWR_STAT0_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_MEMPDPWRSTAT0_MEMPDPWR_STAT0_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
-
-
-/*------------------TMS570_PMMMEMPDPWRSTAT1------------------*/
-/* field: LOGIC_IN_TRANS1 - Logic in transition status for power domain RAM_PD2. */
-#define TMS570_PMM_MEMPDPWRSTAT1_LOGIC_IN_TRANS1 BSP_FLD32(24)
-
-/* field: MEM_IN_TRANS1 - Memory in transition status for power domain RAM_PD2. */
-#define TMS570_PMM_MEMPDPWRSTAT1_MEM_IN_TRANS1 BSP_FLD32(16)
-
-/* field: DOMAIN_ON1 - Current state of power domain RAM_PD2. */
-#define TMS570_PMM_MEMPDPWRSTAT1_DOMAIN_ON1 BSP_FLD32(8)
-
-/* field: MEMPDPWR_STAT1 - Memory power domain RAM_PD2power state. */
-#define TMS570_PMM_MEMPDPWRSTAT1_MEMPDPWR_STAT1(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_MEMPDPWRSTAT1_MEMPDPWR_STAT1_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_MEMPDPWRSTAT1_MEMPDPWR_STAT1_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
-
-
-/*------------------TMS570_PMMMEMPDPWRSTAT2------------------*/
-/* field: LOGIC_IN_TRANS2 - Logic in transition status for power domain RAM_PD3. */
-#define TMS570_PMM_MEMPDPWRSTAT2_LOGIC_IN_TRANS2 BSP_FLD32(24)
-
-/* field: MEM_IN_TRANS2 - Memory in transition status for power domain RAM_PD3. */
-#define TMS570_PMM_MEMPDPWRSTAT2_MEM_IN_TRANS2 BSP_FLD32(16)
-
-/* field: DOMAIN_ON2 - Current state of power domain RAM_PD3. */
-#define TMS570_PMM_MEMPDPWRSTAT2_DOMAIN_ON2 BSP_FLD32(8)
-
-/* field: MEMPDPWR_STAT2 - Memory power domain RAM_PD3 power state. */
-#define TMS570_PMM_MEMPDPWRSTAT2_MEMPDPWR_STAT2(val) BSP_FLD32(val,0, 1)
-#define TMS570_PMM_MEMPDPWRSTAT2_MEMPDPWR_STAT2_GET(reg) BSP_FLD32GET(reg,0, 1)
-#define TMS570_PMM_MEMPDPWRSTAT2_MEMPDPWR_STAT2_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
+#define TMS570_PMM_MEMPDPWRSTAT_MEMPDPWR_STAT0(val) BSP_FLD32(val,0, 1)
+#define TMS570_PMM_MEMPDPWRSTAT_MEMPDPWR_STAT0_GET(reg) BSP_FLD32GET(reg,0, 1)
+#define TMS570_PMM_MEMPDPWRSTAT_MEMPDPWR_STAT0_SET(reg,val) BSP_FLD32SET(reg, val,0, 1)
 
 
 /*-------------------TMS570_PMMGLOBALCTRL1-------------------*/

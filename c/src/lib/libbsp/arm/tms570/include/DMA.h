@@ -72,6 +72,11 @@
 #include <bsp/utility.h>
 
 typedef struct{
+  uint32_t STARTADD;          /*DMA Memory Protection Region start Address Register*/
+  uint32_t ENDADD;            /*DMA Memory Protection Region End Address Register*/
+} tms570_memory_prot_t;
+
+typedef struct{
   uint32_t GCTRL;             /*Global Control Register*/
   uint32_t PEND;              /*Channel Pending Register*/
   uint8_t reserved1 [4];
@@ -93,10 +98,7 @@ typedef struct{
   uint8_t reserved9 [4];
   uint32_t GCHIENAR;          /*Global Channel Interrupt Enable Reset Register*/
   uint8_t reserved10 [4];
-  uint32_t DREQASI0;          /*DMA Request Assignment Register 0*/
-  uint32_t DREQASI1;          /*DMA Request Assignment Register 1*/
-  uint32_t DREQASI2;          /*DMA Request Assignment Register 2*/
-  uint32_t DREQASI3;          /*DMA Request Assignment Register 3*/
+  uint32_t DREQASI[4];        /*DMA Request Assignment Register 0*/
   uint8_t reserved11 [48];
   uint32_t PAR0;              /*Port Assignment Register 0*/
   uint32_t PAR1;              /*Port Assignment Register 1*/
@@ -164,15 +166,22 @@ typedef struct{
   uint32_t DMAPAR;            /*DMA Parity Error Address Register*/
   uint32_t DMAMPCTRL;         /*DMA Memory Protection Control Register*/
   uint32_t DMAMPST;           /*DMA Memory Protection Status Register*/
-  uint32_t DMAMPROS;          /*DMA Memory Protection Region 0 Start Address Register*/
-  uint32_t DMAMPROE;          /*DMA Memory Protection Region 0 End Address Register*/
-  uint32_t DMAMPR1S;          /*DMA Memory Protection Region 1 Start Address Register*/
-  uint32_t DMAMPR1E;          /*DMA Memory Protection Region 1 End Address Register*/
-  uint32_t DMAMPR2S;          /*DMA Memory Protection Region 2 Start Address Register*/
-  uint32_t DMAMPR2E;          /*DMA Memory Protection Region 2 End Address Register*/
-  uint32_t DMAMPR3S;          /*DMA Memory Protection Region 3 Start Address Register*/
-  uint32_t DMAMPR3E;          /*DMA Memory Protection Region 3 End Address Register*/
+  tms570_memory_prot_t DMAMPROS[4];/*DMA Memory Protection Regions*/
 } tms570_dma_t;
+
+
+/*---------------------TMS570_DMASTARTADD---------------------*/
+/* field: STARTADDRESS - Start Address defines the address at which the region begins. */
+#define TMS570_DMA_STARTADD_STARTADDRESS(val) BSP_FLD32(val,0, 31)
+#define TMS570_DMA_STARTADD_STARTADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
+#define TMS570_DMA_STARTADD_STARTADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
+
+
+/*----------------------TMS570_DMAENDADD----------------------*/
+/* field: ENDADDRESS - End Address defines the address at which the region ends. */
+#define TMS570_DMA_ENDADD_ENDADDRESS(val) BSP_FLD32(val,0, 31)
+#define TMS570_DMA_ENDADD_ENDADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
+#define TMS570_DMA_ENDADD_ENDADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
 
 
 /*----------------------TMS570_DMAGCTRL----------------------*/
@@ -261,92 +270,26 @@ typedef struct{
 #define TMS570_DMA_GCHIENAR_GCHID_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*---------------------TMS570_DMADREQASI0---------------------*/
+/*---------------------TMS570_DMADREQASI---------------------*/
 /* field: CH0ASI - Channel 0 assignment. This bit field chooses the DMA request assignment for channel 0. */
-#define TMS570_DMA_DREQASI0_CH0ASI(val) BSP_FLD32(val,24, 29)
-#define TMS570_DMA_DREQASI0_CH0ASI_GET(reg) BSP_FLD32GET(reg,24, 29)
-#define TMS570_DMA_DREQASI0_CH0ASI_SET(reg,val) BSP_FLD32SET(reg, val,24, 29)
+#define TMS570_DMA_DREQASI_CH0ASI(val) BSP_FLD32(val,24, 29)
+#define TMS570_DMA_DREQASI_CH0ASI_GET(reg) BSP_FLD32GET(reg,24, 29)
+#define TMS570_DMA_DREQASI_CH0ASI_SET(reg,val) BSP_FLD32SET(reg, val,24, 29)
 
 /* field: CH1ASI - Channel 1 assignment. This bit field chooses the DMA request assignment for channel 1. */
-#define TMS570_DMA_DREQASI0_CH1ASI(val) BSP_FLD32(val,16, 21)
-#define TMS570_DMA_DREQASI0_CH1ASI_GET(reg) BSP_FLD32GET(reg,16, 21)
-#define TMS570_DMA_DREQASI0_CH1ASI_SET(reg,val) BSP_FLD32SET(reg, val,16, 21)
+#define TMS570_DMA_DREQASI_CH1ASI(val) BSP_FLD32(val,16, 21)
+#define TMS570_DMA_DREQASI_CH1ASI_GET(reg) BSP_FLD32GET(reg,16, 21)
+#define TMS570_DMA_DREQASI_CH1ASI_SET(reg,val) BSP_FLD32SET(reg, val,16, 21)
 
 /* field: CH2ASI - Channel 2 assignment. This bit field chooses the DMA request assignment for channel 2. */
-#define TMS570_DMA_DREQASI0_CH2ASI(val) BSP_FLD32(val,8, 13)
-#define TMS570_DMA_DREQASI0_CH2ASI_GET(reg) BSP_FLD32GET(reg,8, 13)
-#define TMS570_DMA_DREQASI0_CH2ASI_SET(reg,val) BSP_FLD32SET(reg, val,8, 13)
+#define TMS570_DMA_DREQASI_CH2ASI(val) BSP_FLD32(val,8, 13)
+#define TMS570_DMA_DREQASI_CH2ASI_GET(reg) BSP_FLD32GET(reg,8, 13)
+#define TMS570_DMA_DREQASI_CH2ASI_SET(reg,val) BSP_FLD32SET(reg, val,8, 13)
 
 /* field: CH3ASI - Channel 3 assignment. This bit field chooses the DMA request assignment for channel 3. */
-#define TMS570_DMA_DREQASI0_CH3ASI(val) BSP_FLD32(val,0, 5)
-#define TMS570_DMA_DREQASI0_CH3ASI_GET(reg) BSP_FLD32GET(reg,0, 5)
-#define TMS570_DMA_DREQASI0_CH3ASI_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
-
-
-/*---------------------TMS570_DMADREQASI1---------------------*/
-/* field: CH4ASI - Channel 4 assignment. This bit field chooses the DMA request assignment for channel 4. */
-#define TMS570_DMA_DREQASI1_CH4ASI(val) BSP_FLD32(val,24, 29)
-#define TMS570_DMA_DREQASI1_CH4ASI_GET(reg) BSP_FLD32GET(reg,24, 29)
-#define TMS570_DMA_DREQASI1_CH4ASI_SET(reg,val) BSP_FLD32SET(reg, val,24, 29)
-
-/* field: CH5ASI - Channel 5 assignment. This bit field chooses the DMA request assignment for channel 5. */
-#define TMS570_DMA_DREQASI1_CH5ASI(val) BSP_FLD32(val,21, 26)
-#define TMS570_DMA_DREQASI1_CH5ASI_GET(reg) BSP_FLD32GET(reg,21, 26)
-#define TMS570_DMA_DREQASI1_CH5ASI_SET(reg,val) BSP_FLD32SET(reg, val,21, 26)
-
-/* field: CH6ASI - Channel 6 assignment. This bit field chooses the DMA request assignment for channel 6. */
-#define TMS570_DMA_DREQASI1_CH6ASI(val) BSP_FLD32(val,8, 13)
-#define TMS570_DMA_DREQASI1_CH6ASI_GET(reg) BSP_FLD32GET(reg,8, 13)
-#define TMS570_DMA_DREQASI1_CH6ASI_SET(reg,val) BSP_FLD32SET(reg, val,8, 13)
-
-/* field: CH7ASI - Channel 7 assignment. This bit field chooses the DMA request assignment for channel 7. */
-#define TMS570_DMA_DREQASI1_CH7ASI(val) BSP_FLD32(val,0, 5)
-#define TMS570_DMA_DREQASI1_CH7ASI_GET(reg) BSP_FLD32GET(reg,0, 5)
-#define TMS570_DMA_DREQASI1_CH7ASI_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
-
-
-/*---------------------TMS570_DMADREQASI2---------------------*/
-/* field: CH8ASI - Channel 8 assignment. This bit field chooses the DMA request assignment for channel 8. */
-#define TMS570_DMA_DREQASI2_CH8ASI(val) BSP_FLD32(val,24, 29)
-#define TMS570_DMA_DREQASI2_CH8ASI_GET(reg) BSP_FLD32GET(reg,24, 29)
-#define TMS570_DMA_DREQASI2_CH8ASI_SET(reg,val) BSP_FLD32SET(reg, val,24, 29)
-
-/* field: CH9ASI - Channel 9 assignment. This bit field chooses the DMA request assignment for channel 9. */
-#define TMS570_DMA_DREQASI2_CH9ASI(val) BSP_FLD32(val,16, 21)
-#define TMS570_DMA_DREQASI2_CH9ASI_GET(reg) BSP_FLD32GET(reg,16, 21)
-#define TMS570_DMA_DREQASI2_CH9ASI_SET(reg,val) BSP_FLD32SET(reg, val,16, 21)
-
-/* field: CH10ASI - Channel 10 assignment. This bit field chooses the DMA request assignment for channel 10. */
-#define TMS570_DMA_DREQASI2_CH10ASI(val) BSP_FLD32(val,8, 13)
-#define TMS570_DMA_DREQASI2_CH10ASI_GET(reg) BSP_FLD32GET(reg,8, 13)
-#define TMS570_DMA_DREQASI2_CH10ASI_SET(reg,val) BSP_FLD32SET(reg, val,8, 13)
-
-/* field: CH11ASI - Channel 11 assignment. This bit field chooses the DMA request assignment for channel 11. */
-#define TMS570_DMA_DREQASI2_CH11ASI(val) BSP_FLD32(val,0, 5)
-#define TMS570_DMA_DREQASI2_CH11ASI_GET(reg) BSP_FLD32GET(reg,0, 5)
-#define TMS570_DMA_DREQASI2_CH11ASI_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
-
-
-/*---------------------TMS570_DMADREQASI3---------------------*/
-/* field: CH12ASI - Channel 12 assignment. This bit field chooses the DMA request assignment for channel 12. */
-#define TMS570_DMA_DREQASI3_CH12ASI(val) BSP_FLD32(val,24, 29)
-#define TMS570_DMA_DREQASI3_CH12ASI_GET(reg) BSP_FLD32GET(reg,24, 29)
-#define TMS570_DMA_DREQASI3_CH12ASI_SET(reg,val) BSP_FLD32SET(reg, val,24, 29)
-
-/* field: CH13ASI - Channel 13 assignment. This bit field chooses the DMA request assignment for channel 13. */
-#define TMS570_DMA_DREQASI3_CH13ASI(val) BSP_FLD32(val,16, 21)
-#define TMS570_DMA_DREQASI3_CH13ASI_GET(reg) BSP_FLD32GET(reg,16, 21)
-#define TMS570_DMA_DREQASI3_CH13ASI_SET(reg,val) BSP_FLD32SET(reg, val,16, 21)
-
-/* field: CH14ASI - Channel 14 assignment. This bit field chooses the DMA request assignment for channel 14. */
-#define TMS570_DMA_DREQASI3_CH14ASI(val) BSP_FLD32(val,8, 13)
-#define TMS570_DMA_DREQASI3_CH14ASI_GET(reg) BSP_FLD32GET(reg,8, 13)
-#define TMS570_DMA_DREQASI3_CH14ASI_SET(reg,val) BSP_FLD32SET(reg, val,8, 13)
-
-/* field: CH15ASI - Channel 15 assignment. This bit field chooses the DMA request assignment for channel 15. */
-#define TMS570_DMA_DREQASI3_CH15ASI(val) BSP_FLD32(val,0, 5)
-#define TMS570_DMA_DREQASI3_CH15ASI_GET(reg) BSP_FLD32GET(reg,0, 5)
-#define TMS570_DMA_DREQASI3_CH15ASI_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
+#define TMS570_DMA_DREQASI_CH3ASI(val) BSP_FLD32(val,0, 5)
+#define TMS570_DMA_DREQASI_CH3ASI_GET(reg) BSP_FLD32GET(reg,0, 5)
+#define TMS570_DMA_DREQASI_CH3ASI_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
 
 
 /*-----------------------TMS570_DMAPAR0-----------------------*/
@@ -813,55 +756,6 @@ typedef struct{
 #define TMS570_DMA_DMAMPROS_STARTADDRESS(val) BSP_FLD32(val,0, 31)
 #define TMS570_DMA_DMAMPROS_STARTADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
 #define TMS570_DMA_DMAMPROS_STARTADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPROE---------------------*/
-/* field: ENDADDRESS - End Address defines the address at which the region ends. */
-#define TMS570_DMA_DMAMPROE_ENDADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPROE_ENDADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPROE_ENDADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPR1S---------------------*/
-/* field: STARTADDRESS - Start Address defines the address at which the region begins. */
-#define TMS570_DMA_DMAMPR1S_STARTADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPR1S_STARTADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPR1S_STARTADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPR1E---------------------*/
-/* field: ENDADDRESS - End Address defines the address at which the region ends. */
-#define TMS570_DMA_DMAMPR1E_ENDADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPR1E_ENDADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPR1E_ENDADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPR2S---------------------*/
-/* field: STARTADDRESS - Start Address defines the address at which the region begins. */
-#define TMS570_DMA_DMAMPR2S_STARTADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPR2S_STARTADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPR2S_STARTADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPR2E---------------------*/
-/* field: ENDADDRESS - End Address defines the address at which the region ends. */
-#define TMS570_DMA_DMAMPR2E_ENDADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPR2E_ENDADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPR2E_ENDADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPR3S---------------------*/
-/* field: STARTADDRESS - Start Address defines the address at which the region begins. */
-#define TMS570_DMA_DMAMPR3S_STARTADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPR3S_STARTADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPR3S_STARTADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
-
-
-/*---------------------TMS570_DMADMAMPR3E---------------------*/
-/* field: ENDADDRESS - End Address defines the address at which the region ends. */
-#define TMS570_DMA_DMAMPR3E_ENDADDRESS(val) BSP_FLD32(val,0, 31)
-#define TMS570_DMA_DMAMPR3E_ENDADDRESS_GET(reg) BSP_FLD32GET(reg,0, 31)
-#define TMS570_DMA_DMAMPR3E_ENDADDRESS_SET(reg,val) BSP_FLD32SET(reg, val,0, 31)
 
 
 

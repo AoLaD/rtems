@@ -85,7 +85,7 @@ typedef struct{
   uint32_t FLG;               /*POM Status Register*/
   uint8_t reserved1 [496];
   tms570_pom_region_t REG[32];/*Program Regions*/
-  uint8_t reserved2 [2816];
+  uint8_t reserved2 [3264];
   uint32_t ITCTRL;            /*POM Integration Control Register*/
   uint8_t reserved3 [156];
   uint32_t CLAIMSET;          /*POM Claim Set Register*/

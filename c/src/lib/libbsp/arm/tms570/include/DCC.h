@@ -72,141 +72,141 @@
 #include <bsp/utility.h>
 
 typedef struct{
-  uint32_t DCCGCTRL;          /*DCC Global Control Register*/
-  uint32_t DCCREV;            /*DCC Revision Id Register*/
-  uint32_t DCCCNT0SEED;       /*DCC Counter0 Seed Register*/
-  uint32_t DCCVALID0SEED;     /*DCC Valid0 Seed Register*/
-  uint32_t DCCCNT1SEED;       /*DCC Counter1 Seed Register*/
-  uint32_t DCCSTAT;           /*DCC Status Register*/
-  uint32_t DCCDCNT0;          /*DCC Counter0 Value Register*/
-  uint32_t DCCVALID0;         /*DCC Valid0 Value Register*/
-  uint32_t DCCDCNT1;          /*DCC Counter1 Value Register*/
-  uint32_t DCCCNT1CLKSRC;     /*DCC Counter1 Clock Source Selection Register*/
-  uint32_t DCCCNT0CLKSRC;     /*DCC Counter0 Clock Source Selection Register*/
+  uint32_t GCTRL;             /*DCC Global Control Register*/
+  uint32_t REV;               /*DCC Revision Id Register*/
+  uint32_t CNT0SEED;          /*DCC Counter0 Seed Register*/
+  uint32_t VALID0SEED;        /*DCC Valid0 Seed Register*/
+  uint32_t CNT1SEED;          /*DCC Counter1 Seed Register*/
+  uint32_t STAT;              /*DCC Status Register*/
+  uint32_t CNT0;              /*DCC Counter0 Value Register*/
+  uint32_t VALID0;            /*DCC Valid0 Value Register*/
+  uint32_t CNT1;              /*DCC Counter1 Value Register*/
+  uint32_t CNT1CLKSRC;        /*DCC Counter1 Clock Source Selection Register*/
+  uint32_t CNT0CLKSRC;        /*DCC Counter0 Clock Source Selection Register*/
 } tms570_dcc_t;
 
 
-/*---------------------TMS570_DCCDCCGCTRL---------------------*/
+/*----------------------TMS570_DCCGCTRL----------------------*/
 /* field: DONE_INT_ENA - Done Interrupt Enable. */
-#define TMS570_DCC_DCCGCTRL_DONE_INT_ENA(val) BSP_FLD32(val,12, 15)
-#define TMS570_DCC_DCCGCTRL_DONE_INT_ENA_GET(reg) BSP_FLD32GET(reg,12, 15)
-#define TMS570_DCC_DCCGCTRL_DONE_INT_ENA_SET(reg,val) BSP_FLD32SET(reg, val,12, 15)
+#define TMS570_DCC_GCTRL_DONE_INT_ENA(val) BSP_FLD32(val,12, 15)
+#define TMS570_DCC_GCTRL_DONE_INT_ENA_GET(reg) BSP_FLD32GET(reg,12, 15)
+#define TMS570_DCC_GCTRL_DONE_INT_ENA_SET(reg,val) BSP_FLD32SET(reg, val,12, 15)
 
 /* field: SINGLE_SHOT - Single-Shot Mode Enable. */
-#define TMS570_DCC_DCCGCTRL_SINGLE_SHOT(val) BSP_FLD32(val,8, 11)
-#define TMS570_DCC_DCCGCTRL_SINGLE_SHOT_GET(reg) BSP_FLD32GET(reg,8, 11)
-#define TMS570_DCC_DCCGCTRL_SINGLE_SHOT_SET(reg,val) BSP_FLD32SET(reg, val,8, 11)
+#define TMS570_DCC_GCTRL_SINGLE_SHOT(val) BSP_FLD32(val,8, 11)
+#define TMS570_DCC_GCTRL_SINGLE_SHOT_GET(reg) BSP_FLD32GET(reg,8, 11)
+#define TMS570_DCC_GCTRL_SINGLE_SHOT_SET(reg,val) BSP_FLD32SET(reg, val,8, 11)
 
 /* field: ERR_ENA - Error Interrupt Enable. */
-#define TMS570_DCC_DCCGCTRL_ERR_ENA(val) BSP_FLD32(val,4, 7)
-#define TMS570_DCC_DCCGCTRL_ERR_ENA_GET(reg) BSP_FLD32GET(reg,4, 7)
-#define TMS570_DCC_DCCGCTRL_ERR_ENA_SET(reg,val) BSP_FLD32SET(reg, val,4, 7)
+#define TMS570_DCC_GCTRL_ERR_ENA(val) BSP_FLD32(val,4, 7)
+#define TMS570_DCC_GCTRL_ERR_ENA_GET(reg) BSP_FLD32GET(reg,4, 7)
+#define TMS570_DCC_GCTRL_ERR_ENA_SET(reg,val) BSP_FLD32SET(reg, val,4, 7)
 
 /* field: DCC_ENA - DCC Enable. */
-#define TMS570_DCC_DCCGCTRL_DCC_ENA(val) BSP_FLD32(val,0, 3)
-#define TMS570_DCC_DCCGCTRL_DCC_ENA_GET(reg) BSP_FLD32GET(reg,0, 3)
-#define TMS570_DCC_DCCGCTRL_DCC_ENA_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
+#define TMS570_DCC_GCTRL_DCC_ENA(val) BSP_FLD32(val,0, 3)
+#define TMS570_DCC_GCTRL_DCC_ENA_GET(reg) BSP_FLD32GET(reg,0, 3)
+#define TMS570_DCC_GCTRL_DCC_ENA_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
 
 
-/*----------------------TMS570_DCCDCCREV----------------------*/
+/*-----------------------TMS570_DCCREV-----------------------*/
 /* field: SCHEME - Reads return 01, writes have no effect. */
-#define TMS570_DCC_DCCREV_SCHEME(val) BSP_FLD32(val,30, 31)
-#define TMS570_DCC_DCCREV_SCHEME_GET(reg) BSP_FLD32GET(reg,30, 31)
-#define TMS570_DCC_DCCREV_SCHEME_SET(reg,val) BSP_FLD32SET(reg, val,30, 31)
+#define TMS570_DCC_REV_SCHEME(val) BSP_FLD32(val,30, 31)
+#define TMS570_DCC_REV_SCHEME_GET(reg) BSP_FLD32GET(reg,30, 31)
+#define TMS570_DCC_REV_SCHEME_SET(reg,val) BSP_FLD32SET(reg, val,30, 31)
 
 /* field: FUNC - Functional release number. Reads return 0x000, writes have no effect. */
-#define TMS570_DCC_DCCREV_FUNC(val) BSP_FLD32(val,16, 27)
-#define TMS570_DCC_DCCREV_FUNC_GET(reg) BSP_FLD32GET(reg,16, 27)
-#define TMS570_DCC_DCCREV_FUNC_SET(reg,val) BSP_FLD32SET(reg, val,16, 27)
+#define TMS570_DCC_REV_FUNC(val) BSP_FLD32(val,16, 27)
+#define TMS570_DCC_REV_FUNC_GET(reg) BSP_FLD32GET(reg,16, 27)
+#define TMS570_DCC_REV_FUNC_SET(reg,val) BSP_FLD32SET(reg, val,16, 27)
 
 /* field: RTL - Design release number. Reads return 0x00, writes have no effect. */
-#define TMS570_DCC_DCCREV_RTL(val) BSP_FLD32(val,11, 15)
-#define TMS570_DCC_DCCREV_RTL_GET(reg) BSP_FLD32GET(reg,11, 15)
-#define TMS570_DCC_DCCREV_RTL_SET(reg,val) BSP_FLD32SET(reg, val,11, 15)
+#define TMS570_DCC_REV_RTL(val) BSP_FLD32(val,11, 15)
+#define TMS570_DCC_REV_RTL_GET(reg) BSP_FLD32GET(reg,11, 15)
+#define TMS570_DCC_REV_RTL_SET(reg,val) BSP_FLD32SET(reg, val,11, 15)
 
 /* field: MAJOR - Major revision number. Reads return 0x2, writes have no effect. */
-#define TMS570_DCC_DCCREV_MAJOR(val) BSP_FLD32(val,8, 10)
-#define TMS570_DCC_DCCREV_MAJOR_GET(reg) BSP_FLD32GET(reg,8, 10)
-#define TMS570_DCC_DCCREV_MAJOR_SET(reg,val) BSP_FLD32SET(reg, val,8, 10)
+#define TMS570_DCC_REV_MAJOR(val) BSP_FLD32(val,8, 10)
+#define TMS570_DCC_REV_MAJOR_GET(reg) BSP_FLD32GET(reg,8, 10)
+#define TMS570_DCC_REV_MAJOR_SET(reg,val) BSP_FLD32SET(reg, val,8, 10)
 
 /* field: CUSTOM - Custom version number. Reads return 0x0, writes have no effect. */
-#define TMS570_DCC_DCCREV_CUSTOM(val) BSP_FLD32(val,6, 7)
-#define TMS570_DCC_DCCREV_CUSTOM_GET(reg) BSP_FLD32GET(reg,6, 7)
-#define TMS570_DCC_DCCREV_CUSTOM_SET(reg,val) BSP_FLD32SET(reg, val,6, 7)
+#define TMS570_DCC_REV_CUSTOM(val) BSP_FLD32(val,6, 7)
+#define TMS570_DCC_REV_CUSTOM_GET(reg) BSP_FLD32GET(reg,6, 7)
+#define TMS570_DCC_REV_CUSTOM_SET(reg,val) BSP_FLD32SET(reg, val,6, 7)
 
 /* field: MINOR - Minor revision number. Reads return 0x4, writes have no effect. */
-#define TMS570_DCC_DCCREV_MINOR(val) BSP_FLD32(val,0, 5)
-#define TMS570_DCC_DCCREV_MINOR_GET(reg) BSP_FLD32GET(reg,0, 5)
-#define TMS570_DCC_DCCREV_MINOR_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
+#define TMS570_DCC_REV_MINOR(val) BSP_FLD32(val,0, 5)
+#define TMS570_DCC_REV_MINOR_GET(reg) BSP_FLD32GET(reg,0, 5)
+#define TMS570_DCC_REV_MINOR_SET(reg,val) BSP_FLD32SET(reg, val,0, 5)
 
 
-/*-------------------TMS570_DCCDCCCNT0SEED-------------------*/
+/*---------------------TMS570_DCCCNT0SEED---------------------*/
 /* field: COUNT0_SEED - Seed value for DCC Counter0. */
-#define TMS570_DCC_DCCCNT0SEED_COUNT0_SEED(val) BSP_FLD32(val,0, 19)
-#define TMS570_DCC_DCCCNT0SEED_COUNT0_SEED_GET(reg) BSP_FLD32GET(reg,0, 19)
-#define TMS570_DCC_DCCCNT0SEED_COUNT0_SEED_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
+#define TMS570_DCC_CNT0SEED_COUNT0_SEED(val) BSP_FLD32(val,0, 19)
+#define TMS570_DCC_CNT0SEED_COUNT0_SEED_GET(reg) BSP_FLD32GET(reg,0, 19)
+#define TMS570_DCC_CNT0SEED_COUNT0_SEED_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
 
 
-/*------------------TMS570_DCCDCCVALID0SEED------------------*/
+/*--------------------TMS570_DCCVALID0SEED--------------------*/
 /* field: VALID0_SEED - XXX */
-#define TMS570_DCC_DCCVALID0SEED_VALID0_SEED(val) BSP_FLD32(val,0, 15)
-#define TMS570_DCC_DCCVALID0SEED_VALID0_SEED_GET(reg) BSP_FLD32GET(reg,0, 15)
-#define TMS570_DCC_DCCVALID0SEED_VALID0_SEED_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
+#define TMS570_DCC_VALID0SEED_VALID0_SEED(val) BSP_FLD32(val,0, 15)
+#define TMS570_DCC_VALID0SEED_VALID0_SEED_GET(reg) BSP_FLD32GET(reg,0, 15)
+#define TMS570_DCC_VALID0SEED_VALID0_SEED_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*-------------------TMS570_DCCDCCCNT1SEED-------------------*/
+/*---------------------TMS570_DCCCNT1SEED---------------------*/
 /* field: COUNT1_SEED - Seed value for DCC Counter1. */
-#define TMS570_DCC_DCCCNT1SEED_COUNT1_SEED(val) BSP_FLD32(val,0, 19)
-#define TMS570_DCC_DCCCNT1SEED_COUNT1_SEED_GET(reg) BSP_FLD32GET(reg,0, 19)
-#define TMS570_DCC_DCCCNT1SEED_COUNT1_SEED_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
+#define TMS570_DCC_CNT1SEED_COUNT1_SEED(val) BSP_FLD32(val,0, 19)
+#define TMS570_DCC_CNT1SEED_COUNT1_SEED_GET(reg) BSP_FLD32GET(reg,0, 19)
+#define TMS570_DCC_CNT1SEED_COUNT1_SEED_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
 
 
-/*---------------------TMS570_DCCDCCSTAT---------------------*/
+/*-----------------------TMS570_DCCSTAT-----------------------*/
 /* field: DONE_FLG - Single-Shot Sequence Done flag. */
-#define TMS570_DCC_DCCSTAT_DONE_FLG BSP_FLD32(1)
+#define TMS570_DCC_STAT_DONE_FLG BSP_FLD32(1)
 
 /* field: ERR_FLG - Error flag. Indicates that a DCC error has occurred. */
-#define TMS570_DCC_DCCSTAT_ERR_FLG BSP_FLD32(0)
+#define TMS570_DCC_STAT_ERR_FLG BSP_FLD32(0)
 
 
-/*---------------------TMS570_DCCDCCDCNT0---------------------*/
+/*-----------------------TMS570_DCCCNT0-----------------------*/
 /* field: COUNT0 - Current value of DCC Counter0. */
-#define TMS570_DCC_DCCDCNT0_COUNT0(val) BSP_FLD32(val,0, 19)
-#define TMS570_DCC_DCCDCNT0_COUNT0_GET(reg) BSP_FLD32GET(reg,0, 19)
-#define TMS570_DCC_DCCDCNT0_COUNT0_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
+#define TMS570_DCC_CNT0_COUNT0(val) BSP_FLD32(val,0, 19)
+#define TMS570_DCC_CNT0_COUNT0_GET(reg) BSP_FLD32GET(reg,0, 19)
+#define TMS570_DCC_CNT0_COUNT0_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
 
 
-/*--------------------TMS570_DCCDCCVALID0--------------------*/
+/*----------------------TMS570_DCCVALID0----------------------*/
 /* field: VALID0 - Current value for DCC Valid0. */
-#define TMS570_DCC_DCCVALID0_VALID0(val) BSP_FLD32(val,0, 15)
-#define TMS570_DCC_DCCVALID0_VALID0_GET(reg) BSP_FLD32GET(reg,0, 15)
-#define TMS570_DCC_DCCVALID0_VALID0_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
+#define TMS570_DCC_VALID0_VALID0(val) BSP_FLD32(val,0, 15)
+#define TMS570_DCC_VALID0_VALID0_GET(reg) BSP_FLD32GET(reg,0, 15)
+#define TMS570_DCC_VALID0_VALID0_SET(reg,val) BSP_FLD32SET(reg, val,0, 15)
 
 
-/*---------------------TMS570_DCCDCCDCNT1---------------------*/
+/*-----------------------TMS570_DCCCNT1-----------------------*/
 /* field: COUNT1 - Current value for DCC Counter1. */
-#define TMS570_DCC_DCCDCNT1_COUNT1(val) BSP_FLD32(val,0, 19)
-#define TMS570_DCC_DCCDCNT1_COUNT1_GET(reg) BSP_FLD32GET(reg,0, 19)
-#define TMS570_DCC_DCCDCNT1_COUNT1_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
+#define TMS570_DCC_CNT1_COUNT1(val) BSP_FLD32(val,0, 19)
+#define TMS570_DCC_CNT1_COUNT1_GET(reg) BSP_FLD32GET(reg,0, 19)
+#define TMS570_DCC_CNT1_COUNT1_SET(reg,val) BSP_FLD32SET(reg, val,0, 19)
 
 
-/*------------------TMS570_DCCDCCCNT1CLKSRC------------------*/
+/*--------------------TMS570_DCCCNT1CLKSRC--------------------*/
 /* field: KEY - Key to enable clock source selection for Counter1. */
-#define TMS570_DCC_DCCCNT1CLKSRC_KEY(val) BSP_FLD32(val,12, 15)
-#define TMS570_DCC_DCCCNT1CLKSRC_KEY_GET(reg) BSP_FLD32GET(reg,12, 15)
-#define TMS570_DCC_DCCCNT1CLKSRC_KEY_SET(reg,val) BSP_FLD32SET(reg, val,12, 15)
+#define TMS570_DCC_CNT1CLKSRC_KEY(val) BSP_FLD32(val,12, 15)
+#define TMS570_DCC_CNT1CLKSRC_KEY_GET(reg) BSP_FLD32GET(reg,12, 15)
+#define TMS570_DCC_CNT1CLKSRC_KEY_SET(reg,val) BSP_FLD32SET(reg, val,12, 15)
 
 /* field: CNT1_CLKSRC - Clock Source for Counter1 when KEY is programmed to be 0xA. */
-#define TMS570_DCC_DCCCNT1CLKSRC_CNT1_CLKSRC(val) BSP_FLD32(val,0, 3)
-#define TMS570_DCC_DCCCNT1CLKSRC_CNT1_CLKSRC_GET(reg) BSP_FLD32GET(reg,0, 3)
-#define TMS570_DCC_DCCCNT1CLKSRC_CNT1_CLKSRC_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
+#define TMS570_DCC_CNT1CLKSRC_CNT1_CLKSRC(val) BSP_FLD32(val,0, 3)
+#define TMS570_DCC_CNT1CLKSRC_CNT1_CLKSRC_GET(reg) BSP_FLD32GET(reg,0, 3)
+#define TMS570_DCC_CNT1CLKSRC_CNT1_CLKSRC_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
 
 
-/*------------------TMS570_DCCDCCCNT0CLKSRC------------------*/
+/*--------------------TMS570_DCCCNT0CLKSRC--------------------*/
 /* field: CNT0_CLKSRC - Clock Source for Counter0 */
-#define TMS570_DCC_DCCCNT0CLKSRC_CNT0_CLKSRC(val) BSP_FLD32(val,0, 3)
-#define TMS570_DCC_DCCCNT0CLKSRC_CNT0_CLKSRC_GET(reg) BSP_FLD32GET(reg,0, 3)
-#define TMS570_DCC_DCCCNT0CLKSRC_CNT0_CLKSRC_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
+#define TMS570_DCC_CNT0CLKSRC_CNT0_CLKSRC(val) BSP_FLD32(val,0, 3)
+#define TMS570_DCC_CNT0CLKSRC_CNT0_CLKSRC_GET(reg) BSP_FLD32GET(reg,0, 3)
+#define TMS570_DCC_CNT0CLKSRC_CNT0_CLKSRC_SET(reg,val) BSP_FLD32SET(reg, val,0, 3)
 
 
 
