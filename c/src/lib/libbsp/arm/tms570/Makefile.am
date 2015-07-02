@@ -11,6 +11,8 @@ include $(top_srcdir)/../../../../automake/compile.am
 
 include_bspdir = $(includedir)/bsp
 
+include_bsp_ti_herculesdir = $(includedir)/bsp/ti_hercules
+
 dist_project_lib_DATA = bsp_specs
 
 # ----------------------------
@@ -40,37 +42,39 @@ include_bsp_HEADERS += include/tms570-pom.h
 include_bsp_HEADERS += include/tms570-sci-driver.h
 include_bsp_HEADERS += include/system-clocks.h
 
-include_bsp_HEADERS += include/ADC.h
-include_bsp_HEADERS += include/CCMSR.h
-include_bsp_HEADERS += include/CRC.h
-include_bsp_HEADERS += include/DCAN.h
-include_bsp_HEADERS += include/DCC.h
-include_bsp_HEADERS += include/DMA.h
-include_bsp_HEADERS += include/DMM.h
-include_bsp_HEADERS += include/EFUSE.h
-include_bsp_HEADERS += include/EMIF.h
-include_bsp_HEADERS += include/ESM.h
-include_bsp_HEADERS += include/EMAC.h
-include_bsp_HEADERS += include/FLASH.h
-include_bsp_HEADERS += include/FLEX_RAY.h
-include_bsp_HEADERS += include/GIO.h
-include_bsp_HEADERS += include/HTU.h
-include_bsp_HEADERS += include/I2C.h
-include_bsp_HEADERS += include/IOMM.h
-include_bsp_HEADERS += include/LIN.h
-include_bsp_HEADERS += include/N2HET.h
-include_bsp_HEADERS += include/PBIST.h
-include_bsp_HEADERS += include/PLL.h
-include_bsp_HEADERS += include/PMM.h
-include_bsp_HEADERS += include/POM.h
-include_bsp_HEADERS += include/RTI.h
-include_bsp_HEADERS += include/RTP.h
-include_bsp_HEADERS += include/SCI.h
-include_bsp_HEADERS += include/SPI.h
-include_bsp_HEADERS += include/STC.h
-include_bsp_HEADERS += include/TCR.h
-include_bsp_HEADERS += include/TCRAM.h
-include_bsp_HEADERS += include/VIM.h
+include_bsp_ti_hercules_HEADERS = include/ti_hercules/adc.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/ccmsr.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/crc.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/dcan.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/dcc.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/dma.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/dmm.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/efuse.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/emac.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/emacm.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/emif.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/esm.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/flash.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/flex_ray.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/gio.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/htu.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/i2c.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/iomm.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/lin.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/mdio.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/n2het.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/pbist.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/pll.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/pmm.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/pom.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/rti.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/rtp.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/sci.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/spi.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/stc.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/tcr.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/tcram.h
+include_bsp_ti_hercules_HEADERS += include/ti_hercules/vim.h
 include_bsp_HEADERS += include/tms5702.h
 
 include_HEADERS += ../../shared/include/tm27.h
