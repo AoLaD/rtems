@@ -36,7 +36,7 @@ static struct timecounter tms570_rti_tc;
 
 static uint32_t tms570_rti_get_timecount(struct timecounter *tc)
 {
-  return TMS570_RTI.RTIFRC0;
+  return TMS570_RTI.CNT[0].FRCx;
 }
 
 /**
@@ -59,25 +59,25 @@ static void tms570_clock_driver_support_initialize_hardware( void )
   tc_frequency = (BSP_PLL_OUT_CLOCK + tc_prescaller) / (tc_prescaller * 2);
 
   /* Hardware specific initialize */
-  TMS570_RTI.RTIGCTRL = 0;
-  TMS570_RTI.RTICPUC0 = tc_prescaller; /* prescaler */
-  TMS570_RTI.RTITBCTRL = 2;
-  TMS570_RTI.RTICAPCTRL = 0;
-  TMS570_RTI.RTICOMPCTRL = 0;
+  TMS570_RTI.GCTRL = 0;
+  TMS570_RTI.CNT[0].CPUCx = tc_prescaller; /* prescaler */
+  TMS570_RTI.TBCTRL = 2;
+  TMS570_RTI.CAPCTRL = 0;
+  TMS570_RTI.COMPCTRL = 0;
   /* set counter to zero */
-  TMS570_RTI.RTIUC0 = 0;
-  TMS570_RTI.RTIFRC0 = 0;
+  TMS570_RTI.CNT[0].UCx = 0;
+  TMS570_RTI.CNT[0].FRCx = 0;
   /* clear interrupts*/
-  TMS570_RTI.RTICLEARINTENA = 0x00070f0f;
-  TMS570_RTI.RTIINTFLAG = 0x0007000f;
+  TMS570_RTI.CLEARINTENA = 0x00070f0f;
+  TMS570_RTI.INTFLAG = 0x0007000f;
   /* set timer */
-  TMS570_RTI.RTICOMP0 = TMS570_RTI.RTIFRC0 + microsec_per_tick;
-  TMS570_RTI.RTICOMP0CLR = TMS570_RTI.RTICOMP0 + microsec_per_tick / 2;
-  TMS570_RTI.RTIUDCP0 = microsec_per_tick;
+  TMS570_RTI.CMP[0].COMPx = TMS570_RTI.CNT[0].FRCx + microsec_per_tick;
+  TMS570_RTI.COMP0CLR = TMS570_RTI.CMP[0].COMPx + microsec_per_tick / 2;
+  TMS570_RTI.CMP[0].UDCPx = microsec_per_tick;
   /* enable interupt */
-  TMS570_RTI.RTISETINTENA = 0x1;
+  TMS570_RTI.SETINTENA = 0x1;
   /* enable timer */
-  TMS570_RTI.RTIGCTRL = 1;
+  TMS570_RTI.GCTRL = 1;
   /* set timecounter */
   tms570_rti_tc.tc_get_timecount = tms570_rti_get_timecount;
   tms570_rti_tc.tc_counter_mask = 0xffffffff;
@@ -93,7 +93,7 @@ static void tms570_clock_driver_support_initialize_hardware( void )
  */
 static void tms570_clock_driver_support_at_tick( void )
 {
-  TMS570_RTI.RTIINTFLAG = 0x00000001;
+  TMS570_RTI.INTFLAG = 0x00000001;
 }
 
 /**
@@ -132,7 +132,7 @@ static void tms570_clock_driver_support_install_isr(
 static void tms570_clock_driver_support_shutdown_hardware( void )
 {
   /* turn off the timer interrupts */
-  TMS570_RTI.RTICLEARINTENA = 0x20000;
+  TMS570_RTI.CLEARINTENA = 0x20000;
 }
 
 #define Clock_driver_support_initialize_hardware \
