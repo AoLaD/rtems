@@ -21,7 +21,6 @@
 #include <bsp/tms570.h>
 #include <bsp/start.h>
 
-#define SYSECR (*(uint32_t *)0xFFFFFFE0u) /* System Exception Control Register */
 #define SYSECR_RESET 0x80000u
 
 static void handle_esm_errors(uint32_t esm_irq_channel)
@@ -45,5 +44,5 @@ void bsp_reset(void)
    }
 
    /* Reset the board */
-   SYSECR = SYSECR_RESET;
+   TMS570_SYS1.SYSECR = SYSECR_RESET;
 }

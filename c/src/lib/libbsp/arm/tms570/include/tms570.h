@@ -71,6 +71,9 @@
 #include <bsp/ti_herc/reg_pom.h>
 #include <bsp/ti_herc/reg_spi.h>
 #include <bsp/ti_herc/reg_stc.h>
+#include <bsp/ti_herc/reg_sys.h>
+#include <bsp/ti_herc/reg_sys2.h>
+#include <bsp/ti_herc/reg_pcr.h>
 
 #define TMS570_ADC1 (*(volatile tms570_adc_t*)0xFFF7C000)
 #define TMS570_ADC2 (*(volatile tms570_adc_t*)0xFFF7C200)
@@ -121,4 +124,7 @@
 #define TMS570_POM (*(volatile tms570_pom_t*)0XFFA04000)
 #define TMS570_SPI (*(volatile tms570_spi_t*)0xFFF7F400)
 #define TMS570_STC (*(volatile tms570_stc_t*)0xFFFFE600)
+#define TMS570_SYS1 (*(volatile tms570_sys1_t*)0xFFFFFF00)
+#define TMS570_SYS2 (*(volatile tms570_sys2_t*)0xFFFFE100)
+#define TMS570_PCR (*(volatile tms570_pcr_t*)0xFFFFE000)
 #endif /* LIBBSP_ARM_TMS570 */
