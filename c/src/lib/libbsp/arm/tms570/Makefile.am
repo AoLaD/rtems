@@ -169,6 +169,22 @@ libbsp_a_CPPFLAGS += -I$(srcdir)/../../../libcpu/arm/shared/include
 # Start hooks
 libbsp_a_SOURCES += startup/bspstarthooks.c
 
+
+# Network
+
+if HAS_NETWORKING
+
+noinst_PROGRAMS = network.rel
+
+network_rel_SOURCES = network/network.c
+network_rel_SOURCES += network/tms570_eth.c
+network_rel_CPPFLAGS = $(AM_CPPFLAGS) -D__INSIDE_RTEMS_BSD_TCPIP_STACK__ -D__BSD_VISIBLE
+network_rel_LDFLAGS = $(RTEMS_RELLDFLAGS)
+
+libbsp_a_LIBADD += network.rel
+#DEFINES += -D__INSIDE_RTEMS_BSD_TCPIP_STACK__
+endif
+
 # ----------------------------
 # ------  Special Rules
 # ----------------------------
