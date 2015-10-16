@@ -98,10 +98,21 @@ unsigned tms570_irq_get_priority(
  *
  * @return Void
  */
+//tms570_vim_t vim_snaphot;
+uint32_t bsp_interrupt_vector_inject;
 void bsp_interrupt_dispatch(void)
 {
-  rtems_vector_number vector = TMS570_VIM.IRQINDEX-1;
+  rtems_vector_number vector;
 
+  if (!bsp_interrupt_vector_inject) {
+    vector = TMS570_VIM.IRQINDEX - 1;
+  } else {
+    vector = bsp_interrupt_vector_inject;
+    bsp_interrupt_vector_inject = 0;
+  }
+  //if(vector == 0){
+  //  vim_snaphot = TMS570_VIM;
+  //}
   bsp_interrupt_handler_dispatch(vector);
 }
 
@@ -200,7 +211,9 @@ rtems_status_code bsp_interrupt_facility_initialize(void)
    * Disable bypass of CPU level exception table for interrupt entry which
    * can be provided by VIM hardware
    */
-  sctlr &= ~(1 << 24);
+  //sctlr &= ~(1 << 24);
+  /* Enable exception table bypass for interrupts  */
+  sctlr |= 1 << 24;
   asm volatile ("mcr p15, 0, %0, c1, c0, 0\n": : "r" (sctlr));
 
   return RTEMS_SUCCESSFUL;
