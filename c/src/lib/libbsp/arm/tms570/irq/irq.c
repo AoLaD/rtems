@@ -211,9 +211,9 @@ rtems_status_code bsp_interrupt_facility_initialize(void)
    * Disable bypass of CPU level exception table for interrupt entry which
    * can be provided by VIM hardware
    */
-  //sctlr &= ~(1 << 24);
+  sctlr &= ~(1 << 24);
   /* Enable exception table bypass for interrupts  */
-  sctlr |= 1 << 24;
+  //sctlr |= 1 << 24;
   asm volatile ("mcr p15, 0, %0, c1, c0, 0\n": : "r" (sctlr));
 
   return RTEMS_SUCCESSFUL;
