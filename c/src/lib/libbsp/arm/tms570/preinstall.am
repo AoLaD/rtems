@@ -274,3 +274,304 @@ $(PROJECT_LIB)/linkcmds: startup/linkcmds $(PROJECT_LIB)/$(dirstamp)
 	$(INSTALL_DATA) $< $(PROJECT_LIB)/linkcmds
 TMPINSTALL_FILES += $(PROJECT_LIB)/linkcmds
 
+if TMS570_USE_HALCOGEN_STARTUP
+$(PROJECT_INCLUDE)/adc.h: halcogen/include/adc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/adc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/adc.h
+
+$(PROJECT_INCLUDE)/can.h: halcogen/include/can.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/can.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/can.h
+
+$(PROJECT_INCLUDE)/crc.h: halcogen/include/crc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/crc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/crc.h
+
+$(PROJECT_INCLUDE)/dcc.h: halcogen/include/dcc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/dcc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/dcc.h
+
+$(PROJECT_INCLUDE)/Device_header.h: halcogen/include/Device_header.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/Device_header.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/Device_header.h
+
+$(PROJECT_INCLUDE)/Device_TMS570LS31.h: halcogen/include/Device_TMS570LS31.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/Device_TMS570LS31.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/Device_TMS570LS31.h
+
+$(PROJECT_INCLUDE)/Device_types.h: halcogen/include/Device_types.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/Device_types.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/Device_types.h
+
+$(PROJECT_INCLUDE)/dmm.h: halcogen/include/dmm.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/dmm.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/dmm.h
+
+$(PROJECT_INCLUDE)/emac.h: halcogen/include/emac.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/emac.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/emac.h
+
+$(PROJECT_INCLUDE)/emif.h: halcogen/include/emif.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/emif.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/emif.h
+
+$(PROJECT_INCLUDE)/esm.h: halcogen/include/esm.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/esm.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/esm.h
+
+$(PROJECT_INCLUDE)/fee_interface.h: halcogen/include/fee_interface.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/fee_interface.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/fee_interface.h
+
+$(PROJECT_INCLUDE)/gio.h: halcogen/include/gio.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/gio.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/gio.h
+
+$(PROJECT_INCLUDE)/hal_stdtypes.h: halcogen/include/hal_stdtypes.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/hal_stdtypes.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/hal_stdtypes.h
+
+$(PROJECT_INCLUDE)/het.h: halcogen/include/het.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/het.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/het.h
+
+$(PROJECT_INCLUDE)/htu.h: halcogen/include/htu.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/htu.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/htu.h
+
+$(PROJECT_INCLUDE)/hw_emac_ctrl.h: halcogen/include/hw_emac_ctrl.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/hw_emac_ctrl.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/hw_emac_ctrl.h
+
+$(PROJECT_INCLUDE)/hw_emac.h: halcogen/include/hw_emac.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/hw_emac.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/hw_emac.h
+
+$(PROJECT_INCLUDE)/hw_mdio.h: halcogen/include/hw_mdio.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/hw_mdio.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/hw_mdio.h
+
+$(PROJECT_INCLUDE)/hw_reg_access.h: halcogen/include/hw_reg_access.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/hw_reg_access.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/hw_reg_access.h
+
+$(PROJECT_INCLUDE)/i2c.h: halcogen/include/i2c.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/i2c.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/i2c.h
+
+$(PROJECT_INCLUDE)/lin.h: halcogen/include/lin.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/lin.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/lin.h
+
+$(PROJECT_INCLUDE)/mdio.h: halcogen/include/mdio.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/mdio.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/mdio.h
+
+$(PROJECT_INCLUDE)/MemMap.h: halcogen/include/MemMap.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/MemMap.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/MemMap.h
+
+$(PROJECT_INCLUDE)/mibspi.h: halcogen/include/mibspi.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/mibspi.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/mibspi.h
+
+$(PROJECT_INCLUDE)/phy_dp83640.h: halcogen/include/phy_dp83640.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/phy_dp83640.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/phy_dp83640.h
+
+$(PROJECT_INCLUDE)/pinmux.h: halcogen/include/pinmux.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/pinmux.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/pinmux.h
+
+$(PROJECT_INCLUDE)/pom.h: halcogen/include/pom.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/pom.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/pom.h
+
+$(PROJECT_INCLUDE)/reg_adc.h: halcogen/include/reg_adc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_adc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_adc.h
+
+$(PROJECT_INCLUDE)/reg_can.h: halcogen/include/reg_can.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_can.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_can.h
+
+$(PROJECT_INCLUDE)/reg_crc.h: halcogen/include/reg_crc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_crc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_crc.h
+
+$(PROJECT_INCLUDE)/reg_dcc.h: halcogen/include/reg_dcc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_dcc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_dcc.h
+
+$(PROJECT_INCLUDE)/reg_dma.h: halcogen/include/reg_dma.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_dma.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_dma.h
+
+$(PROJECT_INCLUDE)/reg_dmm.h: halcogen/include/reg_dmm.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_dmm.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_dmm.h
+
+$(PROJECT_INCLUDE)/reg_efc.h: halcogen/include/reg_efc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_efc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_efc.h
+
+$(PROJECT_INCLUDE)/reg_emif.h: halcogen/include/reg_emif.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_emif.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_emif.h
+
+$(PROJECT_INCLUDE)/reg_esm.h: halcogen/include/reg_esm.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_esm.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_esm.h
+
+$(PROJECT_INCLUDE)/reg_flash.h: halcogen/include/reg_flash.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_flash.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_flash.h
+
+$(PROJECT_INCLUDE)/reg_gio.h: halcogen/include/reg_gio.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_gio.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_gio.h
+
+$(PROJECT_INCLUDE)/reg_het.h: halcogen/include/reg_het.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_het.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_het.h
+
+$(PROJECT_INCLUDE)/reg_htu.h: halcogen/include/reg_htu.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_htu.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_htu.h
+
+$(PROJECT_INCLUDE)/reg_i2c.h: halcogen/include/reg_i2c.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_i2c.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_i2c.h
+
+$(PROJECT_INCLUDE)/reg_lin.h: halcogen/include/reg_lin.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_lin.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_lin.h
+
+$(PROJECT_INCLUDE)/reg_mibspi.h: halcogen/include/reg_mibspi.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_mibspi.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_mibspi.h
+
+$(PROJECT_INCLUDE)/reg_pbist.h: halcogen/include/reg_pbist.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_pbist.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_pbist.h
+
+$(PROJECT_INCLUDE)/reg_pcr.h: halcogen/include/reg_pcr.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_pcr.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_pcr.h
+
+$(PROJECT_INCLUDE)/reg_pinmux.h: halcogen/include/reg_pinmux.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_pinmux.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_pinmux.h
+
+$(PROJECT_INCLUDE)/reg_pmm.h: halcogen/include/reg_pmm.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_pmm.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_pmm.h
+
+$(PROJECT_INCLUDE)/reg_pom.h: halcogen/include/reg_pom.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_pom.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_pom.h
+
+$(PROJECT_INCLUDE)/reg_rti.h: halcogen/include/reg_rti.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_rti.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_rti.h
+
+$(PROJECT_INCLUDE)/reg_rtp.h: halcogen/include/reg_rtp.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_rtp.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_rtp.h
+
+$(PROJECT_INCLUDE)/reg_sci.h: halcogen/include/reg_sci.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_sci.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_sci.h
+
+$(PROJECT_INCLUDE)/reg_spi.h: halcogen/include/reg_spi.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_spi.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_spi.h
+
+$(PROJECT_INCLUDE)/reg_stc.h: halcogen/include/reg_stc.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_stc.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_stc.h
+
+$(PROJECT_INCLUDE)/reg_system.h: halcogen/include/reg_system.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_system.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_system.h
+
+$(PROJECT_INCLUDE)/reg_tcram.h: halcogen/include/reg_tcram.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_tcram.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_tcram.h
+
+$(PROJECT_INCLUDE)/reg_vim.h: halcogen/include/reg_vim.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/reg_vim.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/reg_vim.h
+
+$(PROJECT_INCLUDE)/rti.h: halcogen/include/rti.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/rti.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/rti.h
+
+$(PROJECT_INCLUDE)/rtp.h: halcogen/include/rtp.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/rtp.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/rtp.h
+
+$(PROJECT_INCLUDE)/sci.h: halcogen/include/sci.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sci.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sci.h
+
+$(PROJECT_INCLUDE)/spi.h: halcogen/include/spi.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/spi.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/spi.h
+
+$(PROJECT_INCLUDE)/std_nhet.h: halcogen/include/std_nhet.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/std_nhet.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/std_nhet.h
+
+$(PROJECT_INCLUDE)/sys_common.h: halcogen/include/sys_common.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_common.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_common.h
+
+$(PROJECT_INCLUDE)/sys_core.h: halcogen/include/sys_core.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_core.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_core.h
+
+$(PROJECT_INCLUDE)/sys_dma.h: halcogen/include/sys_dma.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_dma.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_dma.h
+
+$(PROJECT_INCLUDE)/sys_mpu.h: halcogen/include/sys_mpu.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_mpu.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_mpu.h
+
+$(PROJECT_INCLUDE)/sys_pcr.h: halcogen/include/sys_pcr.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_pcr.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_pcr.h
+
+$(PROJECT_INCLUDE)/sys_pmm.h: halcogen/include/sys_pmm.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_pmm.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_pmm.h
+
+$(PROJECT_INCLUDE)/sys_pmu.h: halcogen/include/sys_pmu.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_pmu.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_pmu.h
+
+$(PROJECT_INCLUDE)/sys_selftest.h: halcogen/include/sys_selftest.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_selftest.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_selftest.h
+
+$(PROJECT_INCLUDE)/system.h: halcogen/include/system.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/system.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/system.h
+
+$(PROJECT_INCLUDE)/sys_vim.h: halcogen/include/sys_vim.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/sys_vim.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/sys_vim.h
+
+$(PROJECT_INCLUDE)/ti_fee_Cfg.h: halcogen/include/ti_fee_Cfg.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/ti_fee_Cfg.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/ti_fee_Cfg.h
+
+$(PROJECT_INCLUDE)/ti_fee.h: halcogen/include/ti_fee.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/ti_fee.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/ti_fee.h
+
+$(PROJECT_INCLUDE)/ti_fee_types.h: halcogen/include/ti_fee_types.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/ti_fee_types.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/ti_fee_types.h
+endif
