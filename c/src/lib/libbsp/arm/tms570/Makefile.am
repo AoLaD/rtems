@@ -168,8 +168,70 @@ libbsp_a_SOURCES += ../../../libcpu/shared/src/cache_manager.c
 libbsp_a_SOURCES += ../../../libcpu/arm/shared/include/cache_.h
 libbsp_a_CPPFLAGS += -I$(srcdir)/../../../libcpu/arm/shared/include
 
+if TMS570_USE_HALCOGEN_STARTUP
+# Use HalCoGen generated files to setup board
+include_HEADERS += halcogen/include/adc.h halcogen/include/can.h
+include_HEADERS += halcogen/include/crc.h halcogen/include/dcc.h halcogen/include/Device_header.h
+include_HEADERS += halcogen/include/Device_TMS570LS31.h halcogen/include/Device_types.h
+include_HEADERS += halcogen/include/dmm.h halcogen/include/emac.h halcogen/include/emif.h
+include_HEADERS += halcogen/include/esm.h halcogen/include/fee_interface.h
+include_HEADERS += halcogen/include/gio.h halcogen/include/hal_stdtypes.h
+include_HEADERS += halcogen/include/het.h halcogen/include/htu.h halcogen/include/hw_emac_ctrl.h
+include_HEADERS += halcogen/include/hw_emac.h halcogen/include/hw_mdio.h
+include_HEADERS += halcogen/include/hw_reg_access.h halcogen/include/i2c.h halcogen/include/lin.h
+include_HEADERS += halcogen/include/mdio.h halcogen/include/MemMap.h
+include_HEADERS += halcogen/include/mibspi.h halcogen/include/phy_dp83640.h
+include_HEADERS += halcogen/include/pinmux.h halcogen/include/pom.h
+
+include_HEADERS += halcogen/include/reg_adc.h halcogen/include/reg_can.h
+include_HEADERS += halcogen/include/reg_crc.h halcogen/include/reg_dcc.h
+include_HEADERS += halcogen/include/reg_dma.h halcogen/include/reg_dmm.h
+include_HEADERS += halcogen/include/reg_efc.h halcogen/include/reg_emif.h
+include_HEADERS += halcogen/include/reg_esm.h halcogen/include/reg_flash.h
+include_HEADERS += halcogen/include/reg_gio.h halcogen/include/reg_het.h
+include_HEADERS += halcogen/include/reg_htu.h halcogen/include/reg_i2c.h
+include_HEADERS += halcogen/include/reg_lin.h halcogen/include/reg_mibspi.h
+include_HEADERS += halcogen/include/reg_pbist.h halcogen/include/reg_pcr.h
+include_HEADERS += halcogen/include/reg_pinmux.h halcogen/include/reg_pmm.h
+include_HEADERS += halcogen/include/reg_pom.h halcogen/include/reg_rti.h
+include_HEADERS += halcogen/include/reg_rtp.h halcogen/include/reg_sci.h
+include_HEADERS += halcogen/include/reg_spi.h halcogen/include/reg_stc.h
+include_HEADERS += halcogen/include/reg_system.h halcogen/include/reg_tcram.h
+include_HEADERS += halcogen/include/reg_vim.h
+
+include_HEADERS += halcogen/include/rti.h halcogen/include/rtp.h
+include_HEADERS += halcogen/include/sci.h halcogen/include/spi.h halcogen/include/std_nhet.h
+include_HEADERS += halcogen/include/sys_common.h halcogen/include/sys_core.h
+include_HEADERS += halcogen/include/sys_dma.h halcogen/include/sys_mpu.h
+include_HEADERS += halcogen/include/sys_pcr.h halcogen/include/sys_pmm.h
+include_HEADERS += halcogen/include/sys_pmu.h halcogen/include/sys_selftest.h
+include_HEADERS += halcogen/include/system.h halcogen/include/sys_vim.h
+include_HEADERS += halcogen/include/ti_fee_Cfg.h halcogen/include/ti_fee.h
+include_HEADERS += halcogen/include/ti_fee_types.h
+
+libbsp_a_SOURCES += halcogen/source/sys_core.S
+libbsp_a_SOURCES += halcogen/source/sys_mpu.S
+libbsp_a_SOURCES += halcogen/source/sys_pmu.S
+libbsp_a_SOURCES += halcogen/source/emif.c
+libbsp_a_SOURCES += halcogen/source/esm.c
+libbsp_a_SOURCES += halcogen/source/notification.c
+libbsp_a_SOURCES += halcogen/source/pinmux-halcogen.c
+libbsp_a_SOURCES += halcogen/source/sci.c
+libbsp_a_SOURCES += halcogen/source/sys_dma.c
+libbsp_a_SOURCES += halcogen/source/sys_pcr.c
+libbsp_a_SOURCES += halcogen/source/sys_phantom.c
+libbsp_a_SOURCES += halcogen/source/sys_pmm.c
+libbsp_a_SOURCES += halcogen/source/sys_selftest.c
+libbsp_a_SOURCES += halcogen/source/sys_startup.c
+libbsp_a_SOURCES += halcogen/source/system.c
+libbsp_a_SOURCES += halcogen/source/sys_vim.c
+
+# Start hooks
+libbsp_a_SOURCES += halcogen/bspstarthooks-halcogen.c
+else
 # Start hooks
 libbsp_a_SOURCES += startup/bspstarthooks.c
+endif
 
 # ----------------------------
 # ------  Special Rules
