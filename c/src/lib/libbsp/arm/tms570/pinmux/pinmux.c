@@ -29,14 +29,16 @@
  * The function setups multiplexer to interconnect pin with
  * specified function/peripheral. Pin number is index into pinmux
  * entries array. Predefined values for pins are in a format
- * TMS570_BALL_<column><row> (for example TMS570_BALL_N19).
+ * TMS570_BALL_ \c column \c row (for example \c TMS570_BALL_N19).
  * The multiplexer allows to interconnect one pin to multiple
  * signal sources/sinks in the theory but it is usually bad choice.
  * The function sets only specified function and clears all other
  * connections.
  *
- * @param[in] pin_num  pin/ball identifier (index into pinmux array)
- * @param[in] pin_fnc  function number 0 .. 7, if value TMS570_PIN_FNC_AUTO
+ * @param[in] pin_num  pin/ball identifier (index into pinmux array),
+ *                     flag \c TMS570_PIN_CLEAR_RQ_MASK can be ored to request
+ *                     clear function
+ * @param[in] pin_fnc  function number 0 .. 7, if value \c TMS570_PIN_FNC_AUTO
  *                     is specified then pin function is extracted from
  *                     pin_num argument
  * @retval Void
@@ -46,6 +48,9 @@ tms570_bsp_pin_set_function(int pin_num, int pin_fnc)
 {
   unsigned int pin_shift;
   volatile uint32_t *pinmmrx;
+
+  if ( pin_num & TMS570_PIN_CLEAR_RQ_MASK )
+    return tms570_bsp_pin_clear_function(pin_num, pin_fnc);
 
   if ( pin_fnc == TMS570_PIN_FNC_AUTO ) {
     pin_fnc = (pin_num & TMS570_PIN_FNC_MASK) >> TMS570_PIN_FNC_SHIFT;
@@ -61,7 +66,7 @@ tms570_bsp_pin_set_function(int pin_num, int pin_fnc)
  * of multiplexer setup intact.
  *
  * @param[in] pin_num  pin/ball identifier (index into pinmux array)
- * @param[in] pin_fnc  function number 0 .. 7, if value TMS570_PIN_FNC_AUTO
+ * @param[in] pin_fnc  function number 0 .. 7, if value \c TMS570_PIN_FNC_AUTO
  *                     is specified then pin function is extracted from
  *                     pin_num argument
  * @retval Void
