@@ -22,6 +22,7 @@
 
 #include <bsp/tms570.h>
 #include <bsp/tms570-pinmux.h>
+#include <bsp/irq.h>
 
 /**
  * @brief select desired function of pin/ball
@@ -48,9 +49,6 @@ tms570_bsp_pin_set_function(int pin_num, int pin_fnc)
 {
   unsigned int pin_shift;
   volatile uint32_t *pinmmrx;
-
-  if ( pin_num & TMS570_PIN_CLEAR_RQ_MASK )
-    return tms570_bsp_pin_clear_function(pin_num, pin_fnc);
 
   if ( pin_fnc == TMS570_PIN_FNC_AUTO ) {
     pin_fnc = (pin_num & TMS570_PIN_FNC_MASK) >> TMS570_PIN_FNC_SHIFT;
@@ -82,4 +80,33 @@ tms570_bsp_pin_clear_function(int pin_num, int pin_fnc)
   }
   tms570_bsp_pin_to_pinmmrx(&pinmmrx, &pin_shift, pin_num);
   *pinmmrx = *pinmmrx & ~(1 << (pin_fnc+pin_shift));
+}
+
+
+void
+tms570_bsp_pin_config_one(uint32_t pin_num_and_fnc)
+{
+  rtems_interrupt_level intlev;
+  uint32_t pin_in_alt;
+
+  rtems_interrupt_disable(intlev);
+
+  pin_in_alt = pin_num_and_fnc & TMS570_PIN_IN_ALT_MASK;
+  if ( pin_in_alt & TMS570_PIN_CLEAR_RQ_MASK) {
+    pin_in_alt >>= TMS570_PIN_IN_ALT_SHIFT;
+    if ( pin_in_alt & TMS570_PIN_CLEAR_RQ_MASK ) {
+      tms570_bsp_pin_clear_function(pin_in_alt, TMS570_PIN_FNC_AUTO);
+    } else {
+      tms570_bsp_pin_set_function(pin_in_alt, TMS570_PIN_FNC_AUTO);
+    }
+  }
+
+  pin_num_and_fnc &= TMS570_PIN_NUM_FNC_MASK;
+  if ( pin_num_and_fnc & TMS570_PIN_CLEAR_RQ_MASK ) {
+    tms570_bsp_pin_clear_function(pin_num_and_fnc, TMS570_PIN_FNC_AUTO);
+  } else {
+    tms570_bsp_pin_set_function(pin_num_and_fnc, TMS570_PIN_FNC_AUTO);
+  }
+
+  rtems_interrupt_enable(intlev);
 }

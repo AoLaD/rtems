@@ -31,11 +31,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 
-#define TMS570_PIN_NUM_SHIFT 0
-#define TMS570_PIN_NUM_MASK  0x0fff
-
-#define TMS570_PIN_FNC_SHIFT 12
-#define TMS570_PIN_FNC_MASK  0xf000
+#define TMS570_PIN_NUM_SHIFT    0
+#define TMS570_PIN_NUM_MASK     0x000007ff
 
 /*
  * Request clear of interconnection in setup
@@ -43,21 +40,34 @@ extern "C" {
  * connection is not enabled in parallel to other one.
  * Mask is ored with pin number in such list.
  */
-#define TMS570_PIN_CLEAR_RQ_MASK 0x0800
+#define TMS570_PIN_CLEAR_RQ_MASK 0x00000800
+
+#define TMS570_PIN_FNC_SHIFT    12
+#define TMS570_PIN_FNC_MASK     0x0000f000
+
+#define TMS570_PIN_NUM_FNC_MASK 0x0000ffff
+
+#define TMS570_PIN_IN_ALT_SHIFT 16
+#define TMS570_PIN_IN_ALT_MASK  0xffff0000
 
 #define TMS570_PIN_FNC_AUTO  (-1)
 
 #define TMS570_PIN_AND_FNC(pin, fnc) \
-  ((pin) | ((fnc)<<TMS570_PIN_FNC_SHIFT))
+  ((pin) | ((fnc) << TMS570_PIN_FNC_SHIFT))
+
+#define TMS570_PIN_WITH_IN_ALT(pin_num_and_fnc, pin_in_alt_num_and_fnc) \
+  ((pin_num_and_fnc) | ((pin_in_alt_num_and_fnc) << TMS570_PIN_IN_ALT_SHIFT))
 
 #define TMS570_BALL_WITH_MMR(mmrx, pos) \
-  ((pos) | ((mmrx)<<2))
+  ((pos) | ((mmrx) << 2))
 
 /* Generic functions select pin to peripheral connection */
 
 void tms570_bsp_pin_set_function(int pin_num, int pin_fnc);
 
 void tms570_bsp_pin_clear_function(int pin_num, int pin_fnc);
+
+void tms570_bsp_pin_config_one(uint32_t pin_num_and_fnc);
 
 static inline void
 tms570_bsp_pin_to_pinmmrx(volatile uint32_t **pinmmrx, unsigned int *pin_shift,
@@ -68,12 +78,17 @@ tms570_bsp_pin_to_pinmmrx(volatile uint32_t **pinmmrx, unsigned int *pin_shift,
   *pin_shift = (pin_num & 0x3)*8;
 }
 
+#define TMS570_PINMMR_REG_SINGLE_VAL_ACTION(reg, pin) \
+  ((((pin & TMS570_PIN_NUM_MASK) >> 2 != reg) || (pin & TMS570_PIN_CLEAR_RQ_MASK))? 0: \
+   1 << (((pin & TMS570_PIN_FNC_MASK) >> TMS570_PIN_FNC_SHIFT) + \
+   (pin & 3) * 8) \
+  )
 
 #define TMS570_PINMMR_REG_VAL_ACTION(reg, pin) \
-  ((((pin & TMS570_PIN_NUM_MASK) >> 2 != reg) || (pin & TMS570_PIN_CLEAR_RQ_MASK))? 0: \
-   1 << (((pin & TMS570_PIN_FNC_MASK & 0xf000) >> TMS570_PIN_FNC_SHIFT) + \
-   (pin & 3) * 8) \
-  ) |
+  TMS570_PINMMR_REG_SINGLE_VAL_ACTION(reg, pin) | \
+  ((pin) & TMS570_PIN_IN_ALT_MASK? \
+  TMS570_PINMMR_REG_SINGLE_VAL_ACTION(reg, (pin) >> TMS570_PIN_IN_ALT_SHIFT ): \
+  0) |
 
 /**
  * Macro which computes value for PINMMRx register from pin list
