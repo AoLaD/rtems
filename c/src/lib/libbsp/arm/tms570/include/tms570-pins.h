@@ -4,7 +4,7 @@
  * @ingroup tms570
  *
  * @brief Select pin mapping according to selected chip.
- *        Defaults to TMS570LS3135ZWT for now.
+ *        Defaults to TMS570LS3137ZWT for now.
  */
 
-#include <bsp/tms570ls3135zwt-pins.h>
+#include <bsp/tms570ls3137zwt-pins.h>

@@ -44,7 +44,7 @@ include_bsp_HEADERS += include/system-clocks.h
 include_bsp_HEADERS += include/tms570-pinmux.h
 
 include_bsp_HEADERS += include/tms570-pins.h
-include_bsp_HEADERS += include/tms570ls3135zwt-pins.h
+include_bsp_HEADERS += include/tms570ls3137zwt-pins.h
 
 include_bsp_ti_hercules_HEADERS = include/ti_herc/reg_adc.h
 include_bsp_ti_hercules_HEADERS += include/ti_herc/reg_ccmsr.h

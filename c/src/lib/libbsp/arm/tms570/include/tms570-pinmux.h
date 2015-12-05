@@ -94,7 +94,7 @@ tms570_bsp_pin_to_pinmmrx(volatile uint32_t **pinmmrx, unsigned int *pin_shift,
  * Macro which computes value for PINMMRx register from pin list
  * which is defined as macro calling action macro for each pin
  *
- * @param reg      PINMMR register number (0 .. 30 for TMS570LS3135)
+ * @param reg      PINMMR register number (0 .. 30 for TMS570LS3137)
  * @param pin_list declared as macro with parameters
  *                 \c per_pin_action and \c common_arg which expands
  *                 to list of \c per_pin_action(\c common_arg, \c TMS570_BALL_xx_function)
