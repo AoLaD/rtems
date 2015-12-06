@@ -69,6 +69,8 @@ void tms570_bsp_pin_clear_function(int pin_num, int pin_fnc);
 
 void tms570_bsp_pin_config_one(uint32_t pin_num_and_fnc);
 
+void tms570_bsp_pinmmr_config(const uint32_t *pinmmr_values, int reg_start, int reg_count);
+
 static inline void
 tms570_bsp_pin_to_pinmmrx(volatile uint32_t **pinmmrx, unsigned int *pin_shift,
                           int pin_num)
@@ -79,9 +81,9 @@ tms570_bsp_pin_to_pinmmrx(volatile uint32_t **pinmmrx, unsigned int *pin_shift,
 }
 
 #define TMS570_PINMMR_REG_SINGLE_VAL_ACTION(reg, pin) \
-  ((((pin & TMS570_PIN_NUM_MASK) >> 2 != reg) || (pin & TMS570_PIN_CLEAR_RQ_MASK))? 0: \
-   1 << (((pin & TMS570_PIN_FNC_MASK) >> TMS570_PIN_FNC_SHIFT) + \
-   (pin & 3) * 8) \
+  (((((pin) & TMS570_PIN_NUM_MASK) >> 2 != (reg)) || ((pin) & TMS570_PIN_CLEAR_RQ_MASK))? 0: \
+   1 << ((((pin) & TMS570_PIN_FNC_MASK) >> TMS570_PIN_FNC_SHIFT) + \
+   ((pin) & 3) * 8) \
   )
 
 #define TMS570_PINMMR_REG_VAL_ACTION(reg, pin) \
