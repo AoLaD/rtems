@@ -24,6 +24,9 @@
 #include <bsp/tms570-pinmux.h>
 #include <bsp/irq.h>
 
+uint32_t tms570_bsp_pinmmr_kick_key0 = 0x83E70B13U;
+uint32_t tms570_bsp_pinmmr_kick_key1 = 0x95A4F1E0U;
+
 /**
  * @brief select desired function of pin/ball
  *
@@ -99,7 +102,7 @@ tms570_bsp_pin_clear_function(int pin_num, int pin_fnc)
  *               disconnected/reconnect are combined together by
  *               \c TMS570_PIN_WITH_IN_ALT macro. If clear of alternative
  *               connection is required then flag \c TMS570_PIN_CLEAR_RQ_MASK
- *               is orred to alternative description.
+ *               is ored to alternative description.
  *
  * @retval Void
  */
@@ -111,11 +114,11 @@ tms570_bsp_pin_config_one(uint32_t pin_num_and_fnc)
 
   rtems_interrupt_disable(intlev);
 
-  TMS570_IOMM.KICK_REG0 = 0x83E70B13U;
-  TMS570_IOMM.KICK_REG1 = 0x95A4F1E0U;
+  TMS570_IOMM.KICK_REG0 = tms570_bsp_pinmmr_kick_key0;
+  TMS570_IOMM.KICK_REG1 = tms570_bsp_pinmmr_kick_key1;
 
   pin_in_alt = pin_num_and_fnc & TMS570_PIN_IN_ALT_MASK;
-  if ( pin_in_alt & TMS570_PIN_CLEAR_RQ_MASK) {
+  if ( pin_in_alt ) {
     pin_in_alt >>= TMS570_PIN_IN_ALT_SHIFT;
     if ( pin_in_alt & TMS570_PIN_CLEAR_RQ_MASK ) {
       tms570_bsp_pin_clear_function(pin_in_alt, TMS570_PIN_FNC_AUTO);
@@ -164,8 +167,8 @@ tms570_bsp_pinmmr_config(const uint32_t *pinmmr_values, int reg_start, int reg_c
   if ( reg_count <= 0)
     return;
 
-  TMS570_IOMM.KICK_REG0 = 0x83E70B13U;
-  TMS570_IOMM.KICK_REG1 = 0x95A4F1E0U;
+  TMS570_IOMM.KICK_REG0 = tms570_bsp_pinmmr_kick_key0;
+  TMS570_IOMM.KICK_REG1 = tms570_bsp_pinmmr_kick_key1;
 
   pinmmrx = (&TMS570_IOMM.PINMUX.PINMMR0) + reg_start;
   pval = pinmmr_values;

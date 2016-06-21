@@ -36,7 +36,7 @@ extern "C" {
 
 /*
  * Request clear of interconnection in setup
- * to ensure that previous peripehar to pin
+ * to ensure that previous peripheral to pin
  * connection is not enabled in parallel to other one.
  * Mask is ored with pin number in such list.
  */
