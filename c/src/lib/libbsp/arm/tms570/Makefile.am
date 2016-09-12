@@ -170,6 +170,7 @@ libbsp_a_CPPFLAGS += -I$(srcdir)/../../../libcpu/arm/shared/include
 
 if TMS570_USE_HWINIT_STARTUP
 libbsp_a_SOURCES += hwinit/tms570_sys_core.S
+libbsp_a_SOURCES += hwinit/tms570_sys_mpu.S
 libbsp_a_SOURCES += hwinit/fail_notification.c
 libbsp_a_SOURCES += hwinit/init_pinmux.c
 libbsp_a_SOURCES += hwinit/init_system.c

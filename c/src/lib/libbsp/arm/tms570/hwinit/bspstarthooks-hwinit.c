@@ -358,7 +358,7 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
 BSP_START_TEXT_SECTION void bsp_start_hook_1( void )
 {
   /* At this point we can use objects outside the .start section  */
-#if 0
+#if 1
   _mpuInit_();
 #endif
   tms570_emif_sdram_init();
