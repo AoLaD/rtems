@@ -1,8 +1,10 @@
-/** @file tms570_selftest.c
-
-   based on Ti HalCoGen generated file
+/**
+ * @file tms570_selftest.c
+ *
+ * @ingroup tms570
+ *
+ * @brief TMS570 selftest support functions implementation.
  */
-
 /*
  * Copyright (C) 2009-2015 Texas Instruments Incorporated - www.ti.com
  *
@@ -44,11 +46,12 @@
 #include "tms570_selftest.h"
 #include "tms570_hwinit.h"
 
-/** @fn bool tms570_efc_stuck_zero(void)
- *   @brief Checks to see if the EFUSE Stuck at zero test is completed successfully.
- *   @return 1 if EFUSE Stuck at zero test completed, otherwise 0.
+/**
+ * @brief Checks to see if the EFUSE Stuck at zero test is completed successfully (HCG:efcStuckZeroTest).
+ /
+ * @return 1 if EFUSE Stuck at zero test completed, otherwise 0.
  *
- *   Checks to see if the EFUSE Stuck at zero test is completed successfully.
+ * Checks to see if the EFUSE Stuck at zero test is completed successfully.
  */
 /* SourceId : SELFTEST_SourceId_012 */
 /* DesignId : SELFTEST_DesignId_014 */
@@ -104,10 +107,10 @@ bool tms570_efc_stuck_zero( void )
   return result;
 }
 
-/** @fn void tms570_efc_self_test(void)
- *   @brief EFUSE module self check Driver
+/**
+ * @brief EFUSE module self check Driver (HCG:efcSelfTest)
  *
- *   This function self checks the EFSUE module.
+ * This function self checks the EFSUE module.
  */
 /* SourceId : SELFTEST_SourceId_013 */
 /* DesignId : SELFTEST_DesignId_013 */
@@ -125,12 +128,13 @@ void tms570_efc_self_test( void )
                           TMS570_EFUSE_EFCBOUND_Input_Enable( 0xF );
 }
 
-/** @fn bool tms570_efc_check_self_test(void)
- *   @brief EFUSE module self check Driver
- *   @return Returns TRUE if EFC Selftest was a PASS, else FALSE
+/**
+ * @brief EFUSE module self check Driver (HCG:checkefcSelfTest)
  *
- *   This function returns the status of efcSelfTest.
- *   Note: This function can be called only after calling efcSelfTest
+ * @return Returns TRUE if EFC Selftest was a PASS, else FALSE
+ *
+ * This function returns the status of efcSelfTest.
+ * Note: This function can be called only after calling efcSelfTest
  */
 /* SourceId : SELFTEST_SourceId_014 */
 /* DesignId : SELFTEST_DesignId_015 */
@@ -166,12 +170,12 @@ bool tms570_efc_check_self_test( void )
   return result;
 }
 
-/** @fn uint32_t tms570_efc_check(void)
- *   @brief EFUSE module self check Driver
- *   @return Returns 0 if no error was detected during autoload and Stuck At Zero Test passed
- *                   1 if no error was detected during autoload but Stuck At Zero Test failed
- *                   2 if there was a single-bit error detected during autoload
- *                   3 if some other error occurred during autoload
+/**
+ * @brief EFUSE module self check Driver (HCG:efcCheck)
+ * @return Returns 0 if no error was detected during autoload and Stuck At Zero Test passed
+ *                 1 if no error was detected during autoload but Stuck At Zero Test failed
+ *                 2 if there was a single-bit error detected during autoload
+ *                 3 if some other error occurred during autoload
  *
  *   This function self checks the EFUSE module.
  */
@@ -215,10 +219,10 @@ uint32_t tms570_efc_check( void )
   return status;
 }
 
-/** @fn void pbistSelfCheck(void)
- *   @brief PBIST self test Driver
+/**
+ * @brief PBIST self test Driver (HCG:pbistSelfCheck)
  *
- *   This function is called to perform PBIST self test.
+ * This function is called to perform PBIST self test.
  */
 /* SourceId : SELFTEST_SourceId_005 */
 /* DesignId : SELFTEST_DesignId_005 */
@@ -309,12 +313,12 @@ void tms570_pbist_self_check( void )
   }
 }
 
-/** @fn void pbistRun(uint32_t raminfoL, uint32_t algomask)
- *   @brief CPU self test Driver
- *   @param[in] raminfoL   - Select the list of RAM to be tested.
- *   @param[in] algomask   - Select the list of Algorithm to be run.
+/**
+ * @brief CPU self test Driver (HCG:pbistRun)
+ * @param[in] raminfoL   - Select the list of RAM to be tested.
+ * @param[in] algomask   - Select the list of Algorithm to be run.
  *
- *   This function performs Memory Built-in Self test using PBIST module.
+ * This function performs Memory Built-in Self test using PBIST module.
  */
 /* SourceId : SELFTEST_SourceId_006 */
 /* DesignId : SELFTEST_DesignId_006 */
@@ -367,10 +371,10 @@ void tms570_pbist_run(
   TMS570_PBIST.DLR = 0x14U;
 }
 
-/** @fn void pbistStop(void)
- *   @brief Routine to stop PBIST test enabled.
+/**
+ *  @brief Routine to stop PBIST test enabled (HCG:pbistStop)
  *
- *   This function is called to stop PBIST after test is performed.
+ *  This function is called to stop PBIST after test is performed.
  */
 /* SourceId : SELFTEST_SourceId_007 */
 /* DesignId : SELFTEST_DesignId_007 */
@@ -383,11 +387,11 @@ void tms570_pbist_stop( void )
   TMS570_SYS1.MSTGCR |= 0x5U;
 }
 
-/** @fn bool pbistIsTestCompleted(void)
- *   @brief Checks to see if the PBIST test is completed.
- *   @return 1 if PBIST test completed, otherwise 0.
+/**
+ * @brief Checks to see if the PBIST test is completed (HCG:pbistIsTestCompleted)
+ * @return 1 if PBIST test completed, otherwise 0.
  *
- *   Checks to see if the PBIST test is completed.
+ * Checks to see if the PBIST test is completed.
  */
 /* SourceId : SELFTEST_SourceId_008 */
 /* DesignId : SELFTEST_DesignId_008 */
@@ -397,11 +401,11 @@ bool tms570_pbist_is_test_completed( void )
   return ( ( TMS570_SYS1.MSTCGSTAT & 0x1U ) != 0U );
 }
 
-/** @fn bool pbistIsTestPassed(void)
- *   @brief Checks to see if the PBIST test is completed successfully.
- *   @return 1 if PBIST test passed, otherwise 0.
+/**
+ * @brief Checks to see if the PBIST test is completed successfully (HCG:pbistIsTestPassed)
+ * @return 1 if PBIST test passed, otherwise 0.
  *
- *   Checks to see if the PBIST test is completed successfully.
+ * Checks to see if the PBIST test is completed successfully.
  */
 /* SourceId : SELFTEST_SourceId_009 */
 /* DesignId : SELFTEST_DesignId_009 */
@@ -419,12 +423,12 @@ bool tms570_pbist_is_test_passed( void )
   return status;
 }
 
-/** @fn bool pbistPortTestStatus(uint32_t port)
- *   @brief Checks to see if the PBIST Port test is completed successfully.
- *   @param[in] port   - Select the port to get the status.
- *   @return 1 if PBIST Port test completed successfully, otherwise 0.
+/**
+ * @brief Checks to see if the PBIST Port test is completed successfully (HCG:pbistPortTestStatus)
+ * @param[in] port   - Select the port to get the status.
+ * @return 1 if PBIST Port test completed successfully, otherwise 0.
  *
- *   Checks to see if the selected PBIST Port test is completed successfully.
+ * Checks to see if the selected PBIST Port test is completed successfully.
  */
 /* SourceId : SELFTEST_SourceId_010 */
 /* DesignId : SELFTEST_DesignId_010 */
@@ -443,6 +447,11 @@ bool tms570_pbist_port_test_status( uint32_t port )
   return status;
 }
 
+/**
+ * @brief Reaction to PBIST failure (HCG:pbistFail)
+ *
+ * @return Void.
+ */
 /* SourceId : SELFTEST_SourceId_042 */
 /* DesignId : SELFTEST_DesignId_011 */
 /* Requirements : HL_SR401 */
@@ -473,10 +482,10 @@ void tms570_pbist_fail( void )
   }
 }
 
-/** @fn void memoryInit(uint32_t ram)
- *   @brief Memory Initialization Driver
+/**
+ * @brief Memory Initialization Driver (HCG:memoryInit)
  *
- *   This function is called to perform Memory initialization of selected RAM's.
+ * This function is called to perform Memory initialization of selected RAM's.
  */
 /* SourceId : SELFTEST_SourceId_002 */
 /* DesignId : SELFTEST_DesignId_004 */
@@ -506,10 +515,10 @@ tms570_esm_group_channel_to_sr_table[ 4 ][ 2 ] = {
   { &TMS570_ESM.SR[ 2 ], NULL },
 };
 
-/** @fn tms570_esm_channel_sr_clear
- *   @brief Routine to clear specified error channel signalling bit
- *   @param[in] grp   - ESM error channels group
- *   @param[in] chan  - ESM error channel number inside specified group
+/**
+ * @brief Routine to clear specified error channel signalling bit
+ * @param[in] grp   - ESM error channels group
+ * @param[in] chan  - ESM error channel number inside specified group
  */
 void tms570_esm_channel_sr_clear(
   unsigned grp,
@@ -524,10 +533,10 @@ void tms570_esm_channel_sr_clear(
     *sr_reg = 1 << (chan & 0x1f);
 }
 
-/** @fn tms570_esm_channel_sr_get
- *   @brief Routine to test is specified error channel is signalling error
- *   @param[in] grp   - ESM error channels group
- *   @param[in] chan  - ESM error channel number inside specified group
+/** tms570_esm_channel_sr_get
+ * @brief Routine to test is specified error channel is signalling error
+ * @param[in] grp   - ESM error channels group
+ * @param[in] chan  - ESM error channel number inside specified group
  */
 int tms570_esm_channel_sr_get(
   unsigned grp,
@@ -544,11 +553,11 @@ int tms570_esm_channel_sr_get(
     return 0;
 }
 
-/** @fn void enableParity(void)
- *   @brief Enable peripheral RAM parity
+/**
+ * @brief Enable peripheral RAM parity (HCG:enableParity)
  *
- *   This function enables RAM parity for all peripherals for which RAM parity check is enabled.
- *   This function is called before memoryInit in the startup
+ * This function enables RAM parity for all peripherals for which RAM parity check is enabled.
+ * This function is called before memoryInit in the startup
  *
  */
 void tms570_enable_parity( void )
@@ -566,11 +575,11 @@ void tms570_enable_parity( void )
   TMS570_HTU2.PCR   = 0xAU;                   /* Enable HTU2 RAM parity */
 }
 
-/** @fn void disableParity(void)
- *   @brief Disable peripheral RAM parity
+/**
+ * @brief Disable peripheral RAM parity (HCG:disableParity)
  *
- *   This function disables RAM parity for all peripherals for which RAM parity check is enabled.
- *   This function is called after memoryInit in the startup
+ * This function disables RAM parity for all peripherals for which RAM parity check is enabled.
+ * This function is called after memoryInit in the startup
  *
  */
 void tms570_disable_parity( void )

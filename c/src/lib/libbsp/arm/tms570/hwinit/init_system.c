@@ -44,6 +44,10 @@
 #include "tms570_selftest.h"
 #include "tms570_hwinit.h"
 
+/**
+ * @brief Setup all system PLLs (HCG:setupPLL)
+ *
+ */
 void tms570_pll_init( void )
 {
   uint32_t pll12_dis = 0x42;
@@ -96,6 +100,10 @@ void tms570_pll_init( void )
                       0x00000080;  /* CLKSR7 off */
 }
 
+/**
+ * @brief Adjust Low-Frequency (LPO) oscilator (HCG:trimLPO)
+ *
+ */
 /* SourceId : SYSTEM_SourceId_002 */
 /* DesignId : SYSTEM_DesignId_002 */
 /* Requirements : HL_SR468 */
@@ -128,6 +136,10 @@ enum tms570_system_clock_source {
   TMS570_SYS_CLK_SRC_VCLK = 9U          /**< Alias for synchronous VCLK1 clock Source         */
 };
 
+/**
+ * @brief Setup Flash memory parameters and timing (HCG:setupFlash)
+ *
+ */
 /* SourceId : SYSTEM_SourceId_003 */
 /* DesignId : SYSTEM_DesignId_003 */
 /* Requirements : HL_SR457 */
@@ -156,6 +168,10 @@ void tms570_flash_init( void )
     TMS570_FLASH_SYS_ACTIVE );
 }
 
+/**
+ * @brief Power-up all peripherals and enable their clocks (HCG:periphInit)
+ *
+ */
 /* SourceId : SYSTEM_SourceId_004 */
 /* DesignId : SYSTEM_DesignId_004 */
 /* Requirements : HL_SR470 */
@@ -175,6 +191,10 @@ void tms570_periph_init( void )
   TMS570_SYS1.CLKCNTL |= TMS570_SYS1_CLKCNTL_PENA;
 }
 
+/**
+ * @brief Setup chip clocks including to wait for PLLs locks (HCG:mapClocks)
+ *
+ */
 /* SourceId : SYSTEM_SourceId_005 */
 /* DesignId : SYSTEM_DesignId_005 */
 /* Requirements : HL_SR469 */
@@ -268,6 +288,10 @@ void tms570_map_clock_init( void )
     TMS570_SYS_CLK_SRC_VCLK );
 }
 
+/**
+ * @brief TMS570 system hardware initialization (HCG:systemInit)
+ *
+ */
 /* SourceId : SYSTEM_SourceId_006 */
 /* DesignId : SYSTEM_DesignId_006 */
 /* Requirements : HL_SR471 */
@@ -280,7 +304,6 @@ void tms570_system_hw_init( void )
    * This initialization sequence performs all the tasks that are not
    * required to be done at full application speed while the PLL locks.
    */
-  //setupPLL();
   tms570_pll_init();
 
   /* Run eFuse controller start-up checks and start eFuse controller ECC self-test.
@@ -289,11 +312,9 @@ void tms570_system_hw_init( void )
   efc_check_status = tms570_efc_check();
 
   /* Enable clocks to peripherals and release peripheral reset */
-  //periphInit();
   tms570_periph_init();
 
   /* Configure device-level multiplexing and I/O multiplexing */
-  //muxInit();
   tms570_pinmux_init();
 
   /* Enable external memory interface */
@@ -352,29 +373,6 @@ void tms570_system_hw_init( void )
 }
 
 #if 0
-adc1ParityCheck
-adc2ParityCheck
-can1ParityCheck
-can2ParityCheck
-can3ParityCheck
-disableParity
-dmaParityCheck
-emif_SDRAMInit
-enableParity
 errata_PBIST_4
-esmInit
-het1ParityCheck
-het2ParityCheck
-htu1ParityCheck
-htu2ParityCheck
-memoryInit
-_mpuInit_
-pbistFail
-pbistIsTestCompleted
-pbistIsTestPassed
-pbistRun
-pbistSelfCheck
-pbistStop
 vimInit
-vimParityCheck
 #endif

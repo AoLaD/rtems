@@ -1,29 +1,64 @@
+/**
+ * @file tms570_parity_tests.h
+ *
+ * @ingroup tms570
+ *
+ * @brief Check of module parity based protection logic to work.
+ */
+/*
+ * Copyright (c) 2016 Pavel Pisa <pisa@cmp.felk.cvut.cz>
+ *
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rtems.org/license/LICENSE.
+ */
+
 #ifndef LIBBSP_ARM_TMS570_PARITY_TESTS_H
 #define LIBBSP_ARM_TMS570_PARITY_TESTS_H
 
 #include <stdint.h>
 
+/**
+ * The magic number used to switch most of the peripherals
+ * into parity protection test mode
+ */
 #define TMS570_PARTEST_CR_KEY 0xA
 
 typedef struct tms570_esm_partest_desc tms570_esm_partest_desc_t;
 
 typedef void tms570_partest_fnc_t( const tms570_esm_partest_desc_t *desc );
 
+/**
+ * Decriptor specifying registers addresses and values used to test
+ * that parity protection is working for given hardware
+ * module/peripheral. It is used during initial chip self-tests.
+ */
 struct tms570_esm_partest_desc {
-  unsigned char esm_prim_grp;
-  unsigned char esm_prim_chan;
-  unsigned char esm_sec_grp;
-  unsigned char esm_sec_chan;
-  int fail_code;
-  volatile uint32_t *ram_loc;
-  volatile uint32_t *par_loc;
-  uint32_t par_xor;
-  volatile uint32_t *par_cr_reg;
-  uint32_t par_cr_test;
-  volatile uint32_t *par_st_reg;
-  uint32_t par_st_clear;
-  tms570_partest_fnc_t *partest_fnc;
-  volatile void *fnc_data;
+  unsigned char esm_prim_grp;    /**< ESM primary signalling group number. */
+  unsigned char esm_prim_chan;   /**< ESM primary signalling channel number. */
+  unsigned char esm_sec_grp;     /**< ESM optional/alternative signalling group. */
+  unsigned char esm_sec_chan;    /**< ESM optional/alternative signalling channel. */
+  int fail_code;                 /**< Error code reported to
+                  bsp_seftest_fail_notification() in the case of the test failure. */
+  volatile uint32_t *ram_loc;    /**< Address of memory protected by parity. */
+  volatile uint32_t *par_loc;    /**< Address of mapping of parity bits into CPU
+                                  * address space. */
+  uint32_t par_xor;              /**< Bitmask used to alter parity to cause
+                                  * intentional parity failure. */
+  volatile uint32_t *par_cr_reg; /**< Address of module parity test control register. */
+  uint32_t par_cr_test;          /**< Mask of bit which cause switch to a test mode. */
+  volatile uint32_t *par_st_reg; /**< Optional module parity status register which. */
+  uint32_t par_st_clear;         /**< Optional value which is written to status register
+                                  * to clear error. */
+  tms570_partest_fnc_t *partest_fnc; /**< Function which specialized for given kind
+                                  * of peripheral/module mechanism testing. */
+  volatile void *fnc_data;       /**< Pointer to the base of tested peripheral registers.
+                                  * It is required by some test functions (CAN and MibSPI) */
 };
 
 extern const tms570_esm_partest_desc_t

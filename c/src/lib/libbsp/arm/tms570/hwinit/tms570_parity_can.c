@@ -1,9 +1,42 @@
+/**
+ * @file tms570_parity_can.c
+ *
+ * @ingroup tms570
+ *
+ * @brief Test CAN module parity based protection logic to work.
+ */
+/*
+ * Copyright (c) 2016 Pavel Pisa <pisa@cmp.felk.cvut.cz>
+ *
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rtems.org/license/LICENSE.
+ *
+ * Algorithms are based on Ti manuals and Ti HalCoGen generated
+ * code.
+ */
+
 #include <stdint.h>
 #include <stddef.h>
 #include <bsp/tms570.h>
 #include "tms570_selftest.h"
 #include "tms570_parity_tests.h"
 
+/**
+ * @brief run test to check that parity protection works for CAN modules RAM
+ *
+ * @param[in] desc module registers addresses end ESM channels descriptor
+ *
+ * @return Void, in the case of error invokes bsp_seftest_fail_notification()
+ *
+ * The descriptor provides address of the module registers and address
+ * of internal RAM memory and corresponding parity area test access window.
+ */
 void tms570_partest_check_can( const tms570_esm_partest_desc_t *desc )
 {
   volatile uint32_t       test_read_data;

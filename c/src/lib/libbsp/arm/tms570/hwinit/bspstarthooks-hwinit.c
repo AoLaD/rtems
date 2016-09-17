@@ -118,7 +118,6 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
   }
 
   /* Initialize System - Clock, Flash settings with Efuse self check */
-  //systemInit();
   tms570_system_hw_init();
 
   /* Workaround for Errata PBIST#4 */
@@ -131,39 +130,30 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
    * The memory self-test is expected to fail. The function ensures that the PBIST controller
    * is capable of detecting and indicating a memory self-test failure.
    */
-  //pbistSelfCheck();
   tms570_pbist_self_check();
 
   /* Run PBIST on STC ROM */
-  //pbistRun((uint32_t)STC_ROM_PBIST_RAM_GROUP,
-  //         ((uint32_t)PBIST_TripleReadSlow | (uint32_t)PBIST_TripleReadFast));
   tms570_pbist_run( (uint32_t) STC_ROM_PBIST_RAM_GROUP,
     ( (uint32_t) PBIST_TripleReadSlow | (uint32_t) PBIST_TripleReadFast ) );
 
   /* Wait for PBIST for STC ROM to be completed */
   /*SAFETYMCUSW 28 D MR:NA <APPROVED> "Hardware status bit read check" */
-  //    pbistIsTestCompleted
   while ( tms570_pbist_is_test_completed() != TRUE ) {
   }                                                  /* Wait */
 
   /* Check if PBIST on STC ROM passed the self-test */
-  // pbistIsTestPassed
   if ( tms570_pbist_is_test_passed() != TRUE ) {
     /* PBIST and STC ROM failed the self-test.
      * Need custom handler to check the memory failure
      * and to take the appropriate next step.
      */
-    //pbistFail();
     tms570_pbist_fail();
   }
 
   /* Disable PBIST clocks and disable memory self-test mode */
-  //pbistStop();
   tms570_pbist_stop();
 
   /* Run PBIST on PBIST ROM */
-  //pbistRun((uint32_t)PBIST_ROM_PBIST_RAM_GROUP,
-  //         ((uint32_t)PBIST_TripleReadSlow | (uint32_t)PBIST_TripleReadFast));
   tms570_pbist_run( (uint32_t) PBIST_ROM_PBIST_RAM_GROUP,
     ( (uint32_t) PBIST_TripleReadSlow | (uint32_t) PBIST_TripleReadFast ) );
 
@@ -178,12 +168,10 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
      * Need custom handler to check the memory failure
      * and to take the appropriate next step.
      */
-    //pbistFail();
     tms570_pbist_fail();
   }
 
   /* Disable PBIST clocks and disable memory self-test mode */
-  //pbistStop();
   tms570_pbist_stop();
 
   if ( !tms570_running_from_tcram() ) {
@@ -213,8 +201,6 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
      * The CPU RAM is a single-port memory. The actual "RAM Group" for all on-chip SRAMs is defined in the
      * device datasheet.
      */
-    //pbistRun(0x08300020U, /* ESRAM Single Port PBIST */
-    //         (uint32_t)PBIST_March13N_SP);
     tms570_pbist_run( 0x08300020U,   /* ESRAM Single Port PBIST */
       (uint32_t) PBIST_March13N_SP );
 
@@ -229,12 +215,10 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
        * Need custom handler to check the memory failure
        * and to take the appropriate next step.
        */
-      //pbistFail();
       tms570_pbist_fail();
     }
 
     /* Disable PBIST clocks and disable memory self-test mode */
-    //pbistStop();
     tms570_pbist_stop();
 
     /*
@@ -244,7 +228,6 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
      * Hence the value 0x1 passed to the function.
      * This function will initialize the entire CPU RAM and the corresponding ECC locations.
      */
-    //memoryInit( 0x1U );
     tms570_memory_init( 0x1U );
 
     /*
@@ -258,7 +241,6 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
   /* NOTE : Please Refer DEVICE DATASHEET for the list of Supported Dual port Memories.
      PBIST test performed only on the user selected memories in HALCoGen's GUI SAFETY INIT tab.
    */
-  //pbistRun
   tms570_pbist_run( (uint32_t) 0x00000000U | /* EMAC RAM */
     (uint32_t) 0x00000000U |                 /* USB RAM */
     (uint32_t) 0x00000800U |                 /* DMA RAM */
@@ -288,7 +270,6 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
      * deliberately caused exception and to return the code execution to the instruction
      * following the one that caused the abort.
      */
-    //checkRAMECC();
     tms570_check_tcram_ecc();
 
     /* Wait for PBIST for CPU RAM to be completed */
@@ -302,14 +283,12 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
        * Need custom handler to check the memory failure
        * and to take the appropriate next step.
        */
-      //pbistFail();
       tms570_pbist_fail();
     }
 
   } /* end of the code skipped for tms570_running_from_tcram() */
 
   /* Disable PBIST clocks and disable memory self-test mode */
-  //pbistStop();
   tms570_pbist_stop();
 
   /* Release the MibSPI1 modules from local reset.
@@ -339,7 +318,6 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
   /* NOTE : Please Refer DEVICE DATASHEET for the list of Supported Memories and their channel numbers.
             Memory Initialization is perfomed only on the user selected memories in HALCoGen's GUI SAFETY INIT tab.
    */
-  //memoryInit
   tms570_memory_init( (uint32_t) ( (uint32_t) 1U << 1U ) |  /* DMA RAM */
     (uint32_t) ( (uint32_t) 1U << 2U ) |                /* VIM RAM */
     (uint32_t) ( (uint32_t) 1U << 5U ) |                /* CAN1 RAM */
@@ -356,39 +334,38 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
   /* Disable parity */
   tms570_disable_parity();
 
-  /* Test the parity protection mechanism for peripheral RAMs
-     NOTE : Please Refer DEVICE DATASHEET for the list of Supported Memories with parity.
-               Parity Self check is perfomed only on the user selected memories in HALCoGen's GUI SAFETY INIT tab.
+  /*
+   * Test the parity protection mechanism for peripheral RAMs
+   * Refer DEVICE DATASHEET for the list of Supported Memories
+   * with parity.
    */
 
-  //het1ParityCheck();
-  //htu1ParityCheck();
-  //het2ParityCheck();
-  //htu2ParityCheck();
-  //adc1ParityCheck();
-  //adc2ParityCheck();
-  //can1ParityCheck();
-  //can2ParityCheck();
-  //can3ParityCheck();
-  //vimParityCheck();
-  //dmaParityCheck();
-  //mibspi1ParityCheck();
-  //mibspi3ParityCheck();
-  //mibspi5ParityCheck();
   tms570_partest_check_run( tms570_esm_partest_list,
     tms570_esm_partest_list_size );
 
 #if 0
+  /*
+   * RTEMS VIM initialization is implemented by the function
+   * bsp_interrupt_facility_initialize(). RTEMS does not
+   * gain performance from use of vectors targets provided
+   * directly by VIM. RTEMS require to route all interrupts
+   * through _ARMV4_Exception_interrupt handler.
+   *
+   * But actual RTEMS VIM initialization lefts some registers
+   * default values untouched. All registers values should be
+   * ensured/configured in future probably.
+   */
+
   /* Enable IRQ offset via Vic controller */
   _coreEnableIrqVicOffset_();
 
   /* Initialize VIM table */
   vimInit();
 #endif
+
   /* Configure system response to error conditions signaled to the ESM group1 */
-  /* This function can be configured from the ESM tab of HALCoGen */
-  // esmInit();
   tms570_esm_init();
+
 #if 1
   /*
    * Do not depend on link register to be restored to

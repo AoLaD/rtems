@@ -1,3 +1,23 @@
+/**
+ * @file tms570_parity_tests.c
+ *
+ * @ingroup tms570
+ *
+ * @brief Check of module parity based protection logic to work.
+ */
+/*
+ * Copyright (c) 2016 Pavel Pisa <pisa@cmp.felk.cvut.cz>
+ *
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rtems.org/license/LICENSE.
+ */
+
 #include <stdint.h>
 #include <stddef.h>
 #include <bsp/tms570.h>
@@ -5,6 +25,7 @@
 #include "tms570_selftest.h"
 #include "tms570_parity_tests.h"
 
+/* HCG:het1ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_het1_desc = {
   .esm_prim_grp  = 1,
@@ -23,6 +44,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:htu1ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_htu1_desc = {
   .esm_prim_grp  = 1,
@@ -41,6 +63,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:het2ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_het2_desc = {
   .esm_prim_grp  = 1,
@@ -59,6 +82,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:htu2ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_htu2_desc = {
   .esm_prim_grp  = 1,
@@ -77,6 +101,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:adc1ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_adc1_desc = {
   .esm_prim_grp  = 1,
@@ -95,6 +120,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:adc2ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_adc2_desc = {
   .esm_prim_grp  = 1,
@@ -113,6 +139,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:can1ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_can1_desc = {
   .esm_prim_grp  = 1,
@@ -131,6 +158,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = &TMS570_DCAN1
 };
 
+/* HCG:can2ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_can2_desc = {
   .esm_prim_grp  = 1,
@@ -149,6 +177,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = &TMS570_DCAN2
 };
 
+/* HCG:can3ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_can3_desc = {
   .esm_prim_grp  = 1,
@@ -167,6 +196,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = &TMS570_DCAN3
 };
 
+/* HCG:vimParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_vim_desc = {
   .esm_prim_grp  = 1,
@@ -185,6 +215,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:dmaParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_dma_desc = {
   .esm_prim_grp  = 1,
@@ -203,6 +234,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = NULL
 };
 
+/* HCG:mibspi1ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_spi1_desc = {
   .esm_prim_grp  = 1,
@@ -221,6 +253,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = &TMS570_SPI1
 };
 
+/* HCG:mibspi3ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_spi3_desc = {
   .esm_prim_grp  = 1,
@@ -239,6 +272,7 @@ const tms570_esm_partest_desc_t
   .fnc_data      = &TMS570_SPI3
 };
 
+/* HCG:mibspi5ParityCheck */
 const tms570_esm_partest_desc_t
   tms570_partest_spi5_desc = {
   .esm_prim_grp  = 1,
@@ -257,6 +291,15 @@ const tms570_esm_partest_desc_t
   .fnc_data      = &TMS570_SPI5
 };
 
+/**
+ * @brief run parity protection mechanism check for set of modules described by list.
+ *
+ * @param[in] desc_arr array of pointers to descriptors providing addresses
+ *                     and ESM channels for individual peripherals.
+ * @param[in] desc_cnt count of pointers in the array
+ *
+ * @return Void, in the case of error invokes bsp_seftest_fail_notification()
+ */
 void tms570_partest_check_run(
   const tms570_esm_partest_desc_t *
   const *desc_arr,

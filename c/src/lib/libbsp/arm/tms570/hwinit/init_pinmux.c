@@ -1,3 +1,23 @@
+/**
+ * @file init_pinmux.c
+ *
+ * @ingroup tms570
+ *
+ * @brief Initialize pin multiplexers.
+ */
+/*
+ * Copyright (c) 2016 Pavel Pisa <pisa@cmp.felk.cvut.cz>
+ *
+ * Czech Technical University in Prague
+ * Zikova 1903/4
+ * 166 36 Praha 6
+ * Czech Republic
+ *
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ * http://www.rtems.org/license/LICENSE.
+ */
+
 #include <stdint.h>
 #include <bsp/tms570.h>
 #include <bsp/tms570-pinmux.h>
@@ -11,6 +31,14 @@
  */
 #if 0
 
+/*
+ * Test of use of the default pins configuration with one line added.
+ * This can be used to concatenate partial lists but care has to
+ * be taken to not attempt to override already defined pin.
+ * This would not work and result in two PINMMR bits set
+ * for given pine.
+ */
+
 #ifndef TMS570_PINMMR_INIT_LIST
   #define TMS570_PINMMR_INIT_LIST(per_pin_action, common_arg) \
      TMS570_PINMMR_DEFAULT_INIT_LIST(per_pin_action, common_arg) \
@@ -18,6 +46,11 @@
 #endif
 
 #else
+
+/*
+ * Definition of fuctions for all pins of TMS570LS3137.
+ * This setup correctponds to TMS570LS31x HDK Kit
+ */
 
 #define TMS570_PINMMR_INIT_LIST( per_pin_action, common_arg ) \
   per_pin_action( common_arg, TMS570_BALL_W10_GIOB_3 ) \
@@ -148,6 +181,14 @@
 
 #endif
 
+/*
+ * The next construct allows to compute values for individual
+ * PINMMR registers based on the multiple processing
+ * complete pin functions list at compile time.
+ * Each line computes 32-bit value which selects function
+ * of consecutive four pins. Each pin function is defined
+ * by single byte.
+ */
 const uint32_t tms570_pinmmr_init_data[] = {
   TMS570_PINMMR_REG_VAL( 0, TMS570_PINMMR_INIT_LIST ),
   TMS570_PINMMR_REG_VAL( 1, TMS570_PINMMR_INIT_LIST ),
@@ -182,6 +223,9 @@ const uint32_t tms570_pinmmr_init_data[] = {
   TMS570_PINMMR_REG_VAL( 30, TMS570_PINMMR_INIT_LIST ),
 };
 
+/**
+ * @brief setups pin multiplexer according to precomputed registers values (HCG:muxInit)
+ */
 void tms570_pinmux_init( void )
 {
   tms570_bsp_pinmmr_config( tms570_pinmmr_init_data, 0,
@@ -189,7 +233,27 @@ void tms570_pinmux_init( void )
 }
 
 #if 0
+
+/*
+ * Alternative option how to set function of individual pins
+ * or use list for one by one setting. This is much slower
+ * and consumes more memory to hold complete list.
+ *
+ * On the other hand this solution can be used for configuration
+ * or reconfiguration of some shorter groups of pins at runtime.
+ *
+ */
+
 const uint32_t tms570_pinmmr_init_list[] = {
   TMS570_PINMMR_COMA_LIST( TMS570_PINMMR_INIT_LIST )
 };
+
+void tms570_pinmux_init_by_list( void )
+{
+  int pincnt = RTEMS_ARRAY_SIZE( tms570_pinmmr_init_list );
+  const uint32_t *pinfnc = tms570_pinmmr_init_list;
+
+  while ( pincnt-- )
+    tms570_bsp_pin_config_one( *(pinfnc++) );
+}
 #endif

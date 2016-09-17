@@ -1,3 +1,11 @@
+/**
+ * @file init_emif_sdram.c
+ *
+ * @ingroup tms570
+ *
+ * @brief Initialization of external memory/SDRAM interface.
+ */
+
 #include <stdint.h>
 #include <bsp/tms570.h>
 #include <rtems/score/cpu.h>

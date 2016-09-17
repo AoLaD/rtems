@@ -1,7 +1,19 @@
+/**
+ * @file init_esm.c
+ *
+ * @ingroup tms570
+ *
+ * @brief Error signaling module initialization
+ */
+
 #include <stdint.h>
 #include <bsp/tms570.h>
 #include "tms570_hwinit.h"
 
+/**
+ * @brief Error signaling module initialization (HCG:esmInit)
+ *
+ */
 void tms570_esm_init( void )
 {
   /** - Disable error pin channels */
