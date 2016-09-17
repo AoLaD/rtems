@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <bsp/tms570.h>
+#include <rtems/score/cpu.h>
 #include "tms570_hwinit.h"
 
 void tms570_emif_sdram_init( void )
@@ -45,11 +46,20 @@ void tms570_emif_sdram_init( void )
   /* Page Size. This field defines the internal page size of connected SDRAM devices. */
   sdcr = TMS570_EMIF_SDCR_PAGESIZE_SET( sdcr, 0 ); /* elements_256 */
 
+  _ARM_Data_synchronization_barrier();
+  _ARM_Instruction_synchronization_barrier();
+
   TMS570_EMIF.SDCR = sdcr;
+
+  _ARM_Data_synchronization_barrier();
+  _ARM_Instruction_synchronization_barrier();
 
   dummy = *TMS570_SDRAM_START_PTR;
   (void) dummy;
   TMS570_EMIF.SDRCR = 31;
+
+  _ARM_Data_synchronization_barrier();
+  _ARM_Instruction_synchronization_barrier();
 
   /* Define the SDRAM refresh period in terms of EMIF_CLK cycles. */
   TMS570_EMIF.SDRCR = 312;
