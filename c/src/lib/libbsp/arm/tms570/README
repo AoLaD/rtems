@@ -101,16 +101,34 @@ For ETHERNET, the lwIP port for TMS570LS3137 has been developed
 at Industrial Informatics Group of Czech Technical University
 in Prague and development versions are available on SourceForge.
 
+The RTEMS and TMS570 support is included in uLAN project lwIP
+repository for now
+
+  https://sourceforge.net/p/ulan/lwip-omk/
+
+But other place should be found when RTEMS lwIP
+integration with read, write, close etc. functions
+is implemented in future.
+
 Adapt BSP for another TMS570 based hardware
 -------------------------------------------
 
-When TMS570_USE_HWINIT_STARTUP=1 then pin multiplexing
-and functions are configured by file
+When TMS570_USE_HWINIT_STARTUP=1 then quite complete
+initialization and selft-test code is included in TMS570
+BSP build. The support included in hwinit subdirectory
+provides version of bsp_start_hook_0 and bsp_start_hook_1
+which proceeds many self-tests functions, clocks, PLLs
+peripherals and other subsystems configuration.
+
+Complete pin multiplexer initialization according
+to the list of individual pins functions is included.
+Pins function definition can be found and altered
+in a file
 
  rtems/c/src/lib/libbsp/arm/tms570/hwinit/init_pinmux.c
 
-Complete "database" of all possible pin functions is provided
-in a file
+Complete "database" of all possible pin functions for
+TMS570LS3137 chip is provided in a file
 
   rtems/c/src/lib/libbsp/arm/tms570/include/tms570ls3137zwt-pins.h
 
