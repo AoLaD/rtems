@@ -27,18 +27,18 @@
  * The magic number used to switch most of the peripherals
  * into parity protection test mode
  */
-#define TMS570_PARTEST_CR_KEY 0xA
+#define TMS570_SELFTEST_PAR_CR_KEY 0xA
 
-typedef struct tms570_esm_partest_desc tms570_esm_partest_desc_t;
+typedef struct tms570_selftest_par_desc tms570_selftest_par_desc_t;
 
-typedef void tms570_partest_fnc_t( const tms570_esm_partest_desc_t *desc );
+typedef void tms570_selftest_par_fnc_t( const tms570_selftest_par_desc_t *desc );
 
 /**
  * Decriptor specifying registers addresses and values used to test
  * that parity protection is working for given hardware
  * module/peripheral. It is used during initial chip self-tests.
  */
-struct tms570_esm_partest_desc {
+struct tms570_selftest_par_desc {
   unsigned char esm_prim_grp;    /**< ESM primary signalling group number. */
   unsigned char esm_prim_chan;   /**< ESM primary signalling channel number. */
   unsigned char esm_sec_grp;     /**< ESM optional/alternative signalling group. */
@@ -55,54 +55,54 @@ struct tms570_esm_partest_desc {
   volatile uint32_t *par_st_reg; /**< Optional module parity status register which. */
   uint32_t par_st_clear;         /**< Optional value which is written to status register
                                   * to clear error. */
-  tms570_partest_fnc_t *partest_fnc; /**< Function which specialized for given kind
+  tms570_selftest_par_fnc_t *partest_fnc; /**< Function which specialized for given kind
                                   * of peripheral/module mechanism testing. */
   volatile void *fnc_data;       /**< Pointer to the base of tested peripheral registers.
                                   * It is required by some test functions (CAN and MibSPI) */
 };
 
-extern const tms570_esm_partest_desc_t
-  tms570_partest_het1_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_htu1_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_het2_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_htu2_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_adc1_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_adc2_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_can1_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_can2_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_can3_desc;
-extern const tms570_esm_partest_desc_t
-  tms570_partest_vim_desc;
-const tms570_esm_partest_desc_t
-  tms570_partest_dma_desc;
-const tms570_esm_partest_desc_t
-  tms570_partest_spi1_desc;
-const tms570_esm_partest_desc_t
-  tms570_partest_spi3_desc;
-const tms570_esm_partest_desc_t
-  tms570_partest_spi5_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_het1_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_htu1_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_het2_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_htu2_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_adc1_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_adc2_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_can1_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_can2_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_can3_desc;
+extern const tms570_selftest_par_desc_t
+  tms570_selftest_par_vim_desc;
+const tms570_selftest_par_desc_t
+  tms570_selftest_par_dma_desc;
+const tms570_selftest_par_desc_t
+  tms570_selftest_par_spi1_desc;
+const tms570_selftest_par_desc_t
+  tms570_selftest_par_spi3_desc;
+const tms570_selftest_par_desc_t
+  tms570_selftest_par_spi5_desc;
 
-extern const tms570_esm_partest_desc_t *const
-tms570_esm_partest_list[];
+extern const tms570_selftest_par_desc_t *const
+tms570_selftest_par_list[];
 
-extern const int tms570_esm_partest_list_size;
+extern const int tms570_selftest_par_list_size;
 
-void tms570_partest_check_std( const tms570_esm_partest_desc_t *desc );
+void tms570_selftest_par_check_std( const tms570_selftest_par_desc_t *desc );
 
-void tms570_partest_check_can( const tms570_esm_partest_desc_t *desc );
+void tms570_selftest_par_check_can( const tms570_selftest_par_desc_t *desc );
 
-void tms570_partest_check_mibspi( const tms570_esm_partest_desc_t *desc );
+void tms570_selftest_par_check_mibspi( const tms570_selftest_par_desc_t *desc );
 
-void tms570_partest_check_run(
-  const tms570_esm_partest_desc_t *
+void tms570_selftest_par_run(
+  const tms570_selftest_par_desc_t *
   const *desc_arr,
   int    desc_cnt
 );

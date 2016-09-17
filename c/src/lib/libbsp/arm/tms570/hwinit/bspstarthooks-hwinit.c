@@ -340,8 +340,8 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
    * with parity.
    */
 
-  tms570_partest_check_run( tms570_esm_partest_list,
-    tms570_esm_partest_list_size );
+  tms570_selftest_par_run( tms570_selftest_par_list,
+    tms570_selftest_par_list_size );
 
 #if 0
   /*
@@ -399,23 +399,23 @@ BSP_START_TEXT_SECTION void bsp_start_hook_1( void )
  * Chip specific list of peripherals which should be tested
  * for functional RAM parity reporting
  */
-const tms570_esm_partest_desc_t *const
-tms570_esm_partest_list[] = {
-  &tms570_partest_het1_desc,
-  &tms570_partest_htu1_desc,
-  &tms570_partest_het2_desc,
-  &tms570_partest_htu2_desc,
-  &tms570_partest_adc1_desc,
-  &tms570_partest_adc2_desc,
-  &tms570_partest_can1_desc,
-  &tms570_partest_can2_desc,
-  &tms570_partest_can3_desc,
-  &tms570_partest_vim_desc,
-  &tms570_partest_dma_desc,
-  &tms570_partest_spi1_desc,
-  &tms570_partest_spi3_desc,
-  &tms570_partest_spi5_desc,
+const tms570_selftest_par_desc_t *const
+tms570_selftest_par_list[] = {
+  &tms570_selftest_par_het1_desc,
+  &tms570_selftest_par_htu1_desc,
+  &tms570_selftest_par_het2_desc,
+  &tms570_selftest_par_htu2_desc,
+  &tms570_selftest_par_adc1_desc,
+  &tms570_selftest_par_adc2_desc,
+  &tms570_selftest_par_can1_desc,
+  &tms570_selftest_par_can2_desc,
+  &tms570_selftest_par_can3_desc,
+  &tms570_selftest_par_vim_desc,
+  &tms570_selftest_par_dma_desc,
+  &tms570_selftest_par_spi1_desc,
+  &tms570_selftest_par_spi3_desc,
+  &tms570_selftest_par_spi5_desc,
 };
 
-const int tms570_esm_partest_list_size =
-  RTEMS_ARRAY_SIZE( tms570_esm_partest_list );
+const int tms570_selftest_par_list_size =
+  RTEMS_ARRAY_SIZE( tms570_selftest_par_list );

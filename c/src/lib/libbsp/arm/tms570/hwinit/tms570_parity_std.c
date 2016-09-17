@@ -39,20 +39,20 @@
  * This test function is usable for HETx, HTUx, ADC, DMA and VIM TMS570
  * peripherals.
  */
-void tms570_partest_check_std( const tms570_esm_partest_desc_t *desc )
+void tms570_selftest_par_check_std( const tms570_selftest_par_desc_t *desc )
 {
   volatile uint32_t test_read_data;
   uint32_t          par_cr_bak = *desc->par_cr_reg;
   int               perr;
 
   /* Set TEST mode and enable parity checking */
-  *desc->par_cr_reg = desc->par_cr_test | TMS570_PARTEST_CR_KEY;
+  *desc->par_cr_reg = desc->par_cr_test | TMS570_SELFTEST_PAR_CR_KEY;
 
   /* flip parity bit */
   *desc->par_loc ^= desc->par_xor;
 
   /* Disable TEST mode */
-  *desc->par_cr_reg = TMS570_PARTEST_CR_KEY;
+  *desc->par_cr_reg = TMS570_SELFTEST_PAR_CR_KEY;
 
   /* read to cause parity error */
   test_read_data = *desc->ram_loc;
@@ -79,7 +79,7 @@ void tms570_partest_check_std( const tms570_esm_partest_desc_t *desc )
       tms570_esm_channel_sr_clear( desc->esm_sec_grp, desc->esm_sec_chan );
 
     /* Set TEST mode and enable parity checking */
-    *desc->par_cr_reg = desc->par_cr_test | TMS570_PARTEST_CR_KEY;
+    *desc->par_cr_reg = desc->par_cr_test | TMS570_SELFTEST_PAR_CR_KEY;
 
     /* Revert back to correct data by flipping parity location */
     *desc->par_loc ^= desc->par_xor;

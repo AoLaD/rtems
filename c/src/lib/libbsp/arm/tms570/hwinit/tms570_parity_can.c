@@ -37,7 +37,7 @@
  * The descriptor provides address of the module registers and address
  * of internal RAM memory and corresponding parity area test access window.
  */
-void tms570_partest_check_can( const tms570_esm_partest_desc_t *desc )
+void tms570_selftest_par_check_can( const tms570_selftest_par_desc_t *desc )
 {
   volatile uint32_t       test_read_data;
   volatile tms570_dcan_t *can_regs = (volatile tms570_dcan_t *) desc->fnc_data;
