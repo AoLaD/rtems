@@ -153,4 +153,6 @@ void tms570_efc_self_test( void );
 
 bool tms570_pbist_port_test_status( uint32_t port );
 
+void tms570_check_tcram_ecc( void );
+
 #endif /*LIBBSP_ARM_TMS570_SELFTEST_H*/

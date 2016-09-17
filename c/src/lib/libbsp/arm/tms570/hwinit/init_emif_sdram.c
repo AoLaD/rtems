@@ -2,9 +2,6 @@
 #include <bsp/tms570.h>
 #include "tms570_hwinit.h"
 
-#define TMS570_SDRAM_START_PTR  ( (volatile uint32_t *) ( 0x80000000U ) )
-#define TMS570_SDRAM_END_PTR    ( (volatile uint32_t *) ( 0x9fffffffU ) )
-
 void tms570_emif_sdram_init( void )
 {
   uint32_t dummy;
@@ -13,7 +10,7 @@ void tms570_emif_sdram_init( void )
 
   /* Do not run attempt to initialize SDRAM when code is running from it */
   if ( ( (void*)tms570_emif_sdram_init >= (void*)TMS570_SDRAM_START_PTR ) &&
-       ( (void*)tms570_emif_sdram_init <= (void*)TMS570_SDRAM_END_PTR ) )
+       ( (void*)tms570_emif_sdram_init <= (void*)TMS570_SDRAM_WINDOW_END_PTR ) )
     return;
 
   sdtimr = TMS570_EMIF_SDTIMR_T_RFC_SET( sdtimr, 6 - 1 );

@@ -9,6 +9,24 @@
 
 void bsp_start_hook_0_done( void );
 
+static inline
+int tms570_running_from_tcram( void )
+{
+  void *fncptr = (void*)bsp_start_hook_0;
+  return ( fncptr >= (void*)TMS570_TCRAM_START_PTR ) &&
+         ( fncptr < (void*)TMS570_TCRAM_WINDOW_END_PTR );
+}
+
+static inline
+int tms570_running_from_sdram( void )
+{
+  void *fncptr = (void*)bsp_start_hook_0;
+  return ( ( (void*)fncptr >= (void*)TMS570_SDRAM_START_PTR ) &&
+           ( (void*)fncptr < (void*)TMS570_SDRAM_WINDOW_END_PTR ) );
+}
+
+#define PBIST_March13N_SP        0x00000008U  /**< March13 N Algo for 1 Port mem */
+
 BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
 {
   /*
@@ -168,56 +186,73 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
   //pbistStop();
   tms570_pbist_stop();
 
-#if 0
-
-  /* Disable RAM ECC before doing PBIST for Main RAM */
-  _coreDisableRamEcc_();
-
-  /* Run PBIST on CPU RAM.
-   * The PBIST controller needs to be configured separately for single-port and dual-port SRAMs.
-   * The CPU RAM is a single-port memory. The actual "RAM Group" for all on-chip SRAMs is defined in the
-   * device datasheet.
-   */
-  //pbistRun(0x08300020U, /* ESRAM Single Port PBIST */
-  //         (uint32_t)PBIST_March13N_SP);
-  tms570_pbist_run( 0x08300020U,   /* ESRAM Single Port PBIST */
-    (uint32_t) PBIST_March13N_SP );
-
-  /* Wait for PBIST for CPU RAM to be completed */
-  /*SAFETYMCUSW 28 D MR:NA <APPROVED> "Hardware status bit read check" */
-  while ( tms570_pbist_is_test_completed() != TRUE ) {
-  }                                                  /* Wait */
-
-  /* Check if CPU RAM passed the self-test */
-  if ( tms570_pbist_is_test_passed() != TRUE ) {
-    /* CPU RAM failed the self-test.
-     * Need custom handler to check the memory failure
-     * and to take the appropriate next step.
+  if ( !tms570_running_from_tcram() ) {
+    /*
+     * The next sequence tests TCRAM, main TMS570 system operation RAM area.
+     * The tests are destructive, lead the first to fill memory by 0xc5c5c5c5
+     * and then to clear it to zero. The sequence is obliviously incompatible
+     * with RTEMS image running from TCRAM area (code clears itself).
+     *
+     * But TCRAM clear leads to overwrite of stack which is used to store
+     * value of bsp_start_hook_0 call return address from link register.
+     *
+     * If the bsp_start_hook_0 by jump to bsp_start_hook_0_done
+     * then generated C code does not use any variable which
+     * is stores on stack and code works OK even that memory
+     * is cleared during bsp_start_hook_0 execution.
+     *
+     * The last assumption is a little fragile in respect to
+     * code and compiler changes.
      */
-    //pbistFail();
-    tms570_pbist_fail();
-  }
 
-  /* Disable PBIST clocks and disable memory self-test mode */
-  //pbistStop();
-  tms570_pbist_stop();
+    /* Disable RAM ECC before doing PBIST for Main RAM */
+    _coreDisableRamEcc_();
 
-  /*
-   * Initialize CPU RAM.
-   * This function uses the system module's hardware for auto-initialization of memories and their
-   * associated protection schemes. The CPU RAM is initialized by setting bit 0 of the MSIENA register.
-   * Hence the value 0x1 passed to the function.
-   * This function will initialize the entire CPU RAM and the corresponding ECC locations.
-   */
-  //memoryInit( 0x1U );
-  tms570_memory_init( 0x1U );
+    /* Run PBIST on CPU RAM.
+     * The PBIST controller needs to be configured separately for single-port and dual-port SRAMs.
+     * The CPU RAM is a single-port memory. The actual "RAM Group" for all on-chip SRAMs is defined in the
+     * device datasheet.
+     */
+    //pbistRun(0x08300020U, /* ESRAM Single Port PBIST */
+    //         (uint32_t)PBIST_March13N_SP);
+    tms570_pbist_run( 0x08300020U,   /* ESRAM Single Port PBIST */
+      (uint32_t) PBIST_March13N_SP );
 
-  /*
-   * Enable ECC checking for TCRAM accesses.
-   * This function enables the CPU's ECC logic for accesses to B0TCM and B1TCM.
-   */
-  _coreEnableRamEcc_();
-#endif /* if 0 */
+    /* Wait for PBIST for CPU RAM to be completed */
+    /*SAFETYMCUSW 28 D MR:NA <APPROVED> "Hardware status bit read check" */
+    while ( tms570_pbist_is_test_completed() != TRUE ) {
+    }                                                  /* Wait */
+
+    /* Check if CPU RAM passed the self-test */
+    if ( tms570_pbist_is_test_passed() != TRUE ) {
+      /* CPU RAM failed the self-test.
+       * Need custom handler to check the memory failure
+       * and to take the appropriate next step.
+       */
+      //pbistFail();
+      tms570_pbist_fail();
+    }
+
+    /* Disable PBIST clocks and disable memory self-test mode */
+    //pbistStop();
+    tms570_pbist_stop();
+
+    /*
+     * Initialize CPU RAM.
+     * This function uses the system module's hardware for auto-initialization of memories and their
+     * associated protection schemes. The CPU RAM is initialized by setting bit 0 of the MSIENA register.
+     * Hence the value 0x1 passed to the function.
+     * This function will initialize the entire CPU RAM and the corresponding ECC locations.
+     */
+    //memoryInit( 0x1U );
+    tms570_memory_init( 0x1U );
+
+    /*
+     * Enable ECC checking for TCRAM accesses.
+     * This function enables the CPU's ECC logic for accesses to B0TCM and B1TCM.
+     */
+    _coreEnableRamEcc_();
+  } /* end of the code skipped for tms570_running_from_tcram() */
 
   /* Start PBIST on all dual-port memories */
   /* NOTE : Please Refer DEVICE DATASHEET for the list of Supported Dual port Memories.
@@ -244,33 +279,34 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
     (uint32_t) 0x00008000U,                  /* FRAY RAM */
     (uint32_t) PBIST_March13N_DP );
 
-#if 0
+  if ( !tms570_running_from_tcram() ) {
 
-  /* Test the CPU ECC mechanism for RAM accesses.
-   * The checkBxRAMECC functions cause deliberate single-bit and double-bit errors in TCRAM accesses
-   * by corrupting 1 or 2 bits in the ECC. Reading from the TCRAM location with a 2-bit error
-   * in the ECC causes a data abort exception. The data abort handler is written to look for
-   * deliberately caused exception and to return the code execution to the instruction
-   * following the one that caused the abort.
-   */
-  checkRAMECC();
-
-  /* Wait for PBIST for CPU RAM to be completed */
-  /*SAFETYMCUSW 28 D MR:NA <APPROVED> "Hardware status bit read check" */
-  while ( tms570_pbist_is_test_completed() != TRUE ) {
-  }                                                  /* Wait */
-
-  /* Check if CPU RAM passed the self-test */
-  if ( tms570_pbist_is_test_passed() != TRUE ) {
-    /* CPU RAM failed the self-test.
-     * Need custom handler to check the memory failure
-     * and to take the appropriate next step.
+    /* Test the CPU ECC mechanism for RAM accesses.
+     * The checkBxRAMECC functions cause deliberate single-bit and double-bit errors in TCRAM accesses
+     * by corrupting 1 or 2 bits in the ECC. Reading from the TCRAM location with a 2-bit error
+     * in the ECC causes a data abort exception. The data abort handler is written to look for
+     * deliberately caused exception and to return the code execution to the instruction
+     * following the one that caused the abort.
      */
-    //pbistFail();
-    tms570_pbist_fail();
-  }
+    //checkRAMECC();
+    tms570_check_tcram_ecc();
 
-#endif
+    /* Wait for PBIST for CPU RAM to be completed */
+    /*SAFETYMCUSW 28 D MR:NA <APPROVED> "Hardware status bit read check" */
+    while ( tms570_pbist_is_test_completed() != TRUE ) {
+    }                                                  /* Wait */
+
+    /* Check if CPU RAM passed the self-test */
+    if ( tms570_pbist_is_test_passed() != TRUE ) {
+      /* CPU RAM failed the self-test.
+       * Need custom handler to check the memory failure
+       * and to take the appropriate next step.
+       */
+      //pbistFail();
+      tms570_pbist_fail();
+    }
+
+  } /* end of the code skipped for tms570_running_from_tcram() */
 
   /* Disable PBIST clocks and disable memory self-test mode */
   //pbistStop();
@@ -353,14 +389,29 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
   /* This function can be configured from the ESM tab of HALCoGen */
   // esmInit();
   tms570_esm_init();
+#if 1
+  /*
+   * Do not depend on link register to be restored to
+   * correct value from stack. If TCRAM self test is enabled
+   * the all stack content is zeroed there.
+   */
+  bsp_start_hook_0_done();
+#endif
 }
 
 BSP_START_TEXT_SECTION void bsp_start_hook_1( void )
 {
   /* At this point we can use objects outside the .start section  */
-#if 1
-  _mpuInit_();
-#endif
+
+  /* Do not run attempt to initialize MPU when code is running from SDRAM */
+  if ( !tms570_running_from_sdram() ) {
+    /*
+     * MPU background areas setting has to be overlaid
+     * if execution of code is required from external memory/SDRAM.
+     * This region is non executable by default.
+     */
+    _mpuInit_();
+  }
   tms570_emif_sdram_init();
 
   bsp_start_copy_sections();

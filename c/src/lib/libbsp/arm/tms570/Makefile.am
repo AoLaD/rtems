@@ -181,6 +181,7 @@ libbsp_a_SOURCES += hwinit/tms570_parity_tests.c
 libbsp_a_SOURCES += hwinit/tms570_parity_std.c
 libbsp_a_SOURCES += hwinit/tms570_parity_can.c
 libbsp_a_SOURCES += hwinit/tms570_parity_mibspi.c
+libbsp_a_SOURCES += hwinit/tms570_tcram_tests.c
 
 include_bsp_HEADERS += hwinit/tms570_parity_tests.h
 include_bsp_HEADERS += hwinit/tms570_hwinit.h
